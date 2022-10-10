@@ -1,0 +1,35 @@
+Ciao Massimo,
+
+
+allora ti mando un link drive perché i file sono troppo grandi per l'allegato.
+
+https://drive.google.com/drive/folders/114httJwOjajBHH9qUV7hQ4AfYMneidzq?usp=sharing
+
+
+Qui dentro trovi un txt con le transfer function di un modulo (così come viene fuori dallo script di Gigi).
+
+Un file numpy_data.npz che contiene due numpy array: adc_values e edep_values.
+
+La shape di questi numpy array è (numero di eventi, righe(6), moduli(6), canali(32)), quindi ad esempio se volessi accede a tutte le adc della riga 1, modulo 2, canale 3 dovrei prendere adc_values[:, 1, 2, 3].
+
+
+Mentre per aprire i file .npz, dopo aver importato numpy as np in python:
+
+loaded = np.load('file.npz')
+
+adc_values = loaded['adc_values']
+
+
+Dopodiché, ho incluso anche un altro file .npz che contiene un numpy chiamato pedestals che ha anche questo la shape (righe, moduli, canali), quindi per accedere al piedistallo del canale 12 della riga 1 e modulo 2 prendo pedestals[1, 2, 12].
+
+
+I due file sono separati perché la run del GFP per misurare i muoni l'hanno fatta con la zero supproession mentre con un altra run senza zero suppression ho potuto calcolare i piedistalli.
+
+
+Fammi sapere se hai bisogno di aiuto con qualcosa (te o i ragazzi).
+
+
+Ciao
+
+Nadir
+
