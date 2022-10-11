@@ -51,12 +51,17 @@ data = table2array(data);
 
 f = figure('Visible','off')
 hold on
+data_matrix = nan(1000, 32);
 for ch = 1:31
     chdata = data([1:end-2], ch);
     chdata = cell2mat(chdata);
     histogram(chdata, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar")
+    chdata_padded = padsequences(mat2cell(chdata), 1000);
+    data_matrix(:, ch+1) = cell2mat(chdata_padded);
 end
 hold off
+
+mat2cell(chdata, )
 
 box on
 grid on
@@ -70,7 +75,7 @@ ax = gca;
 fontsize = 12;
 ax.XAxis.FontSize = fontsize; 
 ax.YAxis.FontSize = fontsize; 
-ax.Title.FontSize = fontsize + 4;
+ax.Title.FontSize = fontsize + 2;
 f.Position = [0 0 1920 1080];
 
 exportgraphics(gcf,'output/plots/row0_mod0_allch.pdf','ContentType','vector');
