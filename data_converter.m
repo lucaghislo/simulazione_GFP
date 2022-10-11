@@ -54,11 +54,13 @@ xticks([0:10000:50000])
 xticklabels([0:10:50])
 yticks([0:200:2000])
 set(gcf, 'Color', 'w');
+title("\textbf{Transfer Function Module 0 Row 0}")
 
 ax = gca; 
 fontsize = 12;
 ax.XAxis.FontSize = fontsize; 
 ax.YAxis.FontSize = fontsize;
+ax.Title.FontSize = fontsize + 4;
 f.Position = [0 0 1200 800];
 
 exportgraphics(gcf,'output/plots/transfer_function/fdt_row0_mod0_allch.pdf','ContentType','vector');

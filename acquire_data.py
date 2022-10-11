@@ -10,11 +10,16 @@ for row in range(0, 6):
     for mod in range(0, 6):
 
         file = open(
-            "GFP_Data/events/row" + str(row) + "_mod" + str(mod) + "_allch.dat", "w+"
+            "GFP_Data/events/EDEP/row"
+            + str(row)
+            + "_mod"
+            + str(mod)
+            + "_allch_EDEP.dat",
+            "w+",
         )
 
         for ch in range(0, 32):
-            array = np.array(adc_values[:, row, mod, ch])
+            array = np.array(edep_values[:, row, mod, ch])
 
             count = 0
             list = []
