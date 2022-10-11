@@ -32,13 +32,36 @@ for i = ch_number
     fdt_channels(:, i+1) = fdt_single;
 end
 
-f = figure('Visible','on')
-plot(count_inj, fdt_channels(:, 31))
-
 % export fdt (channels on columns)
 labels = ["Energy_IN", string(ch_number)];
 data_out = array2table([count_inj, fdt_channels], 'VariableNames', labels);
 writetable(data_out, 'output/fdt_data.dat', 'Delimiter', '\t')
+
+% plot fdt
+f = figure('Visible','off')
+hold on
+for ch = 1:1:32
+    plot(count_inj, fdt_channels(:, ch))
+end
+hold off
+
+box on
+grid on
+xlabel('Incoming energy [MeV]');
+ylabel('Channel Output [ADU]');
+xlim([0, 53824]);
+xticks([0:10000:50000])
+xticklabels([0:10:50])
+yticks([0:200:2000])
+set(gcf, 'Color', 'w');
+
+ax = gca; 
+fontsize = 12;
+ax.XAxis.FontSize = fontsize; 
+ax.YAxis.FontSize = fontsize;
+f.Position = [0 0 1200 800];
+
+exportgraphics(gcf,'output/plots/transfer_function/fdt_row0_mod0_allch.pdf','ContentType','vector');
 
 
 %% Istogrammi eventi
@@ -73,4 +96,4 @@ ax.YAxis.FontSize = fontsize;
 ax.Title.FontSize = fontsize + 4;
 f.Position = [0 0 1920 1080];
 
-exportgraphics(gcf,'output/plots/row0_mod0_allch.pdf','ContentType','vector');
+exportgraphics(gcf,'output/plots/energy_deposition/energy_ADU_row0_mod0_allch.pdf','ContentType','vector');
