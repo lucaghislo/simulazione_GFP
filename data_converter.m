@@ -10,7 +10,7 @@ end
 %% Convert FDT data (original)
 clear; clc;
 
-fdt_data = readtable("GFP_Data\TransferFunction_fast_tau4_new.dat");
+fdt_data = readtable("GFP_Data/transfer_functions/FDT_data_row0_mod0.dat");
 fdt_data = table2array(fdt_data);
 
 count_inj = unique(fdt_data(:, 2));
@@ -63,13 +63,13 @@ ax.YAxis.FontSize = fontsize;
 ax.Title.FontSize = fontsize + 4;
 f.Position = [0 0 1200 800];
 
-exportgraphics(gcf,'output/plots/transfer_function/fdt_row0_mod0_allch.pdf','ContentType','vector');
+exportgraphics(gcf,'output/plots/transfer_functions/fdt_row0_mod0_allch.pdf','ContentType','vector');
 
 
 %% Istogrammi eventi
 clear; clc;
 
-data = readtable("GFP_Data/events/row0_mod0_allch.dat", "Delimiter", ',');
+data = readtable("GFP_Data/events/ADU/row0_mod0_allch_ADU.dat", "Delimiter", ',');
 data = rows2vars(data);
 data = data(:, [2:33]);
 data = table2array(data);
@@ -98,4 +98,4 @@ ax.YAxis.FontSize = fontsize;
 ax.Title.FontSize = fontsize + 4;
 f.Position = [0 0 1920 1080];
 
-exportgraphics(gcf,'output/plots/energy_deposition/energy_ADU_row0_mod0_allch.pdf','ContentType','vector');
+exportgraphics(gcf,'output/plots/energy_deposition/ADU/energy_ADU_row0_mod0_allch_ADU.pdf','ContentType','vector');
