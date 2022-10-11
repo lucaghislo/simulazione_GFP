@@ -5,21 +5,25 @@ event_data = np.load("GFP_Data/numpy_data.npz")
 adc_values = event_data["adc_values"]
 edep_values = event_data["edep_values"]
 
-# print(adc_values[:, 0, 0, :])
+for row in range(0, 6):
 
-file = open("GFP_Data/events/row0_mod0_allch.dat", "w+")
+    for mod in range(0, 6):
 
-for ch in range(0, 32):
-    array = np.array(adc_values[:, 0, 0, ch])
+        file = open(
+            "GFP_Data/events/row" + str(row) + "_mod" + str(mod) + "_allch.dat", "w+"
+        )
 
-    count = 0
-    list = []
-    for e in array:
-        if e != 0:
-            count = count + 1
-            list.append(e)
+        for ch in range(0, 32):
+            array = np.array(adc_values[:, row, mod, ch])
 
-    for item in list:
-        file.write(str(item) + ", ")
+            count = 0
+            list = []
+            for e in array:
+                if e != 0:
+                    count = count + 1
+                    list.append(e)
 
-    file.write("\n")
+            for item in list:
+                file.write(str(item) + ", ")
+
+            file.write("\n")
