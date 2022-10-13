@@ -6,21 +6,14 @@ adc_values = event_data["adc_values"]
 edep_values = event_data["edep_values"]
 
 for row in range(0, 6):
-
     for mod in range(0, 6):
-
         file = open(
-            "GFP_Data/events/EDEP/row"
-            + str(row)
-            + "_mod"
-            + str(mod)
-            + "_allch_EDEP.dat",
+            "GFP_Data/events/ADU/row" + str(row) + "_mod" + str(mod) + "_allch_ADU.dat",
             "w+",
         )
 
         for ch in range(0, 32):
-            array = np.array(edep_values[:, row, mod, ch])
-
+            array = np.array(adc_values[:, row, mod, ch])
             count = 0
             list = []
             for e in array:
@@ -28,7 +21,8 @@ for row in range(0, 6):
                     count = count + 1
                     list.append(e)
 
-            for item in list:
-                file.write(str(item) + ", ")
+            if len(list) > 0:
+                for item in list:
+                    file.write(str(item) + ", ")
 
             file.write("\n")

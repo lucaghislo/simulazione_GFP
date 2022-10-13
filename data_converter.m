@@ -69,19 +69,20 @@ exportgraphics(gcf,'output/plots/transfer_functions/fdt_row0_mod0_allch.pdf','Co
 %% Istogrammi eventi (all channels together for all rows and modules)
 clear; clc;
 
-for row = 0:5
-    for mod = 0:5
-        data = readtable("GFP_Data/events/ADU/row" + string(row) + "_mod" + string(mod) + "_allch_ADU.dat", "Delimiter", ',');
+for row = 0
+    for mod = 0
+        data = readtable("GFP_Data/events/ADU/row" + string(row) + "_mod" + string(mod) + "_allch_ADU.dat", "ReadVariableNames", false);
         data = rows2vars(data);
-        data = data(:, (2:33));
+        data = data(:, (2:size(data, 2)));
         data = table2array(data);
         
         f = figure('Visible','off')
         hold on
-        for ch = 1:31
-            chdata = data([1:end-2], ch);
-            chdata = cell2mat(chdata);
-            histogram(chdata, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar")
+        for ch = 1:size(data, 2)-1
+            chdata = data([1:end-1], ch);
+            chdata_stringcell = string(chdata);
+            chdata_mat = str2double(chdata_stringcell);
+            histogram(chdata_mat, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar")
         end
         hold off
         
@@ -91,7 +92,7 @@ for row = 0:5
         xticks([0:100:2000])
         xlabel("\textbf{[ADU]}")
         ylabel("\textbf{Counts}")
-        title("\textbf{Incoming energy spectrum}")
+        title("\textbf{Incoming energy spectrum for all channels of module " + string(mod) + " on row " + string(row) + "}")
         
         ax = gca;
         fontsize = 12;
