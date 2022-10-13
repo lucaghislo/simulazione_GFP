@@ -66,36 +66,42 @@ f.Position = [0 0 1200 800];
 exportgraphics(gcf,'output/plots/transfer_functions/fdt_row0_mod0_allch.pdf','ContentType','vector');
 
 
-%% Istogrammi eventi
+%% Istogrammi eventi (all channels together for all rows and modules)
 clear; clc;
 
-data = readtable("GFP_Data/events/ADU/row0_mod0_allch_ADU.dat", "Delimiter", ',');
-data = rows2vars(data);
-data = data(:, [2:33]);
-data = table2array(data);
-
-f = figure('Visible','off')
-hold on
-for ch = 1:31
-    chdata = data([1:end-2], ch);
-    chdata = cell2mat(chdata);
-    histogram(chdata, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar")
+for row = 0
+    for mod = 0
+        data = readtable("GFP_Data/events/ADU/row" + string(row) + "_mod" + string(mod) + "_allch_ADU.dat", "Delimiter", ',');
+        data = rows2vars(data);
+        data = data(:, (2:33));
+        data = table2array(data);
+        
+        f = figure('Visible','off')
+        hold on
+        for ch = 1:31
+            chdata = data([1:end-2], ch);
+            chdata = cell2mat(chdata);
+            histogram(chdata, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar")
+        end
+        hold off
+        
+        box on
+        grid on
+        xlim([0, 2000])
+        xticks([0:100:2000])
+        xlabel("\textbf{[ADU]}")
+        ylabel("\textbf{Counts}")
+        title("\textbf{Incoming energy spectrum}")
+        
+        ax = gca;
+        fontsize = 12;
+        ax.XAxis.FontSize = fontsize; 
+        ax.YAxis.FontSize = fontsize; 
+        ax.Title.FontSize = fontsize + 4;
+        f.Position = [0 0 1920 1080];
+        
+        exportgraphics(gcf,"output/plots/energy_deposition/ADU/energy_ADU_row" + string(row) + "_mod" + string(mod) + "_allch_ADU.pdf",'ContentType','vector');
+    end
 end
-hold off
 
-box on
-grid on
-xlim([0, 2000])
-xticks([0:100:2000])
-xlabel("\textbf{[ADU]}")
-ylabel("\textbf{Counts}")
-title("\textbf{Incoming energy spectrum}")
 
-ax = gca;
-fontsize = 12;
-ax.XAxis.FontSize = fontsize; 
-ax.YAxis.FontSize = fontsize; 
-ax.Title.FontSize = fontsize + 4;
-f.Position = [0 0 1920 1080];
-
-exportgraphics(gcf,'output/plots/energy_deposition/ADU/energy_ADU_row0_mod0_allch_ADU.pdf','ContentType','vector');
