@@ -115,29 +115,29 @@ for row = 0
         data = data(:, (2:33));
         data = table2array(data);
         
-        for ch = 0:31
+        for ch = 1:31
             f = figure('Visible','off')
-
-            chdata = data([1:end-2], ch+1);
+            chdata = data([1:end-2], ch);
             chdata = cell2mat(chdata);
             histogram(chdata, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar")
-
-            box on
-            grid on
-            xlim([0, 2000])
-            xticks([0:100:2000])
-            xlabel("\textbf{[ADU]}")
-            ylabel("\textbf{Counts}")
-            title("\textbf{Incoming energy spectrum for channel " + string(ch) + "}")
-            
-            ax = gca;
-            fontsize = 12;
-            ax.XAxis.FontSize = fontsize; 
-            ax.YAxis.FontSize = fontsize; 
-            ax.Title.FontSize = fontsize + 4;
-            f.Position = [0 0 1920 1080];
-            
-            exportgraphics(gcf,"output\plots\energy_deposition\ADU\row0_mod0_single_channels\energy_ADU_row" + string(row) + "_mod" + string(mod) + "_ch" + string(ch) + "_ADU.pdf",'ContentType','vector');
         end
+        
+        box on
+        grid on
+        xlim([0, 2000])
+        xticks([0:100:2000])
+        xlabel("\textbf{[ADU]}")
+        ylabel("\textbf{Counts}")
+        title("\textbf{Incoming energy spectrum}")
+        
+        ax = gca;
+        fontsize = 12;
+        ax.XAxis.FontSize = fontsize; 
+        ax.YAxis.FontSize = fontsize; 
+        ax.Title.FontSize = fontsize + 4;
+        f.Position = [0 0 1920 1080];
+        
+        exportgraphics(gcf,"output/plots/energy_deposition/ADU/energy_ADU_row" + string(row) + "_mod" + string(mod) + "_allch_ADU.pdf",'ContentType','vector');
     end
 end
+
