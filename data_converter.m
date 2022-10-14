@@ -104,14 +104,14 @@ for row = 0:5
             chdata = data([1:end-1], ch);
             chdata_stringcell = string(chdata);
             chdata_mat = str2double(chdata_stringcell);
-            histogram(chdata_mat, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar")
+            histogram(chdata_mat, "BinWidth", 0.02, "FaceAlpha", 0.5, "DisplayStyle", "bar")
         end
         hold off
         
         box on
         grid on
-        xlim([0, 2])
-        xticks([0:0.1:2])
+        xlim([0, 6])
+        xticks([0:0.5:6])
         xlabel("\textbf{Incoming Energy [MeV]}")
         ylabel("\textbf{Counts}")
         title("\textbf{Incoming energy spectrum for all channels of module " + string(mod) + " on row " + string(row) + "}")
@@ -174,9 +174,9 @@ clear; clc;
 
 colors = distinguishable_colors(32, 'w');
 
-for row = 0
-    for mod = 0
-        data = readtable("GFP_Data/events/EDEP/row" + string(row) + "_mod" + string(mod) + "_allch_ADU.dat", "Delimiter", ',');
+for row = 0:5
+    for mod = 0:5
+        data = readtable("GFP_Data/events/EDEP/row" + string(row) + "_mod" + string(mod) + "_allch_EDEP.dat", "Delimiter", ',');
         data = rows2vars(data);
         data = data(:, (2:size(data, 2)));
         data = table2array(data);
@@ -187,12 +187,12 @@ for row = 0
 
             chdata = data([1:end-2], ch+1);
             chdata = cell2mat(chdata);
-            histogram(chdata, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar", 'FaceColor', [colors(ch+1, 1), colors(ch+1, 2), colors(ch+1, 3)])
+            histogram(chdata, "BinWidth", 0.02, "FaceAlpha", 0.5, "DisplayStyle", "bar", 'FaceColor', [colors(ch+1, 1), colors(ch+1, 2), colors(ch+1, 3)])
 
             box on
             grid on
-            xlim([0, 2])
-            xticks([0:0.1:2])
+            xlim([0, 6])
+            xticks([0:0.5:6])
             xlabel("\textbf{Incoming Energy [MeV]}")
             ylabel("\textbf{Counts}")
             title("\textbf{Incoming energy spectrum for channel " + string(ch) + "}")
@@ -204,7 +204,7 @@ for row = 0
             ax.Title.FontSize = fontsize + 4;
             f.Position = [0 0 1920 1080];
             
-            exportgraphics(gcf,"output\plots\energy_deposition\EDEP\row" + string(row) + "_mod" + string(mod) + "_single_channels\energy_EDEP_row" + string(row) + "_mod" + string(mod) + "_ch" + string(ch) + "_ADU.pdf",'ContentType','vector');
+            exportgraphics(gcf,"output\plots\energy_deposition\EDEP\row" + string(row) + "_mod" + string(mod) + "_single_channels\energy_EDEP_row" + string(row) + "_mod" + string(mod) + "_ch" + string(ch) + "_EDEP.pdf",'ContentType','vector');
         end
     end
 end
