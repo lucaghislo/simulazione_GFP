@@ -25,4 +25,4 @@ for row in range(0, 6):
                 for item in list:
                     file.write(str(item) + ", ")
 
-            file.write("\n")
+                file.write("\n")

@@ -16,30 +16,34 @@ for row = 0:5
         f = figure("Visible", "on");
         hold on
         for ch = 0:31
-            fdt_ch_data = readtable("GFP_Data\transfer_functions\FDT_allrows_allmods_allchs\Row"+ string(row) +"Module" + string(mod) + "Ch" + string(ch) + ".txt")
-            plot(fdt_ch_data.Cal_V, fdt_ch_data.ADC);
+            if isfile("GFP_Data\transfer_functions\Row"+ string(row) +"Module" + string(mod) + "Ch" + string(ch) + ".txt")
+                fdt_ch_data = readtable("GFP_Data\transfer_functions\Row"+ string(row) +"Module" + string(mod) + "Ch" + string(ch) + ".txt")
+                plot(fdt_ch_data.Cal_V, fdt_ch_data.ADC);
+            end
         end
         hold off
-
-        box on
-        grid on
-        xlabel('Incoming energy [MeV]');
-        ylabel('Channel Output [ADU]');
-        xlim([0, 53824]);
-        xticks([0:10000:50000])
-        xticklabels([0:10:50])
-        yticks([0:200:2000])
-        set(gcf, 'Color', 'w');
-        title("\textbf{Transfer Function Module " + string(mod) + " Row " + string(row) + "}")
         
-        ax = gca; 
-        fontsize = 12;
-        ax.XAxis.FontSize = fontsize; 
-        ax.YAxis.FontSize = fontsize;
-        ax.Title.FontSize = fontsize + 4;
-        f.Position = [0 0 1200 800];
-        
-        exportgraphics(gcf,"output/plots/transfer_functions/fdt_row" + string(row) + "_mod" + string(mod) + "_allch.pdf",'ContentType','vector');
+        if isfile("GFP_Data\transfer_functions\Row"+ string(row) +"Module" + string(mod) + "Ch" + string(ch) + ".txt")
+            box on
+            grid on
+            xlabel('Incoming energy [MeV]');
+            ylabel('Channel Output [ADU]');
+            xlim([0, 53824]);
+            xticks([0:10000:50000])
+            xticklabels([0:10:50])
+            yticks([0:200:2000])
+            set(gcf, 'Color', 'w');
+            title("\textbf{Transfer Function Module " + string(mod) + " Row " + string(row) + "}")
+            
+            ax = gca; 
+            fontsize = 12;
+            ax.XAxis.FontSize = fontsize; 
+            ax.YAxis.FontSize = fontsize;
+            ax.Title.FontSize = fontsize + 4;
+            f.Position = [0 0 1200 800];
+            
+            exportgraphics(gcf,"output/plots/transfer_functions/fdt_row" + string(row) + "_mod" + string(mod) + "_allch.pdf",'ContentType','vector');
+        end
     end
 end
 
@@ -87,13 +91,14 @@ end
 %% Istogrammi eventi (modulo 0 row 0: plot dei singoli canali)
 clear; clc;
 
-for row = 0
-    for mod = 0
+for row = 0:5
+    for mod = 0:5
         data = readtable("GFP_Data/events/ADU/row" + string(row) + "_mod" + string(mod) + "_allch_ADU.dat", "Delimiter", ',');
         data = rows2vars(data);
         data = data(:, (2:33));
         data = table2array(data);
         
+        mkdir("output\plots\energy_deposition\ADU\row" + string(row) + "_mod" + string(mod) + "_single_channels");
         for ch = 0:31
             f = figure('Visible','off')
 
@@ -116,7 +121,7 @@ for row = 0
             ax.Title.FontSize = fontsize + 4;
             f.Position = [0 0 1920 1080];
             
-            exportgraphics(gcf,"output\plots\energy_deposition\ADU\row0_mod0_single_channels\energy_ADU_row" + string(row) + "_mod" + string(mod) + "_ch" + string(ch) + "_ADU.pdf",'ContentType','vector');
+            exportgraphics(gcf,"output\plots\energy_deposition\ADU\row" + string(row) + "_mod" + string(mod) + "_single_channels\energy_ADU_row" + string(row) + "_mod" + string(mod) + "_ch" + string(ch) + "_ADU.pdf",'ContentType','vector');
         end
     end
 end
