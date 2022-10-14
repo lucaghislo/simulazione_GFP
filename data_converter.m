@@ -95,11 +95,11 @@ for row = 0:5
     for mod = 0:5
         data = readtable("GFP_Data/events/ADU/row" + string(row) + "_mod" + string(mod) + "_allch_ADU.dat", "Delimiter", ',');
         data = rows2vars(data);
-        data = data(:, (2:33));
+        data = data(:, (2:size(data, 2)));
         data = table2array(data);
         
         mkdir("output\plots\energy_deposition\ADU\row" + string(row) + "_mod" + string(mod) + "_single_channels");
-        for ch = 0:31
+        for ch = 0:size(data, 2)-1
             f = figure('Visible','off')
 
             chdata = data([1:end-2], ch+1);
