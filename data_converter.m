@@ -48,7 +48,7 @@ for row = 0:5
 end
 
 
-%% Istogrammi eventi (all channels together for all rows and modules)
+%% Istogrammi eventi (all channels together for all rows and modules) in ADU
 clear; clc;
 
 for row = 0:5
@@ -83,13 +83,55 @@ for row = 0:5
         ax.Title.FontSize = fontsize + 4;
         f.Position = [0 0 1920 1080];
         
-        exportgraphics(gcf,"output/plots/energy_deposition/ADU/energy_ADU_row" + string(row) + "_mod" + string(mod) + "_allch_ADU.pdf",'ContentType','vector');
+        exportgraphics(gcf,"output/plots/energy_deposition/ADU/allchannels_allmodules/energy_ADU_row" + string(row) + "_mod" + string(mod) + "_allch_ADU.pdf",'ContentType','vector');
     end
 end
 
 
-%% Istogrammi eventi (modulo 0 row 0: plot dei singoli canali)
+%% Istogrammi eventi (all channels together for all rows and modules): energy deposition in MeV
 clear; clc;
+
+for row = 0:5
+    for mod = 0:5
+        data = readtable("GFP_Data/events/EDEP/row" + string(row) + "_mod" + string(mod) + "_allch_EDEP.dat", "ReadVariableNames", false);
+        data = rows2vars(data);
+        data = data(:, (2:size(data, 2)));
+        data = table2array(data);
+        
+        f = figure('Visible','off')
+        hold on
+        for ch = 1:size(data, 2)-1
+            chdata = data([1:end-1], ch);
+            chdata_stringcell = string(chdata);
+            chdata_mat = str2double(chdata_stringcell);
+            histogram(chdata_mat, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar")
+        end
+        hold off
+        
+        box on
+        grid on
+        xlim([0, 2])
+        xticks([0:0.1:2])
+        xlabel("\textbf{Incoming Energy [MeV]}")
+        ylabel("\textbf{Counts}")
+        title("\textbf{Incoming energy spectrum for all channels of module " + string(mod) + " on row " + string(row) + "}")
+        
+        ax = gca;
+        fontsize = 12;
+        ax.XAxis.FontSize = fontsize; 
+        ax.YAxis.FontSize = fontsize; 
+        ax.Title.FontSize = fontsize + 4;
+        f.Position = [0 0 1920 1080];
+        
+        exportgraphics(gcf,"output/plots/energy_deposition/EDEP/allchannels_allmodules/energy_EDEP_row" + string(row) + "_mod" + string(mod) + "_allch_ADU.pdf",'ContentType','vector');
+    end
+end
+
+
+%% Istogrammi eventi (plot dei singoli canali per ogni modulo di ogni row) in ADU
+clear; clc;
+
+colors = distinguishable_colors(32, 'w');
 
 for row = 0:5
     for mod = 0:5
@@ -104,7 +146,7 @@ for row = 0:5
 
             chdata = data([1:end-2], ch+1);
             chdata = cell2mat(chdata);
-            histogram(chdata, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar")
+            histogram(chdata, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar", 'FaceColor', [colors(ch+1, 1), colors(ch+1, 2), colors(ch+1, 3)])
 
             box on
             grid on
@@ -125,3 +167,47 @@ for row = 0:5
         end
     end
 end
+
+
+%% Istogrammi eventi (plot dei singoli canali per ogni modulo di ogni row): energy deposition in MeV
+clear; clc;
+
+colors = distinguishable_colors(32, 'w');
+
+for row = 0
+    for mod = 0
+        data = readtable("GFP_Data/events/EDEP/row" + string(row) + "_mod" + string(mod) + "_allch_ADU.dat", "Delimiter", ',');
+        data = rows2vars(data);
+        data = data(:, (2:size(data, 2)));
+        data = table2array(data);
+        
+        mkdir("output\plots\energy_deposition\EDEP\row" + string(row) + "_mod" + string(mod) + "_single_channels");
+        for ch = 0:size(data, 2)-1
+            f = figure('Visible','off')
+
+            chdata = data([1:end-2], ch+1);
+            chdata = cell2mat(chdata);
+            histogram(chdata, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar", 'FaceColor', [colors(ch+1, 1), colors(ch+1, 2), colors(ch+1, 3)])
+
+            box on
+            grid on
+            xlim([0, 2])
+            xticks([0:0.1:2])
+            xlabel("\textbf{Incoming Energy [MeV]}")
+            ylabel("\textbf{Counts}")
+            title("\textbf{Incoming energy spectrum for channel " + string(ch) + "}")
+            
+            ax = gca;
+            fontsize = 12;
+            ax.XAxis.FontSize = fontsize; 
+            ax.YAxis.FontSize = fontsize; 
+            ax.Title.FontSize = fontsize + 4;
+            f.Position = [0 0 1920 1080];
+            
+            exportgraphics(gcf,"output\plots\energy_deposition\EDEP\row" + string(row) + "_mod" + string(mod) + "_single_channels\energy_EDEP_row" + string(row) + "_mod" + string(mod) + "_ch" + string(ch) + "_ADU.pdf",'ContentType','vector');
+        end
+    end
+end
+
+
+%% plot pedestal data for every module
