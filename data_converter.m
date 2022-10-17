@@ -123,7 +123,7 @@ for row = 0:5
         ax.Title.FontSize = fontsize + 4;
         f.Position = [0 0 1920 1080];
         
-        exportgraphics(gcf,"output/plots/energy_deposition/EDEP/allchannels_allmodules/energy_EDEP_row" + string(row) + "_mod" + string(mod) + "_allch_ADU.pdf",'ContentType','vector');
+        exportgraphics(gcf,"output/plots/energy_deposition/EDEP/allchannels_allmodules/energy_EDEP_row" + string(row) + "_mod" + string(mod) + "_allch_EDEP.pdf",'ContentType','vector');
     end
 end
 
