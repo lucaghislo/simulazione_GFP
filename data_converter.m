@@ -10,17 +10,21 @@ end
 %% Convert FDT data (un file per ogni canale di ogni modulo)
 clear; clc;
 
+fdt_cal10 = nan(32, 36);
+module_counter = 1;
+
 for row = 0:5
     for mod = 0:5
-
         f = figure("Visible", "on");
         hold on
         for ch = 0:31
             if isfile("GFP_Data\transfer_functions\Row"+ string(row) +"Module" + string(mod) + "Ch" + string(ch) + ".txt")
                 fdt_ch_data = readtable("GFP_Data\transfer_functions\Row"+ string(row) +"Module" + string(mod) + "Ch" + string(ch) + ".txt")
                 plot(fdt_ch_data.Cal_V, fdt_ch_data.ADC);
+                fdt_cal10(ch+1, module_counter) = fdt_ch_data.ADC(1);
             end
         end
+        module_counter = module_counter + 1;
         hold off
         
         if isfile("GFP_Data\transfer_functions\Row"+ string(row) +"Module" + string(mod) + "Ch" + string(ch) + ".txt")
@@ -29,6 +33,7 @@ for row = 0:5
             xlabel('Incoming energy [MeV]');
             ylabel('Channel Output [ADU]');
             xlim([0, 53824]);
+            ylim([0 2000])
             xticks([0:10000:50000])
             xticklabels([0:10:50])
             yticks([0:200:2000])
@@ -46,6 +51,9 @@ for row = 0:5
         end
     end
 end
+
+save GFP_Data/pedestal/computed/fdt_cal10_pedestal.mat fdt_cal10;
+close all;
 
 
 %% Istogrammi eventi (all channels together for all rows and modules) in ADU
@@ -218,6 +226,7 @@ bin_w = 4;
 scale = 23;
 margin_sx = 3;
 margin_dx = 3;
+fontsize = 11;
 
 for row = 0:5
     for mod = 0:5
@@ -241,7 +250,9 @@ for row = 0:5
             grid on
             set(plot_hist(1),'FaceAlpha',.25);
             set(plot_hist(1),'FaceColor', 'blue');
-            ylim([0 max([max(pdf_hist) max(plot_hist.BinCounts)]) + 1]);
+            ylim([0 16]) % ylim([0 max([max(pdf_hist) max(plot_hist.BinCounts)]) + 1]);
+            xlim([0 500])
+            yticks([0:1:16])
             title("\textbf{Module " + string(mod) + " on row " + string(row) + " pedestal distribution}")
             xlabel("Pedestal [ADU]");
             ylabel("Counts")
@@ -250,11 +261,82 @@ for row = 0:5
             str2 = "$\mu=" + string(round(dist.mu, 2)) + "$ ADU";
             str3 = "$\sigma=" + string(round(dist.sigma, 2)) + "$  ADU";
             txtbx_content = {str1, str2, str3};
-            annotation('textbox', [.68 .8 .1 .1], 'String', txtbx_content,'FitBoxToText', 'on', 'BackgroundColor', 'white', FontName='Computer Modern')
+            annotation('textbox', [.72 .8 .1 .1], 'String', txtbx_content,'FitBoxToText', 'on', 'BackgroundColor', 'white', FontName='Computer Modern', FontSize=fontsize)
            
+            ax = gca;
+            ax.XAxis.FontSize = fontsize; 
+            ax.YAxis.FontSize = fontsize; 
+            ax.Title.FontSize = fontsize;
+            f.Position = [0 0 800 600];
+
             exportgraphics(gcf,'output/plots/pedestal/histograms/pedestal_row' + string(row) + '_mod' + string(mod) + '_hist.pdf','ContentType','vector');
         end  
     end
 end
 
 
+%% plot pedestal data for every module: plots with pedestal extracted from FDT
+
+clear; clc;
+load GFP_Data\fdt_cal10_pedestal.mat;
+module_counter = 1;
+colors = distinguishable_colors(4, 'w');
+fontsize = 11;
+
+pedestal_diff = nan(36, 1);
+
+for row = 0:5
+    for mod = 0:5
+        pedestal_raw_data = readtable("GFP_Data\pedestal\row" + string(row) + "_mod" + string(mod) + "_allch_pedestals.dat");
+        pedestal_data = pedestal_raw_data.Var1;
+        data_count = sum(~isnan(pedestal_data))
+        
+        if(data_count > 0)
+            f = figure('Visible','on');
+            hold on
+            plot_data = plot([0:31], pedestal_data, 'Marker','o', 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(2, 1), colors(2, 2), colors(2, 3)], 'MarkerEdgeColor', [colors(2, 1), colors(2, 2), colors(2, 3)])
+            plot_fdt = plot([0:31], fdt_cal10(:, module_counter), 'Marker','o', 'Color', [colors(3, 1), colors(3, 2), colors(3, 3)], 'MarkerFaceColor', [colors(4, 1), colors(4, 2), colors(4, 3)], 'MarkerEdgeColor', [colors(4, 1), colors(4, 2), colors(4, 3)])
+            diff = abs(pedestal_data - fdt_cal10(:, module_counter));
+            pedestal_diff(module_counter) = mean(diff);
+            module_counter = module_counter + 1;
+            hold off
+
+            box on
+            grid on
+            xlim([0 31])
+            ylim([0 500])
+            xlabel("Channel")
+            ylabel("Pedestal [ADU]")
+            title("\textbf{Module " + string(mod) + " on row " + string(row) + " pedestal}")
+            legend([plot_data, plot_fdt], "Pedestal obtained from ENC", "Pedestal obtained from FDT", 'Location', 'northeast')
+
+            ax = gca;
+            ax.XAxis.FontSize = fontsize; 
+            ax.YAxis.FontSize = fontsize; 
+            ax.Title.FontSize = fontsize + 2;
+            ax.Legend.FontSize = fontsize;
+            f.Position = [0 0 800 600];
+
+            exportgraphics(gcf,'output/plots/pedestal/comparison/pedestal_row' + string(row) + '_mod' + string(mod) + '_plot.pdf','ContentType','vector');
+        end
+    end
+end
+
+close all;
+save GFP_Data\pedestal\computed\pedestal_diff.mat pedestal_diff
+
+
+%% Plot pedestal difference histogram
+
+load 
+
+f = figure('Visible','on');
+hold on
+dist = fitdist(pedestal_, "normal");
+plot_hist = histogram(pedestal_data, 'BinWidth', 20);
+pd = fitdist(pedestal_data,'Normal');
+diff_sx = plot_hist.BinEdges(margin_sx) - plot_hist.BinEdges(1);
+diff_dx = plot_hist.BinEdges(end) - plot_hist.BinEdges(end - margin_dx);
+x_values = [(plot_hist.BinEdges(1) - diff_sx):0.001:(plot_hist.BinEdges(end) + diff_dx)];
+pdf_hist = pdf(pd, x_values) * trapz(plot_hist.Values) * scale;
+plot(x_values, pdf_hist, 'LineWidth', 1, 'Color', 'blue');
