@@ -210,7 +210,7 @@ for row = 0:5
 end
 
 
-%% plot pedestal data for every module
+%% plot pedestal data for every module: histograms with normal distribution on top
 
 clear; clc;
 
@@ -223,10 +223,10 @@ for row = 0:5
     for mod = 0:5
         pedestal_raw_data = readtable("GFP_Data\pedestal\row" + string(row) + "_mod" + string(mod) + "_allch_pedestals.dat");
         pedestal_data = pedestal_raw_data.Var1;
+        data_count = sum(~isnan(pedestal_data))
 
-        if(sum(~isnan(pedestal_data))>0)
+        if(data_count > 0)
             f = figure('Visible','on');
-            
             hold on
             dist = fitdist(pedestal_data, "normal");
             plot_hist = histogram(pedestal_data, 'BinWidth', 20);
@@ -243,13 +243,18 @@ for row = 0:5
             set(plot_hist(1),'FaceColor', 'blue');
             ylim([0 max([max(pdf_hist) max(plot_hist.BinCounts)]) + 1]);
             title("\textbf{Module " + string(mod) + " on row " + string(row) + " pedestal distribution}")
+            xlabel("Pedestal [ADU]");
+            ylabel("Counts")
     
-            str1 = "$\mu=" + string(dist.mu) + "$ ADU";
-            str2 = "$\sigma=" + string(dist.sigma) + "$  ADU";
-            txtbx_content = {str1, str2};
-            annotation('textbox', [.15 .8 .1 .1], 'String', txtbx_content,'FitBoxToText', 'on', 'BackgroundColor', 'white', FontName='Computer Modern')
+            str1 = "Channels: " + string(data_count);
+            str2 = "$\mu=" + string(round(dist.mu, 2)) + "$ ADU";
+            str3 = "$\sigma=" + string(round(dist.sigma, 2)) + "$  ADU";
+            txtbx_content = {str1, str2, str3};
+            annotation('textbox', [.68 .8 .1 .1], 'String', txtbx_content,'FitBoxToText', 'on', 'BackgroundColor', 'white', FontName='Computer Modern')
            
             exportgraphics(gcf,'output/plots/pedestal/histograms/pedestal_row' + string(row) + '_mod' + string(mod) + '_hist.pdf','ContentType','vector');
         end  
     end
 end
+
+
