@@ -358,6 +358,7 @@ grid on
 legend([plot_mu, plot_sigma], "Pedestal difference mean, $\mu = " + round(nanmean(data_table.diff_mu), 2) + "$ ADU, $\sigma = " + round(nanvar(data_table.diff_mu), 2) + "$ ADU", "Pedestal difference variance, $\mu = " + round(nanmean(data_table.diff_sigma), 2) + "$ ADU, $\sigma = " + round(nanvar(data_table.diff_sigma), 2) + "$ ADU", "Location", "northwest");
 xlabel("Module")
 ylabel("[ADU]")
+title("\textbf{Pedestal difference: mean and variance trend over 36 modules}")
 
 ax = gca;
 ax.XAxis.FontSize = fontsize; 
@@ -366,21 +367,25 @@ ax.Title.FontSize = fontsize + 2;
 ax.Legend.FontSize = fontsize;
 f.Position = [0 0 800 600];
 
+exportgraphics(gcf,'output/plots/pedestal/pedestal_difference_mu_sigma_module.pdf','ContentType','vector');
+
 
 %% Pedestal difference: analisi per singolo canale
 
 clear; clc;
 load GFP_Data\pedestal\computed\pedestal_diff.mat
+colors = distinguishable_colors(4, 'w');
+fontsize = 11;
 
 diff_mean_channel = nan(32, 2);
-for ch = 1:32
-    data = pedestal_diff(ch, :)';
+for ch = 0:31
+    data = pedestal_diff(ch+1, :)';
     data_count = sum(~isnan(data));
 
     if(data_count > 0)
         dist = fitdist(data, "normal");
-        diff_mean_channel(ch, 1) = dist.mu;
-        diff_mean_channel(ch, 2) = dist.sigma;
+        diff_mean_channel(ch+1, 1) = dist.mu;
+        diff_mean_channel(ch+1, 2) = dist.sigma;
     end
 end
 
@@ -389,5 +394,22 @@ writetable(data_table, "output/pedestal_diff_channel.dat", "Delimiter", "\t");
 
 f = figure('Visible','on');
 hold on
-plot(data_table.diff_mu)
-plot(data_table.diff_sigma)
+plot_mu = plot([0:31], data_table.diff_mu, 'Marker','o', 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(2, 1), colors(2, 2), colors(2, 3)], 'MarkerEdgeColor', [colors(2, 1), colors(2, 2), colors(2, 3)])
+plot_sigma = plot([0:31], data_table.diff_sigma, 'Marker','o', 'Color', [colors(3, 1), colors(3, 2), colors(3, 3)], 'MarkerFaceColor', [colors(4, 1), colors(4, 2), colors(4, 3)], 'MarkerEdgeColor', [colors(4, 1), colors(4, 2), colors(4, 3)])
+
+box on
+grid on
+legend([plot_mu, plot_sigma], "Pedestal difference mean, $\mu = " + round(nanmean(data_table.diff_mu), 2) + "$ ADU, $\sigma = " + round(nanvar(data_table.diff_mu), 2) + "$ ADU", "Pedestal difference variance, $\mu = " + round(nanmean(data_table.diff_sigma), 2) + "$ ADU, $\sigma = " + round(nanvar(data_table.diff_sigma), 2) + "$ ADU", "Location", "northeast");
+xlabel("Channel")
+ylabel("[ADU]")
+xlim([0 31])
+title("\textbf{Pedestal difference: mean and variance trend over 32 channels}")
+
+ax = gca;
+ax.XAxis.FontSize = fontsize; 
+ax.YAxis.FontSize = fontsize; 
+ax.Title.FontSize = fontsize + 2;
+ax.Legend.FontSize = fontsize;
+f.Position = [0 0 800 600];
+
+exportgraphics(gcf,'output/plots/pedestal/pedestal_difference_mu_sigma_channel.pdf','ContentType','vector');
