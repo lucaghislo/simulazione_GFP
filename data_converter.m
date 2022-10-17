@@ -403,7 +403,7 @@ legend([plot_mu, plot_sigma], "Pedestal difference mean, $\mu = " + round(nanmea
 xlabel("Channel")
 ylabel("[ADU]")
 xlim([0 31])
-title("\textbf{Pedestal difference: mean and variance trend over 32 channels}")
+title("\textbf{Pedestal difference: mean and variance trend over 32 channels}") 
 
 ax = gca;
 ax.XAxis.FontSize = fontsize; 
