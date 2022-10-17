@@ -278,16 +278,16 @@ end
 %% plot pedestal data for every module: plots with pedestal extracted from FDT
 
 clear; clc;
-load GFP_Data\fdt_cal10_pedestal.mat;
+load GFP_Data\pedestal\computed\fdt_cal10_pedestal.mat;
 module_counter = 1;
 colors = distinguishable_colors(4, 'w');
 fontsize = 11;
 
-pedestal_diff = nan(36, 1);
+pedestal_diff = nan(32, 36);
 
 for row = 0:5
     for mod = 0:5
-        pedestal_raw_data = readtable("GFP_Data\pedestal\row" + string(row) + "_mod" + string(mod) + "_allch_pedestals.dat");
+        pedestal_raw_data = readtable("GFP_Data\pedestal\input\row" + string(row) + "_mod" + string(mod) + "_allch_pedestals.dat");
         pedestal_data = pedestal_raw_data.Var1;
         data_count = sum(~isnan(pedestal_data))
         
@@ -297,7 +297,7 @@ for row = 0:5
             plot_data = plot([0:31], pedestal_data, 'Marker','o', 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(2, 1), colors(2, 2), colors(2, 3)], 'MarkerEdgeColor', [colors(2, 1), colors(2, 2), colors(2, 3)])
             plot_fdt = plot([0:31], fdt_cal10(:, module_counter), 'Marker','o', 'Color', [colors(3, 1), colors(3, 2), colors(3, 3)], 'MarkerFaceColor', [colors(4, 1), colors(4, 2), colors(4, 3)], 'MarkerEdgeColor', [colors(4, 1), colors(4, 2), colors(4, 3)])
             diff = abs(pedestal_data - fdt_cal10(:, module_counter));
-            pedestal_diff(module_counter) = mean(diff);
+            pedestal_diff(:, module_counter) = diff;
             module_counter = module_counter + 1;
             hold off
 
@@ -326,17 +326,68 @@ close all;
 save GFP_Data\pedestal\computed\pedestal_diff.mat pedestal_diff
 
 
-%% Plot pedestal difference histogram
+%% Pedestal difference: analisi per singolo modulo
 
-load 
+clear; clc;
+load GFP_Data\pedestal\computed\pedestal_diff.mat
+colors = distinguishable_colors(4, 'w');
+fontsize = 11;
+
+diff_mean_module = nan(36, 2);
+for mod = 1:36
+    data = pedestal_diff(:, mod);
+    data_count = sum(~isnan(data));
+
+    if(data_count > 0)
+        dist = fitdist(data, "normal");
+        diff_mean_module(mod, 1) = dist.mu;
+        diff_mean_module(mod, 2) = dist.sigma;
+    end
+end
+
+data_table = array2table(diff_mean_module, 'VariableNames', ["diff_mu", "diff_sigma"]);
+writetable(data_table, "output/pedestal_diff_module.dat", "Delimiter", "\t");
 
 f = figure('Visible','on');
 hold on
-dist = fitdist(pedestal_, "normal");
-plot_hist = histogram(pedestal_data, 'BinWidth', 20);
-pd = fitdist(pedestal_data,'Normal');
-diff_sx = plot_hist.BinEdges(margin_sx) - plot_hist.BinEdges(1);
-diff_dx = plot_hist.BinEdges(end) - plot_hist.BinEdges(end - margin_dx);
-x_values = [(plot_hist.BinEdges(1) - diff_sx):0.001:(plot_hist.BinEdges(end) + diff_dx)];
-pdf_hist = pdf(pd, x_values) * trapz(plot_hist.Values) * scale;
-plot(x_values, pdf_hist, 'LineWidth', 1, 'Color', 'blue');
+plot_mu = plot(data_table.diff_mu, 'Marker','o', 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(2, 1), colors(2, 2), colors(2, 3)], 'MarkerEdgeColor', [colors(2, 1), colors(2, 2), colors(2, 3)])
+plot_sigma = plot(data_table.diff_sigma, 'Marker','o', 'Color', [colors(3, 1), colors(3, 2), colors(3, 3)], 'MarkerFaceColor', [colors(4, 1), colors(4, 2), colors(4, 3)], 'MarkerEdgeColor', [colors(4, 1), colors(4, 2), colors(4, 3)])
+
+box on
+grid on
+legend([plot_mu, plot_sigma], "Pedestal difference mean, $\mu = " + round(nanmean(data_table.diff_mu), 2) + "$ ADU, $\sigma = " + round(nanvar(data_table.diff_mu), 2) + "$ ADU", "Pedestal difference variance, $\mu = " + round(nanmean(data_table.diff_sigma), 2) + "$ ADU, $\sigma = " + round(nanvar(data_table.diff_sigma), 2) + "$ ADU", "Location", "northwest");
+xlabel("Module")
+ylabel("[ADU]")
+
+ax = gca;
+ax.XAxis.FontSize = fontsize; 
+ax.YAxis.FontSize = fontsize; 
+ax.Title.FontSize = fontsize + 2;
+ax.Legend.FontSize = fontsize;
+f.Position = [0 0 800 600];
+
+
+%% Pedestal difference: analisi per singolo canale
+
+clear; clc;
+load GFP_Data\pedestal\computed\pedestal_diff.mat
+
+diff_mean_channel = nan(32, 2);
+for ch = 1:32
+    data = pedestal_diff(ch, :)';
+    data_count = sum(~isnan(data));
+
+    if(data_count > 0)
+        dist = fitdist(data, "normal");
+        diff_mean_channel(ch, 1) = dist.mu;
+        diff_mean_channel(ch, 2) = dist.sigma;
+    end
+end
+
+data_table = array2table(diff_mean_channel, 'VariableNames', ["diff_mu", "diff_sigma"]);
+writetable(data_table, "output/pedestal_diff_channel.dat", "Delimiter", "\t");
+
+f = figure('Visible','on');
+hold on
+plot(data_table.diff_mu)
+plot(data_table.diff_sigma)

@@ -52,7 +52,7 @@ for row = 0:5
     end
 end
 
-save GFP_Data/fdt_cal10_pedestal.mat fdt_cal10;
+save GFP_Data/pedestal/computed/fdt_cal10_pedestal.mat fdt_cal10;
 close all;
 
 
@@ -278,13 +278,16 @@ end
 %% plot pedestal data for every module: plots with pedestal extracted from FDT
 
 clear; clc;
-load GFP_Data\fdt_cal10_pedestal.mat;
+load GFP_Data\pedestal\computed\fdt_cal10_pedestal.mat;
 module_counter = 1;
 colors = distinguishable_colors(4, 'w');
+fontsize = 11;
 
-for row = 0
-    for mod = 0
-        pedestal_raw_data = readtable("GFP_Data\pedestal\row" + string(row) + "_mod" + string(mod) + "_allch_pedestals.dat");
+pedestal_diff = nan(32, 36);
+
+for row = 0:5
+    for mod = 0:5
+        pedestal_raw_data = readtable("GFP_Data\pedestal\input\row" + string(row) + "_mod" + string(mod) + "_allch_pedestals.dat");
         pedestal_data = pedestal_raw_data.Var1;
         data_count = sum(~isnan(pedestal_data))
         
@@ -293,15 +296,60 @@ for row = 0
             hold on
             plot_data = plot([0:31], pedestal_data, 'Marker','o', 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(2, 1), colors(2, 2), colors(2, 3)], 'MarkerEdgeColor', [colors(2, 1), colors(2, 2), colors(2, 3)])
             plot_fdt = plot([0:31], fdt_cal10(:, module_counter), 'Marker','o', 'Color', [colors(3, 1), colors(3, 2), colors(3, 3)], 'MarkerFaceColor', [colors(4, 1), colors(4, 2), colors(4, 3)], 'MarkerEdgeColor', [colors(4, 1), colors(4, 2), colors(4, 3)])
+            diff = abs(pedestal_data - fdt_cal10(:, module_counter));
+            pedestal_diff(:, module_counter) = diff;
             module_counter = module_counter + 1;
             hold off
 
             box on
             grid on
             xlim([0 31])
+            ylim([0 500])
             xlabel("Channel")
             ylabel("Pedestal [ADU]")
-            legend()
+            title("\textbf{Module " + string(mod) + " on row " + string(row) + " pedestal}")
+            legend([plot_data, plot_fdt], "Pedestal obtained from ENC", "Pedestal obtained from FDT", 'Location', 'northeast')
+
+            ax = gca;
+            ax.XAxis.FontSize = fontsize; 
+            ax.YAxis.FontSize = fontsize; 
+            ax.Title.FontSize = fontsize + 2;
+            ax.Legend.FontSize = fontsize;
+            f.Position = [0 0 800 600];
+
+            exportgraphics(gcf,'output/plots/pedestal/comparison/pedestal_row' + string(row) + '_mod' + string(mod) + '_plot.pdf','ContentType','vector');
         end
     end
 end
+
+close all;
+save GFP_Data\pedestal\computed\pedestal_diff.mat pedestal_diff
+
+
+%% Plot pedestal difference histogram
+
+clear; clc;
+load GFP_Data\pedestal\computed\pedestal_diff.mat
+
+bin_w = 4;
+scale = 1.5;
+margin_sx = 3;
+margin_dx = 3;
+fontsize = 11;
+
+diff_mean_module = nan(36, 2);
+
+% analisi per singolo modulo
+for mod = 1:36
+    data = pedestal_diff(:, mod);
+    data_count = sum(~isnan(data));
+
+    if(data_count > 0)
+        dist = fitdist(data, "normal");
+        diff_mean_module(mod, 1) = dist.mu;
+        diff_mean_module(mod, 2) = dist.sigma;
+    end
+end
+
+data_table = array2table(diff_mean_module, 'VariableNames', ["diff_mu", "diff_sigma"])
+writetable(data_table, )
