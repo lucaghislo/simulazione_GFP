@@ -216,40 +216,35 @@ clear; clc;
 
 bin_w = 4;
 scale = 23;
-margin_sx = 3;
-margin_dx = 3;
+margin_sx = 1;
+margin_dx = 1;
 
-for row = 0:5
-    for mod = 0:5
+for row = 0
+    for mod = 0
         pedestal_raw_data = readtable("GFP_Data\pedestal\row" + string(row) + "_mod" + string(mod) + "_allch_pedestals.dat");
         pedestal_data = pedestal_raw_data.Var1;
 
-        if(sum(~isnan(pedestal_data))>0)
-            f = figure('Visible','on');
-            
-            hold on
-            dist = fitdist(pedestal_data, "normal");
-            plot_hist = histogram(pedestal_data, 'BinWidth', 20);
-            pd = fitdist(pedestal_data,'Normal');
-            diff_sx = plot_hist.BinEdges(margin_sx) - plot_hist.BinEdges(1);
-            diff_dx = plot_hist.BinEdges(end) - plot_hist.BinEdges(end - margin_dx);
-            x_values = [(plot_hist.BinEdges(1) - diff_sx):0.001:(plot_hist.BinEdges(end) + diff_dx)];
-            pdf_hist = pdf(pd, x_values) * trapz(plot_hist.Values) * scale;
-            plot(x_values, pdf_hist, 'LineWidth', 1, 'Color', 'blue');
-    
-            box on
-            grid on
-            set(plot_hist(1),'FaceAlpha',.25);
-            set(plot_hist(1),'FaceColor', 'blue');
-            ylim([0 max([max(pdf_hist) max(plot_hist.BinCounts)]) + 1]);
-            title("\textbf{Module " + string(mod) + " on row " + string(row) + " pedestal distribution}")
-    
-            str1 = "$\mu=" + string(dist.mu) + "$ ADU";
-            str2 = "$\sigma=" + string(dist.sigma) + "$  ADU";
-            txtbx_content = {str1, str2};
-            annotation('textbox', [.15 .8 .1 .1], 'String', txtbx_content,'FitBoxToText', 'on', 'BackgroundColor', 'white', FontName='Computer Modern')
-           
-            exportgraphics(gcf,'output/plots/pedestal/histograms/pedestal_row' + string(row) + '_mod' + string(mod) + '_hist.pdf','ContentType','vector');
-        end  
+        f = figure('Visible','on')
+        
+        hold on
+        dist = fitdist(pedestal_data, "normal")
+        plot_hist = histogram(pedestal_data, 'BinWidth', 20);
+        pd = fitdist(pedestal_data,'Normal')
+        diff_sx = plot_hist.BinEdges(margin_sx) - plot_hist.BinEdges(1);
+        diff_dx = plot_hist.BinEdges(end) - plot_hist.BinEdges(end-margin_dx);
+        x_values = [(plot_hist.BinEdges(1)-diff_sx):0.001:(plot_hist.BinEdges(end)+diff_dx)];
+        pdf_hist = pdf(pd, x_values) * trapz(plot_hist.Values) * scale;
+        plot(x_values, pdf_hist, 'LineWidth', 1, 'Color', 'blue')
+
+        box on
+        grid on
+        set(plot_hist(1),'FaceAlpha',.25);
+        set(plot_hist(1),'FaceColor', 'blue');
+        ylim([0 max(plot_hist.BinCounts) + 1])
+        title("\textbf{Module " + string(mod) + " on row " + string(row) + " pedestal distribution}")
+
+        str1 = "$\mu=" + string(dist.mu) + "$ ADU""$\sigma=" + string(dist.sigma) + "$  ADU"
+        annotation('textbox', [.15 .8 .1 .1], 'String',str,'FitBoxToText','on','BackgroundColor','white', FontName='Computer Modern')
+       
     end
 end
