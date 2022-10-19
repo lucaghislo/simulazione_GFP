@@ -93,7 +93,8 @@ end
 
 
 %% Import pedestal measurements and plot comparison
-% Piedistallo calcolato 
+% Piedistallo calcolato per ogni canale ad ogni tempo di picco
+% Misura ripetuta per ogni set di canali
 
 clearvars -except max_ch max_tau; clc;
 ch_values = [0:31];
@@ -103,26 +104,48 @@ for tau = [0:max_tau]
     data = readtable("pedestal_analysis\input\ch0-7\Pedestals_tau" + string(tau) + ".dat");
 
     for channel = ch_values
-        pedestal_allch_alltaus(channel + 1, tau + 1) = mean(data.Value(data.CH_ == channel))
+        pedestal_allch_alltaus(channel + 1, tau + 1) = mean(data.Value(data.CH_ == channel));
     end
 end
 
 pedestal_allch_alltaus_table = array2table(pedestal_allch_alltaus),
-writetable(pedestal_allch_alltaus_table, "");
+writetable(pedestal_allch_alltaus_table, "pedestal_analysis\output\data_pedestal_measurement\pedestal_meas_allpt_allch.dat", "WriteVariableNames", false, "Delimiter", "\t");
 
 
-%%
-pedestal_allch = nan(32, 1);
+%% Plot differenza piedistallo ENC/FDT
 
-for ch = ch_values
-    pedestal_allch(ch+1) = mean(data.Value(data.CH_ == ch));
+clearvars -except max_ch max_tau; clc;
+colors = distinguishable_colors(3, 'w');
+
+pedestal_meas_allpt = readtable("pedestal_analysis\output\data_pedestal_measurement\pedestal_meas_allpt_allch.dat");
+pedestal_meas_allpt = table2array(pedestal_meas_allpt);
+
+for tau = [0:max_tau]
+    pedestal_fdt = readtable("pedestal_analysis\output\data_pedestal_injection\pedestal_injection_tau" + string(tau) + ".dat");
+    pedestal_fdt = table2array(pedestal_fdt);
+    pedestal_meas_pt = pedestal_meas_allpt(:, tau + 1);
+
+    for ch_injected = [0:max_ch]
+        pedestal_fdt_ch_inj = pedestal_fdt(:, ch_injected + 1);
+
+        f = figure("Visible", "off");
+        hold on
+        plot([0:31], pedestal_meas_pt, "LineWidth", 1, "Marker", "o", "Color", [colors(1, 1), colors(1, 2), colors(1, 3)], "MarkerFaceColor", [colors(1, 1), colors(1, 2), colors(1, 3)]);
+        plot([0:31], pedestal_fdt_ch_inj, "LineWidth", 1, "Marker", "o", "Color", [colors(2, 1), colors(2, 2), colors(2, 3)], "MarkerFaceColor", [colors(2, 1), colors(2, 2), colors(2, 3)]);
+        plot([0:31], abs(pedestal_meas_pt - pedestal_fdt_ch_inj), "LineWidth", 1, "LineStyle", "--", "Color", [colors(3, 1), colors(3, 2), colors(3, 3)]);
+        hold off
+
+        box on
+        grid on
+        xlim([0 31]);
+        ylim([0 300])
+        legend("Pedestal evalueted from ENC", "Pedestal evaluated from FDT", "Pedestal difference");
+        title("\textbf{Pedestal when injecting channel " + string(ch_injected) + " at \boldmath$\tau_{" + string(tau) + "}$}")
+
+        set(gca,'FontSize', 12)
+        f.Position = [10 30 1000  650];
+
+        exportgraphics(gcf, "pedestal_analysis\output\plot_pedestal_difference\plot_pedestal_diff_tau" + string(tau) + "_ch" + string(ch_injected) + "_injected.pdf" , 'ContentType','vector');  
+    end
 end
 
-f = figure("Visible", "on");
-hold on
-plot(ch_values, pedestal_allch)
-plot(ch_values(2:32), fdt_pedestal_mean(2:32))
-plot(ch_values(2:32), abs(pedestal_allch(2:32) - fdt_pedestal_mean(2:32)))
-
-disp(mean(abs(pedestal_allch(2:32) - fdt_pedestal_mean(2:32))))
-disp(std(abs(pedestal_allch(2:32) - fdt_pedestal_mean(2:32))))
