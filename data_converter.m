@@ -397,6 +397,8 @@ hold on
 plot_mu = plot([0:31], data_table.diff_mu, 'Marker','o', 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(2, 1), colors(2, 2), colors(2, 3)], 'MarkerEdgeColor', [colors(2, 1), colors(2, 2), colors(2, 3)])
 plot_sigma = plot([0:31], data_table.diff_sigma, 'Marker','o', 'Color', [colors(3, 1), colors(3, 2), colors(3, 3)], 'MarkerFaceColor', [colors(4, 1), colors(4, 2), colors(4, 3)], 'MarkerEdgeColor', [colors(4, 1), colors(4, 2), colors(4, 3)])
 
+writetable(array2table([data_table.diff_mu, data_table.diff_sigma], 'VariableNames', ["diff_mu", "diff_sigma"]), "output\plots\pedestal\GPF_pedestal_difference_mu_sigma.dat", "Delimiter", "\t")
+
 box on
 grid on
 legend([plot_mu, plot_sigma], "Pedestal difference mean, $\mu = " + round(nanmean(data_table.diff_mu), 2) + "$ ADU, $\sigma = " + round(nanvar(data_table.diff_mu), 2) + "$ ADU", "Pedestal difference variance, $\mu = " + round(nanmean(data_table.diff_sigma), 2) + "$ ADU, $\sigma = " + round(nanvar(data_table.diff_sigma), 2) + "$ ADU", "Location", "northeast");
