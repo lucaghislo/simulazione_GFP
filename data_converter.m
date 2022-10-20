@@ -139,8 +139,11 @@ end
 %% Landau eventi (all channels together for all rows and modules): energy deposition in MeV
 clear; clc;
 
-for row = 0:5
-    for mod = 0:5
+landau_fit_infos = nan(36, 5)
+module_counter = 1;
+
+for row = 1
+    for mod = 2
         data = readtable("GFP_Data/events/EDEP/row" + string(row) + "_mod" + string(mod) + "_allch_EDEP.dat", "ReadVariableNames", false);
         data = rows2vars(data);
         data = data(:, (2:size(data, 2)));
@@ -150,7 +153,7 @@ for row = 0:5
         
         f = figure('Visible','off')
         hold on
-        for ch = 1:size(data, 2)-1
+        for ch = 1:size(data, 2) - 1
             chdata = data([1:end-1], ch);
             chdata_stringcell = string(chdata);
             chdata_mat = str2double(chdata_stringcell);
@@ -161,9 +164,12 @@ for row = 0:5
         data_landau = reshape(data_landau', [], 1);
         data_landau = data_landau(~isnan(data_landau));
 
-        if(length(data_landau)>0)
-            histfitlandau(data_landau,0.02,0,6);
+        if(length(data_landau) > 0)
+            [vpp, sig, mv, bound] = histfitlandau(data_landau, 0.02, 0, 6);
+            landau_fit_infos(module_counter, :) = [row, mod, vpp, sig, mv];
         end
+
+        module_counter = module_counter + 1;
         
         box on
         grid on
@@ -183,6 +189,10 @@ for row = 0:5
         exportgraphics(gcf,"output/plots/energy_deposition/EDEP_landau_fit/allchannels_allmodules/landau_EDEP_row" + string(row) + "_mod" + string(mod) + "_allch_EDEP.pdf",'ContentType','vector');
     end
 end
+
+landau_fit_infos_table = array2table(landau_fit_infos, "VariableNames", ["row", "module", "vpp", "sig", "mean"]);
+writetable(landau_fit_infos_table, "output/plots/energy_deposition/EDEP_landau_fit/allchannels_allmodules/landau_fit_infos.dat");
+
 
 
 %% Istogrammi eventi (plot dei singoli canali per ogni modulo di ogni row) in ADU
