@@ -224,6 +224,7 @@ ax.Legend.FontSize = fontsize;
 ax.Title.FontSize = fontsize + 4;
 f.Position = [0 0 900 700];
 
+exportgraphics(gcf,"output/plots/energy_deposition/EDEP_landau_fit/allchannels_allmodules/landau_fit_vpp_sigma_plot.pdf", 'ContentType', 'vector');
 
 
 %% Istogrammi eventi (plot dei singoli canali per ogni modulo di ogni row) in ADU
