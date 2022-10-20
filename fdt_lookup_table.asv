@@ -13,19 +13,14 @@ max_ch = 31; % cambiare in base al numero di canali testati fino ad ora
 ch_step_inizio = [0, 8, 16, 24];
 
 
-%% Build fdt for all channels and PTs
-% Funzione di trasferimento valutata sull'intero range di energie per ogni
-% tempo di picco considerando uno alla volta i canali su cui avviene
-% l'iniezione
+%% Build fdt
 
 clearvars -except max_ch max_tau ch_step_inizio; clc;
-load fdt_lookup_table\dac_values.mat
 
-for tau = [0:max_tau] % max_tau
+for tau = [0] % max_tau   
+    for channel = [0] % max_ch 
 
-    fdt_allch_tau = nan(length(dac_values), 32);
-
-    for channel = [0:max_ch] % max_ch 
+        fdt_allch_tau = 
 
         if sum(any(ch_step_inizio(:) == channel)) > 0
             chinizio = channel;
@@ -46,11 +41,5 @@ for tau = [0:max_tau] % max_tau
         
             dac_counter = dac_counter + 1;
         end
-
-        fdt_allch_tau(:, channel + 1) = fdt_allenergies;
     end
-        
-    fdt_allch_tau_table = array2table(fdt_allch_tau);
-    writetable(fdt_allch_tau_table, "fdt_lookup_table\fdt_allpts\fdt_allch_pt" + string(tau) + ".dat", "Delimiter", "\t");
-    save fdt_lookup_table\dac_values.mat dac_values
 end
