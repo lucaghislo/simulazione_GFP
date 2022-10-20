@@ -136,6 +136,55 @@ for row = 0:5
 end
 
 
+%% Landau eventi (all channels together for all rows and modules): energy deposition in MeV
+clear; clc;
+
+for row = 0:5
+    for mod = 0:5
+        data = readtable("GFP_Data/events/EDEP/row" + string(row) + "_mod" + string(mod) + "_allch_EDEP.dat", "ReadVariableNames", false);
+        data = rows2vars(data);
+        data = data(:, (2:size(data, 2)));
+        data = table2array(data);
+
+        data_landau = nan(5000, 32);
+        
+        f = figure('Visible','off')
+        hold on
+        for ch = 1:size(data, 2)-1
+            chdata = data([1:end-1], ch);
+            chdata_stringcell = string(chdata);
+            chdata_mat = str2double(chdata_stringcell);
+            chdata_mat_padded = padarray(chdata_mat, abs(length(data_landau) - length(chdata_mat)), nan, "post");
+            data_landau(:, ch) = chdata_mat_padded;
+        end
+        hold off
+        data_landau = reshape(data_landau', [], 1);
+        data_landau = data_landau(~isnan(data_landau));
+
+        if(length(data_landau)>0)
+            histfitlandau(data_landau,0.02,0,6);
+        end
+        
+        box on
+        grid on
+        xlim([0, 6])
+        xticks([0:0.5:6])
+        xlabel("\textbf{Incoming Energy [MeV]}")
+        ylabel("\textbf{Counts}")
+        title("\textbf{Incoming energy spectrum for all channels of module " + string(mod) + " on row " + string(row) + "}")
+        
+        ax = gca;
+        fontsize = 12;
+        ax.XAxis.FontSize = fontsize; 
+        ax.YAxis.FontSize = fontsize; 
+        ax.Title.FontSize = fontsize + 4;
+        f.Position = [0 0 1920 1080];
+        
+        exportgraphics(gcf,"output/plots/energy_deposition/EDEP_landau_fit/allchannels_allmodules/landau_EDEP_row" + string(row) + "_mod" + string(mod) + "_allch_EDEP.pdf",'ContentType','vector');
+    end
+end
+
+
 %% Istogrammi eventi (plot dei singoli canali per ogni modulo di ogni row) in ADU
 clear; clc;
 

@@ -1,7 +1,4 @@
 %% This script changes all interpreters from tex to latex. 
-
-clear; clc;
-
 list_factory = fieldnames(get(groot,'factory'));
 index_interpreter = find(contains(list_factory,'Interpreter'));
 for i = 1:length(index_interpreter)
@@ -12,11 +9,12 @@ end
 max_tau = 7;
 max_ch = 31; % cambiare in base al numero di canali testati fino ad ora
 ch_step_inizio = [0, 8, 16, 24];
+ch_step_fine = [7, 15, 23, 31];
 
 
 %% Import FDT data per channel
 
-clearvars -except max_ch max_tau ch_step_inizio; clc;
+clearvars -except max_ch max_tau; clc;
 
 for tau = [0:max_tau]
 
@@ -106,18 +104,12 @@ end
 % Piedistallo calcolato per ogni canale ad ogni tempo di picco
 % Misura ripetuta per ogni set di canali
 
-clearvars -except max_ch max_tau ch_step_inizio; clc;
+clearvars -except max_ch max_tau; clc;
 ch_values = [0:31];
 pedestal_allch_alltaus = nan(32, 8);
 
 for tau = [0:max_tau]
-
-    if sum(any(ch_step_inizio(:) == channel)) > 0
-            chinizio = channel;
-            chfine = chinizio + 7;
-    end
-
-    data = readtable("pedestal_analysis\input\ch" + string(chinizio) + "-" + string(chfine) + "\Pedestals_tau" + string(tau) + ".dat");
+    data = readtable("pedestal_analysis\input\ch0-7\Pedestals_tau" + string(tau) + ".dat");
 
     for channel = ch_values
         pedestal_allch_alltaus(channel + 1, tau + 1) = mean(data.Value(data.CH_ == channel));
