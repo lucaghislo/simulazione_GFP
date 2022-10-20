@@ -211,8 +211,8 @@ hold off
 
 box on
 grid on
-xlabel("Module")
-ylabel("[keV]")
+xlabel("\textbf{Module}")
+ylabel("\textbf{[keV]}")
 legend("Landau distribution MPV [keV]", "Landau distribution $\sigma$ [keV]")
 title("\textbf{Landau distribution fit results over all GFP modules}")
 

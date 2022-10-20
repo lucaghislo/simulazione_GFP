@@ -82,8 +82,8 @@ for tau = [0:max_tau]
         
         box on
         grid on
-        xlabel('Incoming energy [MeV]');
-        ylabel('Channel Output [ADU]');
+        xlabel('\textbf{Incoming energy [MeV]}');
+        ylabel('\textbf{Channel Output [ADU]}');
         xlim([0, 53824]);
         ylim([0, 2000])
         xticks([0:10000:50000])
@@ -149,6 +149,8 @@ for tau = [0:max_tau]
         grid on
         xlim([0 31]);
         ylim([0 300])
+        xlabel("\textbf{Channel}")
+        xlabel("\textbf{Channel}")
         legend("Pedestal evalueted from ENC", "Pedestal evaluated from FDT", "Pedestal difference");
         title("\textbf{Pedestal when injecting channel " + string(ch_injected) + " at \boldmath$\tau_{" + string(tau) + "}$}")
 
