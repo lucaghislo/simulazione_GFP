@@ -139,11 +139,11 @@ end
 %% Landau eventi (all channels together for all rows and modules): energy deposition in MeV
 clear; clc;
 
-landau_fit_infos = nan(36, 5)
+landau_fit_infos = nan(36, 5);
 module_counter = 1;
 
-for row = 1
-    for mod = 2
+for row = 0:5
+    for mod = 0:5
         data = readtable("GFP_Data/events/EDEP/row" + string(row) + "_mod" + string(mod) + "_allch_EDEP.dat", "ReadVariableNames", false);
         data = rows2vars(data);
         data = data(:, (2:size(data, 2)));
@@ -166,7 +166,9 @@ for row = 1
 
         if(length(data_landau) > 0)
             [vpp, sig, mv, bound] = histfitlandau(data_landau, 0.02, 0, 6);
-            landau_fit_infos(module_counter, :) = [row, mod, vpp, sig, mv];
+            landau_fit_infos(module_counter, :) = [row, mod, round(vpp*1000, 2), round(sig*1000, 2), round(mv*1000, 2)];
+        else
+            landau_fit_infos(module_counter, :) = [row, mod, nan, nan, nan];
         end
 
         module_counter = module_counter + 1;
@@ -191,7 +193,7 @@ for row = 1
 end
 
 landau_fit_infos_table = array2table(landau_fit_infos, "VariableNames", ["row", "module", "vpp", "sig", "mean"]);
-writetable(landau_fit_infos_table, "output/plots/energy_deposition/EDEP_landau_fit/allchannels_allmodules/landau_fit_infos.dat");
+writetable(landau_fit_infos_table, "output/plots/energy_deposition/EDEP_landau_fit/allchannels_allmodules/landau_fit_infos.dat", 'Delimiter', "\t");
 
 
 
