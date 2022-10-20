@@ -62,7 +62,7 @@ save pedestal_analysis\output\dac_values.mat dac_values;
 
 %% Plot FDT per channel
 
-clearvars -except max_ch max_tau; clc;
+clearvars -except max_ch max_tau ch_step_inizio; clc;
 load pedestal_analysis\output\dac_values.mat;
 colors = distinguishable_colors(32, 'w');
 
@@ -111,13 +111,7 @@ ch_values = [0:31];
 pedestal_allch_alltaus = nan(32, 8);
 
 for tau = [0:max_tau]
-
-    if sum(any(ch_step_inizio(:) == channel)) > 0
-            chinizio = channel;
-            chfine = chinizio + 7;
-    end
-
-    data = readtable("pedestal_analysis\input\ch" + string(chinizio) + "-" + string(chfine) + "\Pedestals_tau" + string(tau) + ".dat");
+    data = readtable("pedestal_analysis\input\ch0-7\Pedestals_tau" + string(tau) + ".dat");
 
     for channel = ch_values
         pedestal_allch_alltaus(channel + 1, tau + 1) = mean(data.Value(data.CH_ == channel));

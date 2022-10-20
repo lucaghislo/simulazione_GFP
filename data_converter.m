@@ -196,6 +196,35 @@ landau_fit_infos_table = array2table(landau_fit_infos, "VariableNames", ["row", 
 writetable(landau_fit_infos_table, "output/plots/energy_deposition/EDEP_landau_fit/allchannels_allmodules/landau_fit_infos.dat", 'Delimiter', "\t");
 
 
+%% Plot landau fit infos for all modules
+
+clear; clc;
+
+data = readtable("output/plots/energy_deposition/EDEP_landau_fit/allchannels_allmodules/landau_fit_infos.dat");
+colors = distinguishable_colors(2, 'w');
+
+f = figure("Visible", "on")
+hold on
+plot([0:35], data.vpp, 'LineWidth', 1, "Marker", "o", "Color", [colors(1, 1), colors(1, 2), colors(1, 3)], "MarkerFaceColor", [colors(1, 1), colors(1, 2), colors(1, 3)]);
+plot([0:35], data.sig, 'LineWidth', 1, "Marker", "o", "Color", [colors(2, 1), colors(2, 2), colors(2, 3)], "MarkerFaceColor", [colors(2, 1), colors(2, 2), colors(2, 3)]);
+hold off
+
+box on
+grid on
+xlabel("Module")
+ylabel("[keV]")
+legend("Landau distribution MPV [keV]", "Landau distribution $\sigma$ [keV]")
+title("\textbf{Landau distribution fit results over all GFP modules}")
+
+ax = gca;
+fontsize = 12;
+ax.XAxis.FontSize = fontsize; 
+ax.YAxis.FontSize = fontsize; 
+ax.Legend.FontSize = fontsize; 
+ax.Title.FontSize = fontsize + 4;
+f.Position = [0 0 900 700];
+
+
 
 %% Istogrammi eventi (plot dei singoli canali per ogni modulo di ogni row) in ADU
 clear; clc;
