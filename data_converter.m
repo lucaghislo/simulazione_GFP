@@ -473,7 +473,7 @@ end
 clear; clc;
 load GFP_Data\pedestal\computed\fdt_cal10_pedestal.mat;
 module_counter = 1;
-colors = distinguishable_colors(4, 'w');
+colors = distinguishable_colors(6, 'w');
 fontsize = 11;
 
 pedestal_diff = nan(32, 36);
@@ -484,14 +484,14 @@ for row = 0:5
         pedestal_data = pedestal_raw_data.Var1;
         data_count = sum(~isnan(pedestal_data))
         
-        if(data_count > 0)
+        if(data_count > 0 & sum(~isnan(fdt_cal10(:, module_counter))) > 0)
             f = figure('Visible','off');
             hold on
             plot_data = plot([0:31], pedestal_data, 'Marker','o', 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(2, 1), colors(2, 2), colors(2, 3)], 'MarkerEdgeColor', [colors(2, 1), colors(2, 2), colors(2, 3)])
             plot_fdt = plot([0:31], fdt_cal10(:, module_counter), 'Marker','o', 'Color', [colors(3, 1), colors(3, 2), colors(3, 3)], 'MarkerFaceColor', [colors(4, 1), colors(4, 2), colors(4, 3)], 'MarkerEdgeColor', [colors(4, 1), colors(4, 2), colors(4, 3)])
             diff = abs(pedestal_data - fdt_cal10(:, module_counter));
+            plot_diff = plot([0:31], diff, 'Marker','o', 'Color', [colors(5, 1), colors(5, 2), colors(5, 3)], 'MarkerFaceColor', [colors(6, 1), colors(6, 2), colors(6, 3)], 'MarkerEdgeColor', [colors(6, 1), colors(6, 2), colors(6, 3)]);
             pedestal_diff(:, module_counter) = diff;
-            module_counter = module_counter + 1;
             hold off
 
             box on
@@ -501,7 +501,10 @@ for row = 0:5
             xlabel("\textbf{Channel}")
             ylabel("\textbf{Pedestal [ADU]}")
             title("\textbf{Module " + string(mod) + " on row " + string(row) + " pedestal}")
-            legend([plot_data, plot_fdt], "Pedestal obtained from ENC", "Pedestal obtained from FDT", 'Location', 'northeast')
+            legend([plot_data, plot_fdt, plot_diff], "Pedestal obtained from ENC, $\mu = " + string(round(nanmean(pedestal_data), 2)) + "$ ADU", ...
+                "Pedestal obtained from FDT, $\mu = " + string(round(nanmean(fdt_cal10(:, module_counter)), 2)) + "$ ADU", ...
+                "Pedestal difference, $\mu = " + string(round(nanmean(diff), 2)) + "$ ADU", ...
+                'Location', 'northeast')
 
             ax = gca;
             ax.XAxis.FontSize = fontsize; 
@@ -512,11 +515,15 @@ for row = 0:5
 
             exportgraphics(gcf,'output/plots/pedestal/comparison/pedestal_row' + string(row) + '_mod' + string(mod) + '_plot.pdf','ContentType','vector');
         end
+
+        module_counter = module_counter + 1;
     end
 end
 
 close all;
 save GFP_Data\pedestal\computed\pedestal_diff.mat pedestal_diff
+pedestal_diff_table = array2table(pedestal_diff);
+writetable(pedestal_diff_table, "output/plots/pedestal/comparison/pedestal_delta_allmods_allchs.dat", 'Delimiter', "\t", "WriteRowNames", false);
 
 
 %% Pedestal difference: analisi per singolo modulo

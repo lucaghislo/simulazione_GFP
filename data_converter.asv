@@ -16,11 +16,11 @@ module_counter = 1;
 
 for row = 0:5
     for mod = 0:5
-        f = figure("Visible", "on");
+        f = figure("Visible", "off");
         hold on
         for ch = 0:31
             if isfile("GFP_Data\transfer_functions\Row"+ string(row) +"Module" + string(mod) + "Ch" + string(ch) + ".txt")
-                fdt_ch_data = readtable("GFP_Data\transfer_functions\Row"+ string(row) +"Module" + string(mod) + "Ch" + string(ch) + ".txt")
+                fdt_ch_data = readtable("GFP_Data\transfer_functions\Row"+ string(row) +"Module" + string(mod) + "Ch" + string(ch) + ".txt");
                 plot(fdt_ch_data.Cal_V, fdt_ch_data.ADC);
                 fdt_cal10(ch+1, module_counter) = fdt_ch_data.ADC(1);
             end
@@ -31,8 +31,8 @@ for row = 0:5
         if isfile("GFP_Data\transfer_functions\Row"+ string(row) +"Module" + string(mod) + "Ch" + string(ch) + ".txt")
             box on
             grid on
-            xlabel('Incoming energy [MeV]');
-            ylabel('Channel Output [ADU]');
+            xlabel('\textbf{Incoming energy [MeV]}');
+            ylabel('\textbf{Channel Output [ADU]}');
             xlim([0, 53824]);
             ylim([0 2000])
             xticks([0:10000:50000])
@@ -68,7 +68,7 @@ for row = 0:5
         data = data(:, (2:size(data, 2)));
         data = table2array(data);
         
-        f = figure('Visible','off')
+        f = figure('Visible','off');
         hold on
         for ch = 1:size(data, 2)-1
             chdata = data([1:end-1], ch);
@@ -109,7 +109,7 @@ for row = 0:5
         data = data(:, (2:size(data, 2)));
         data = table2array(data);
         
-        f = figure('Visible','off')
+        f = figure('Visible','off');
         hold on
         for ch = 1:size(data, 2)-1
             chdata = data([1:end-1], ch);
@@ -169,7 +169,7 @@ for row = 0:5
         data_landau = data_landau(~isnan(data_landau));
 
         if(length(data_landau) > 0)
-            [vpp, sig, mv, bound] = histfitlandau(data_landau, 3, 0, 2047);
+            [vpp, sig, mv, bound] = histfitlandau(data_landau, 3, 0, 2047, 1);
             landau_fit_infos(module_counter, :) = [row, mod, round(vpp, 2), round(sig, 2), round(mv, 2)];
         else
             landau_fit_infos(module_counter, :) = [row, mod, nan, nan, nan];
@@ -206,7 +206,7 @@ clear; clc;
 data = readtable("output/plots/energy_deposition/ADU_landau_fit/allchannels_allmodules/landau_fit_infos.dat");
 colors = distinguishable_colors(2, 'w');
 
-f = figure("Visible", "on")
+f = figure("Visible", "on");
 hold on
 plot([0:35], data.vpp, 'LineWidth', 1, "Marker", "o", "Color", [colors(1, 1), colors(1, 2), colors(1, 3)], "MarkerFaceColor", [colors(1, 1), colors(1, 2), colors(1, 3)]);
 plot([0:35], data.sig, 'LineWidth', 1, "Marker", "o", "Color", [colors(2, 1), colors(2, 2), colors(2, 3)], "MarkerFaceColor", [colors(2, 1), colors(2, 2), colors(2, 3)]);
@@ -216,14 +216,12 @@ data_array = table2array(data);
 vpp = data_array(:, 3);
 sig = data_array(:, 4);
 
-
-
 box on
 grid on
 xlabel("\textbf{Module}")
 ylabel("\textbf{[ADU]}")
 ylim([0 1000])
-legend("Landau distribution MPV, $\mu = " + string(round(nanmean(vpp), 2)) + "$ ADU, $\sigma = " + string(round(nanmean(sig)) + "$ ADU", "Landau distribution $\sigma$ [ADU]")
+legend("Landau distribution MPV, $\mu = " + string(round(nanmean(vpp), 2)) + "$ ADU, $\sigma = " + string(round(nanstd(vpp), 2)) + "$ ADU", "Landau distribution MPV standard deviation, $\mu = " + string(round(nanmean(sig), 2)) + "$ ADU, $\sigma = " + string(round(nanstd(sig), 2)) + "$ ADU")
 title("\textbf{Landau distribution fit results over all GFP modules}")
 
 ax = gca;
@@ -267,7 +265,7 @@ for row = 0:5
         data_landau = data_landau(~isnan(data_landau));
 
         if(length(data_landau) > 0)
-            [vpp, sig, mv, bound] = histfitlandau(data_landau, 0.02, 0, 6);
+            [vpp, sig, mv, bound] = histfitlandau(data_landau, 0.02, 0, 6, 1000);
             landau_fit_infos(module_counter, :) = [row, mod, round(vpp*1000, 2), round(sig*1000, 2), round(mv*1000, 2)];
         else
             landau_fit_infos(module_counter, :) = [row, mod, nan, nan, nan];
@@ -305,7 +303,7 @@ clear; clc;
 data = readtable("output/plots/energy_deposition/EDEP_landau_fit/allchannels_allmodules/landau_fit_infos.dat");
 colors = distinguishable_colors(2, 'w');
 
-f = figure("Visible", "on")
+f = figure("Visible", "off")
 hold on
 plot([0:35], data.vpp, 'LineWidth', 1, "Marker", "o", "Color", [colors(1, 1), colors(1, 2), colors(1, 3)], "MarkerFaceColor", [colors(1, 1), colors(1, 2), colors(1, 3)]);
 plot([0:35], data.sig, 'LineWidth', 1, "Marker", "o", "Color", [colors(2, 1), colors(2, 2), colors(2, 3)], "MarkerFaceColor", [colors(2, 1), colors(2, 2), colors(2, 3)]);
@@ -344,7 +342,7 @@ for row = 0:5
         
         mkdir("output\plots\energy_deposition\ADU\row" + string(row) + "_mod" + string(mod) + "_single_channels");
         for ch = 0:size(data, 2)-1
-            f = figure('Visible','off')
+            f = figure('Visible','off');
 
             chdata = data([1:end-2], ch+1);
             chdata = cell2mat(chdata);
@@ -425,12 +423,12 @@ fontsize = 11;
 
 for row = 0:5
     for mod = 0:5
-        pedestal_raw_data = readtable("GFP_Data\pedestal\row" + string(row) + "_mod" + string(mod) + "_allch_pedestals.dat");
+        pedestal_raw_data = readtable("GFP_Data\pedestal\input\row" + string(row) + "_mod" + string(mod) + "_allch_pedestals.dat");
         pedestal_data = pedestal_raw_data.Var1;
-        data_count = sum(~isnan(pedestal_data))
+        data_count = sum(~isnan(pedestal_data));
 
         if(data_count > 0)
-            f = figure('Visible','on');
+            f = figure('Visible','off');
             hold on
             dist = fitdist(pedestal_data, "normal");
             plot_hist = histogram(pedestal_data, 'BinWidth', 20);
@@ -449,8 +447,8 @@ for row = 0:5
             xlim([0 500])
             yticks([0:1:16])
             title("\textbf{Module " + string(mod) + " on row " + string(row) + " pedestal distribution}")
-            xlabel("Pedestal [ADU]");
-            ylabel("Counts")
+            xlabel("\textbf{Pedestal [ADU]}");
+            ylabel("\textbf{Counts}")
     
             str1 = "Channels: " + string(data_count);
             str2 = "$\mu=" + string(round(dist.mu, 2)) + "$ ADU";
@@ -475,7 +473,7 @@ end
 clear; clc;
 load GFP_Data\pedestal\computed\fdt_cal10_pedestal.mat;
 module_counter = 1;
-colors = distinguishable_colors(4, 'w');
+colors = distinguishable_colors(6, 'w');
 fontsize = 11;
 
 pedestal_diff = nan(32, 36);
@@ -486,24 +484,27 @@ for row = 0:5
         pedestal_data = pedestal_raw_data.Var1;
         data_count = sum(~isnan(pedestal_data))
         
-        if(data_count > 0)
-            f = figure('Visible','on');
+        if(data_count > 0 & sum(~isnan(fdt_cal10(:, module_counter))) > 0)
+            f = figure('Visible','off');
             hold on
             plot_data = plot([0:31], pedestal_data, 'Marker','o', 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(2, 1), colors(2, 2), colors(2, 3)], 'MarkerEdgeColor', [colors(2, 1), colors(2, 2), colors(2, 3)])
             plot_fdt = plot([0:31], fdt_cal10(:, module_counter), 'Marker','o', 'Color', [colors(3, 1), colors(3, 2), colors(3, 3)], 'MarkerFaceColor', [colors(4, 1), colors(4, 2), colors(4, 3)], 'MarkerEdgeColor', [colors(4, 1), colors(4, 2), colors(4, 3)])
             diff = abs(pedestal_data - fdt_cal10(:, module_counter));
+            plot_diff = plot([0:31], diff, 'Marker','o', 'Color', [colors(5, 1), colors(5, 2), colors(5, 3)], 'MarkerFaceColor', [colors(6, 1), colors(6, 2), colors(6, 3)], 'MarkerEdgeColor', [colors(6, 1), colors(6, 2), colors(6, 3)]);
             pedestal_diff(:, module_counter) = diff;
-            module_counter = module_counter + 1;
             hold off
 
             box on
             grid on
             xlim([0 31])
             ylim([0 500])
-            xlabel("Channel")
-            ylabel("Pedestal [ADU]")
+            xlabel("\textbf{Channel}")
+            ylabel("\textbf{Pedestal [ADU]}")
             title("\textbf{Module " + string(mod) + " on row " + string(row) + " pedestal}")
-            legend([plot_data, plot_fdt], "Pedestal obtained from ENC", "Pedestal obtained from FDT", 'Location', 'northeast')
+            legend([plot_data, plot_fdt, plot_diff], "Pedestal obtained from ENC, $\mu = " + string(round(nanmean(pedestal_data), 2)) + "$ ADU", ...
+                "Pedestal obtained from FDT, $\mu = " + string(round(nanmean(fdt_cal10(:, module_counter)), 2)) + "$ ADU", ...
+                "Pedestal difference, $\mu = " + string(round(nanmean(diff), 2)) + "$ ADU", ...
+                'Location', 'northeast')
 
             ax = gca;
             ax.XAxis.FontSize = fontsize; 
@@ -514,11 +515,15 @@ for row = 0:5
 
             exportgraphics(gcf,'output/plots/pedestal/comparison/pedestal_row' + string(row) + '_mod' + string(mod) + '_plot.pdf','ContentType','vector');
         end
+
+        module_counter = module_counter + 1;
     end
 end
 
 close all;
 save GFP_Data\pedestal\computed\pedestal_diff.mat pedestal_diff
+pedestal_diff_table = array2table(pedestal_diff);
+writetable(pedestal_diff_table, "output/plots/pedestal/comparison/pedestal_")
 
 
 %% Pedestal difference: analisi per singolo modulo
@@ -543,7 +548,7 @@ end
 data_table = array2table(diff_mean_module, 'VariableNames', ["diff_mu", "diff_sigma"]);
 writetable(data_table, "output/pedestal_diff_module.dat", "Delimiter", "\t");
 
-f = figure('Visible','on');
+f = figure('Visible','off');
 hold on
 plot_mu = plot(data_table.diff_mu, 'Marker','o', 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(2, 1), colors(2, 2), colors(2, 3)], 'MarkerEdgeColor', [colors(2, 1), colors(2, 2), colors(2, 3)])
 plot_sigma = plot(data_table.diff_sigma, 'Marker','o', 'Color', [colors(3, 1), colors(3, 2), colors(3, 3)], 'MarkerFaceColor', [colors(4, 1), colors(4, 2), colors(4, 3)], 'MarkerEdgeColor', [colors(4, 1), colors(4, 2), colors(4, 3)])
@@ -587,7 +592,7 @@ end
 data_table = array2table(diff_mean_channel, 'VariableNames', ["diff_mu", "diff_sigma"]);
 writetable(data_table, "output/pedestal_diff_channel.dat", "Delimiter", "\t");
 
-f = figure('Visible','on');
+f = figure('Visible','off');
 hold on
 plot_mu = plot([0:31], data_table.diff_mu, 'Marker','o', 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(2, 1), colors(2, 2), colors(2, 3)], 'MarkerEdgeColor', [colors(2, 1), colors(2, 2), colors(2, 3)])
 plot_sigma = plot([0:31], data_table.diff_sigma, 'Marker','o', 'Color', [colors(3, 1), colors(3, 2), colors(3, 3)], 'MarkerFaceColor', [colors(4, 1), colors(4, 2), colors(4, 3)], 'MarkerEdgeColor', [colors(4, 1), colors(4, 2), colors(4, 3)])
