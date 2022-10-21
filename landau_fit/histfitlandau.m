@@ -69,7 +69,7 @@ errSig=mean(abs(bound(:,3)-fitres.sigma));
 %text(mpv,0,[' \leftarrow' num2str(mpv)],'rotation',-90,'FontSize',12');
 testo={['MPV: ', num2str(mpv), '\newline', num2str(errMPV), ];['$\sigma$ = ', num2str(fitres.sigma),'\pm', num2str(errSig),];['Entries: ' num2str(length(val))]};
 testo={['MPV: ', num2str(round(mpv*mult, 2)), ' keV'];['$\sigma$ = ', num2str(round(fitres.sigma*mult, 2)), ' keV'];['Entries: ' num2str(length(val))]};
-annotation('textbox',[.782 .805 .1 .1],'FitHeightToText','on','String',testo,'Fontsize',18, 'BackgroundColor', 'white');
+annotation('textbox',[.67 .805 .1 .1],'FitHeightToText','on','String',testo,'Fontsize',18, 'BackgroundColor', 'white');
 if nargout
     vpp=mpv;
     sig=fitres.sigma;
