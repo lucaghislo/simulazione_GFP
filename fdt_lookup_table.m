@@ -105,8 +105,7 @@ step_DACinj = 1;
 range = [min_DACinj:step_DACinj:max_DACinj]';
 ch_values = [0:31];
 
-for pt = 4
-    
+for pt = [0:7]
     spline_allchs_pt = nan(length(range), 32);
 
     for ch = [0:31]
@@ -124,6 +123,9 @@ for pt = 4
             end
         end
     end
+
+    spline_allchs_pt_table = array2table(spline_allchs_pt);
+    writetable(spline_allchs_pt_table, "fdt_lookup_table\output\lookup_tables\lookup_table_allch_pt" + string(pt) + ".dat", "Delimiter", "\t");
 end
 
 
