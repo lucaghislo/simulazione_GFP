@@ -127,7 +127,7 @@ for pt = 4
 end
 
 
-%% Convert muon data
+%% Convert muon data (ADU -> keV)
 
 clearvars -except spline_allchs_pt range;
 
