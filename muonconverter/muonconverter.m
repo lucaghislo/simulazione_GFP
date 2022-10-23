@@ -26,7 +26,11 @@ function [muon_allch_out] = muonconverter(data_in_path, pt, ch_start, ch_finish,
         error("Channel range error! Channels must be between 0 and 31.")
     end
 
-    range = table2array(readtable("range.dat"));
+    min_DACinj = 0;
+    max_DACinj = 64000;
+    step_DACinj = 1;
+    range = [min_DACinj:step_DACinj:max_DACinj]';
+
     muon_data = readtable(data_in_path);
     spline_allchs_pt = readtable("lookup_tables\lookup_table_allch_pt" + string(pt) + ".dat");
     spline_allchs_pt = table2array(spline_allchs_pt);
