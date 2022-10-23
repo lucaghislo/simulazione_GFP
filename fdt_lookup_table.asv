@@ -103,7 +103,6 @@ min_DACinj = 0;
 max_DACinj = 64000;
 step_DACinj = 1;
 range = [min_DACinj:step_DACinj:max_DACinj]';
-save fdt_lookup_table\range.mat range;
 ch_values = [0:31];
 
 for pt = [0:7]
@@ -130,14 +129,12 @@ for pt = [0:7]
 end
 
 
-%% Convert muon data (ADU -> keV) [all events, no landau fit]
+%% Convert muon data (ADU -> keV)
 
 clearvars -except spline_allchs_pt range;
 
-load fdt_lookup_table\range.mat;
 muon_data = readtable("fdt_lookup_table\muon_data\self_trigger_1hr_THR_130_pt4_34.txt");
 spline_allchs_pt = readtable("fdt_lookup_table\output\lookup_tables\lookup_table_allch_pt4.dat");
-spline_allchs_pt = table2array(spline_allchs_pt);
 
 muon_allch = nan(9528, 32);
 
@@ -164,39 +161,3 @@ set(gca,'FontSize', 12)
 f.Position = [10 30 1000  650];
 
 exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4.pdf",'ContentType','vector');
-
-
-%% Convert muon data (ADU -> keV) [landau fit]
-
-clearvars -except spline_allchs_pt range;
-
-load fdt_lookup_table\range.mat;
-muon_data = readtable("fdt_lookup_table\muon_data\self_trigger_1hr_THR_130_pt4_34.txt");
-spline_allchs_pt = readtable("fdt_lookup_table\output\lookup_tables\lookup_table_allch_pt4.dat");
-spline_allchs_pt = table2array(spline_allchs_pt);
-
-muon_allch = nan(9528, 32);
-
-for ch = [0:31]
-    muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch);
-    events_kev = interp1(spline_allchs_pt(:, ch + 1), range, muon_data_ch_ADU, 'cubic') * 0.841;
-    muon_allch(:, ch+1) = events_kev;
-end
-
-muon_allch = reshape(muon_allch', [], 1);
-
-f = figure("Visible", "on");
-%histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1);
-histfitlandau(muon_allch(muon_allch>100), 15, 0, 6000, 1)
-
-box on
-grid on
-%set(gca, 'YScale', 'log')
-xlim([0, 6000])
-ylabel("\textbf{Counts}")
-xlabel("\textbf{Incoming energy [keV]}")
-
-set(gca,'FontSize', 12)
-f.Position = [10 30 1000  650];
-
-exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4_landau.pdf",'ContentType','vector');
