@@ -104,6 +104,7 @@ max_DACinj = 64000;
 step_DACinj = 1;
 range = [min_DACinj:step_DACinj:max_DACinj]';
 save fdt_lookup_table\range.mat range;
+writetable(array2table(range), "fdt_lookup_table\range.dat", "Delimiter", "\t");
 ch_values = [0:31];
 
 for pt = [0:7]
@@ -197,3 +198,10 @@ set(gca,'FontSize', 12)
 f.Position = [10 30 1000  650];
 
 exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4_landau.pdf",'ContentType','vector');
+
+
+%% TEST muonconverter function
+
+clear; clc;
+fun_out = muonconverter("C:\Users\ghisl\Documents\GitHub\simulazione_GFP\fdt_lookup_table\muon_data\self_trigger_1hr_THR_130_pt4_34.txt", ...
+    4, 0, 7, "C:\Users\ghisl\Downloads\output.pdf", true, false, 15);
