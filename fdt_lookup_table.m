@@ -151,7 +151,6 @@ muon_allch = reshape(muon_allch', [], 1);
 
 f = figure("Visible", "on");
 histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1);
-%histfitlandau(muon_allch(muon_allch>100), 15, 0, 6000, 1)
 
 box on
 grid on
@@ -186,12 +185,10 @@ end
 muon_allch = reshape(muon_allch', [], 1);
 
 f = figure("Visible", "on");
-%histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1);
 histfitlandau(muon_allch(muon_allch>100), 15, 0, 6000, 1)
 
 box on
 grid on
-%set(gca, 'YScale', 'log')
 xlim([0, 6000])
 ylabel("\textbf{Counts}")
 xlabel("\textbf{Incoming energy [keV]}")
