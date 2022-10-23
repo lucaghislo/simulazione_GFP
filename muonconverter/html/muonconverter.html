@@ -1,0 +1,216 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>muonconverter</title><meta name="generator" content="MATLAB 9.11"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2022-10-23"><meta name="DC.source" content="muonconverter.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; }
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+span.typesection { color:#A0522D }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">% muonconverter function</span>
+
+<span class="comment">% Converts and plots GAPS channel output data from ADU to keV.</span>
+
+<span class="comment">% INPUT</span>
+<span class="comment">%   data_in_path: muon data file in path (data in ADU)</span>
+<span class="comment">%             pt: measurement peaking time</span>
+<span class="comment">%       ch_start: first channel to analyze</span>
+<span class="comment">%      ch_finish: last channel to analyze</span>
+<span class="comment">%  plot_out_path: plot file out file</span>
+<span class="comment">%    landau_flag: (true/false) plot with or without landau fit</span>
+<span class="comment">%         fig_on: (true/false) show or hide plot figure</span>
+<span class="comment">%      bin_width: histogram bin width</span>
+
+<span class="comment">% OUTPUT</span>
+<span class="comment">% muon_allch_out: muon data output after conversion (in keV)</span>
+
+<span class="keyword">function</span> [muon_allch_out] = muonconverter(data_in_path, pt, ch_start, ch_finish, plot_out_path, landau_flag, fig_on, bin_width)
+
+    <span class="keyword">if</span> ch_start&gt;ch_finish
+        error(<span class="string">"Channel range error! Starting channel must be greater than finishin channel."</span>)
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> ch_start&lt;0 || ch_finish&gt;31
+        error(<span class="string">"Channel range error! Channels must be between 0 and 31."</span>)
+    <span class="keyword">end</span>
+
+    range = table2array(readtable(<span class="string">"range.dat"</span>));
+    muon_data = readtable(data_in_path);
+    spline_allchs_pt = readtable(<span class="string">"lookup_tables\lookup_table_allch_pt"</span> + string(pt) + <span class="string">".dat"</span>);
+    spline_allchs_pt = table2array(spline_allchs_pt);
+
+    muon_allch = nan(9528, 32);
+
+    <span class="keyword">for</span> ch = [ch_start:ch_finish]
+        muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch);
+        events_kev = interp1(spline_allchs_pt(:, ch + 1), range, muon_data_ch_ADU, <span class="string">'cubic'</span>) * 0.841;
+        muon_allch(:, ch+1) = events_kev;
+    <span class="keyword">end</span>
+
+    muon_allch = reshape(muon_allch', [], 1);
+
+    <span class="keyword">if</span> fig_on
+        fig_on_flag = <span class="string">"on"</span>;
+    <span class="keyword">else</span>
+        fig_on_flag = <span class="string">"off"</span>;
+    <span class="keyword">end</span>
+
+    f = figure(<span class="string">"Visible"</span>, fig_on_flag);
+
+    <span class="keyword">if</span> landau_flag
+        histfitlandau(muon_allch(muon_allch&gt;100), bin_width, 0, 6000, 1); <span class="comment">% bin_width = 15</span>
+    <span class="keyword">else</span>
+        histogram(muon_allch, <span class="string">"DisplayStyle"</span>, <span class="string">"stairs"</span>, <span class="string">'BinWidth'</span>, bin_width, <span class="string">'LineWidth'</span>, 1); <span class="comment">% bin_width = 20</span>
+        set(gca, <span class="string">'YScale'</span>, <span class="string">'log'</span>)
+    <span class="keyword">end</span>
+
+    muon_allch_out = muon_allch(~isnan(muon_allch));
+
+    box <span class="string">on</span>
+    grid <span class="string">on</span>
+    xlim([0, 6000])
+    ylabel(<span class="string">"\textbf{Counts}"</span>)
+    xlabel(<span class="string">"\textbf{Incoming energy [keV]}"</span>)
+    set(gca,<span class="string">'FontSize'</span>, 12)
+    f.Position = [10 30 1000  650];
+
+    exportgraphics(gcf, plot_out_path, <span class="string">'ContentType'</span>, <span class="string">'vector'</span>);
+<span class="keyword">end</span>
+</pre><pre class="codeoutput error">Not enough input arguments.
+
+Error in muonconverter (line 20)
+    if ch_start&gt;ch_finish
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2021b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+% muonconverter function
+
+% Converts and plots GAPS channel output data from ADU to keV.
+
+% INPUT
+%   data_in_path: muon data file in path (data in ADU)
+%             pt: measurement peaking time
+%       ch_start: first channel to analyze
+%      ch_finish: last channel to analyze
+%  plot_out_path: plot file out file
+%    landau_flag: (true/false) plot with or without landau fit
+%         fig_on: (true/false) show or hide plot figure
+%      bin_width: histogram bin width
+
+% OUTPUT
+% muon_allch_out: muon data output after conversion (in keV)
+
+function [muon_allch_out] = muonconverter(data_in_path, pt, ch_start, ch_finish, plot_out_path, landau_flag, fig_on, bin_width)
+
+    if ch_start>ch_finish
+        error("Channel range error! Starting channel must be greater than finishin channel.")
+    end
+    
+    if ch_start<0 || ch_finish>31
+        error("Channel range error! Channels must be between 0 and 31.")
+    end
+
+    range = table2array(readtable("range.dat"));
+    muon_data = readtable(data_in_path);
+    spline_allchs_pt = readtable("lookup_tables\lookup_table_allch_pt" + string(pt) + ".dat");
+    spline_allchs_pt = table2array(spline_allchs_pt);
+    
+    muon_allch = nan(9528, 32);
+    
+    for ch = [ch_start:ch_finish]
+        muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch);
+        events_kev = interp1(spline_allchs_pt(:, ch + 1), range, muon_data_ch_ADU, 'cubic') * 0.841;
+        muon_allch(:, ch+1) = events_kev;
+    end
+    
+    muon_allch = reshape(muon_allch', [], 1);
+    
+    if fig_on
+        fig_on_flag = "on";
+    else
+        fig_on_flag = "off";
+    end
+
+    f = figure("Visible", fig_on_flag);
+    
+    if landau_flag
+        histfitlandau(muon_allch(muon_allch>100), bin_width, 0, 6000, 1); % bin_width = 15
+    else
+        histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', bin_width, 'LineWidth', 1); % bin_width = 20
+        set(gca, 'YScale', 'log')
+    end
+
+    muon_allch_out = muon_allch(~isnan(muon_allch));
+    
+    box on
+    grid on
+    xlim([0, 6000])
+    ylabel("\textbf{Counts}")
+    xlabel("\textbf{Incoming energy [keV]}")
+    set(gca,'FontSize', 12)
+    f.Position = [10 30 1000  650];
+    
+    exportgraphics(gcf, plot_out_path, 'ContentType', 'vector');
+end
+
+##### SOURCE END #####
+--></body></html>
