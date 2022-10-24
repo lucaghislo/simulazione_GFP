@@ -247,7 +247,8 @@ exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4_
 %% TEST muonconverter function
 
 clear; clc;
-fun_out = muonconverter("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", 4, 0, 31, "C:\Users\ghisl\Downloads\output.pdf", true, false, 15, 6000);
+%fun_out = muonconverter("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", "C:\Users\ghisl\Downloads\output.pdf", 4, 0, 31, true, false, 15, 6000);
+fun_out = muonconverter("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", "C:\Users\ghisl\Downloads\output.pdf", 4, 16, 23);
 
 
 %% Read fdt for all PTs and interpolate spline
@@ -439,4 +440,3 @@ title("\textbf{Incoming energy spectrum before conversion}")
 set(gca,'FontSize', 12)
 f.Position = [10 30 1000  650];
 exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4_ADU.pdf",'ContentType','vector');
-
