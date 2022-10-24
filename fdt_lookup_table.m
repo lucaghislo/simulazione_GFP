@@ -186,13 +186,14 @@ end
 muon_allch = reshape(muon_allch', [], 1);
 
 f = figure("Visible", "on");
-histfitlandau(muon_allch(muon_allch>100), 15, 0, 6000, 1)
+histfitlandau(muon_allch(muon_allch>100), 20, 0, 6000, 1)
 
 box on
 grid on
 xlim([0, 6000])
 ylabel("\textbf{Counts}")
 xlabel("\textbf{Incoming energy [keV]}")
+title("\textbf{Energy spectrum without pedestal subtraction}")
 
 set(gca,'FontSize', 12)
 f.Position = [10 30 1000  650];
@@ -300,10 +301,13 @@ muon_data = readtable("fdt_lookup_table\muon_data\self_trigger_1hr_THR_130_pt4_3
 spline_allchs_pt = readtable("fdt_lookup_table\output\lookup_tables_no-ped\lookup_table_no-ped_allch_pt4.dat");
 spline_allchs_pt = table2array(spline_allchs_pt);
 
+pedestal_allch_allpt = readtable("fdt_lookup_table\pedestal_no_injection\pedestal_meas_allpt_allch.dat");
+pedestal_allch_allpt = table2array(pedestal_allch_allpt);
+
 muon_allch = nan(9528, 32);
 
 for ch = [0:31]
-    muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch);
+    muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch) - pedestal_allch_allpt(ch+1, 4+1);
     events_kev = interp1(spline_allchs_pt(:, ch + 1), range, muon_data_ch_ADU, 'cubic') * 0.841;
     muon_allch(:, ch+1) = events_kev;
 end
@@ -335,10 +339,13 @@ muon_data = readtable("fdt_lookup_table\muon_data\self_trigger_1hr_THR_130_pt4_3
 spline_allchs_pt = readtable("fdt_lookup_table\output\lookup_tables_no-ped\lookup_table_no-ped_allch_pt4.dat");
 spline_allchs_pt = table2array(spline_allchs_pt);
 
+pedestal_allch_allpt = readtable("fdt_lookup_table\pedestal_no_injection\pedestal_meas_allpt_allch.dat");
+pedestal_allch_allpt = table2array(pedestal_allch_allpt);
+
 muon_allch = nan(9528, 32);
 
 for ch = [0:31]
-    muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch);
+    muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch) - pedestal_allch_allpt(ch+1, 4+1);
     events_kev = interp1(spline_allchs_pt(:, ch + 1), range, muon_data_ch_ADU, 'cubic') * 0.841;
     muon_allch(:, ch+1) = events_kev;
 end
@@ -346,13 +353,14 @@ end
 muon_allch = reshape(muon_allch', [], 1);
 
 f = figure("Visible", "on");
-histfitlandau(muon_allch(muon_allch>500), 20, 0, 10000, 1)
+histfitlandau(muon_allch(muon_allch>100), 20, 0, 6000, 1)
 
 box on
 grid on
-xlim([0, 10000])
+xlim([0, 6000])
 ylabel("\textbf{Counts}")
 xlabel("\textbf{Incoming energy [keV]}")
+title("\textbf{Energy spectrum with pedestal subtraction}")
 
 set(gca,'FontSize', 12)
 f.Position = [10 30 1000  650];
