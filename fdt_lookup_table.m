@@ -201,6 +201,7 @@ set(gca, 'YScale', 'log')
 xlim([0, 6000])
 ylabel("\textbf{Counts}")
 xlabel("\textbf{Incoming energy [keV]}")
+title("\textbf{Incoming energy spectrum after conversion without pedestal subtraction}")
 
 set(gca,'FontSize', 12)
 f.Position = [10 30 1000  650];
@@ -362,9 +363,10 @@ histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1);
 box on
 grid on
 set(gca, 'YScale', 'log')
-xlim([0, 10000])
+xlim([0, 6000])
 ylabel("\textbf{Counts}")
 xlabel("\textbf{Incoming energy [keV]}")
+title("\textbf{Energy spectrum after conversion with pedestal subtraction}")
 
 set(gca,'FontSize', 12)
 f.Position = [10 30 1000  650];
@@ -408,3 +410,33 @@ set(gca,'FontSize', 12)
 f.Position = [10 30 1000  650];
 
 exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4_landau_no-ped.pdf",'ContentType','vector');
+
+
+%% Istogramma eventi muoni in ADU prima della conversione
+
+clear; clc;
+
+muon_data = readtable("fdt_lookup_table\muon_data\self_trigger_1hr_THR_130_pt4_34.txt");
+
+muon_allch = nan(9528, 32);
+
+for ch = [0:31]
+    muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch);
+    muon_allch(:, ch+1) = muon_data_ch_ADU;
+end
+
+f = figure("Visible", "on");
+histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1);
+
+box on
+grid on
+set(gca, 'YScale', 'log')
+xlim([0, 2047])
+ylabel("\textbf{Counts}")
+xlabel("\textbf{Incoming energy [ADU]}")
+title("\textbf{Incoming energy spectrum before conversion}")
+
+set(gca,'FontSize', 12)
+f.Position = [10 30 1000  650];
+exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4_ADU.pdf",'ContentType','vector');
+
