@@ -204,3 +204,157 @@ exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4_
 
 clear; clc;
 fun_out = muonconverter("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", 4, 0, 31, "C:\Users\ghisl\Downloads\output.pdf", true, false, 15, 6000);
+
+
+%% Read fdt for all PTs and interpolate spline
+% Con sottrazione del pedestal
+
+clearvars -except max_ch max_tau; clc;
+load fdt_lookup_table\dac_values.mat
+dac_values = dac_values';
+
+pedestal_allch_allpt = readtable("fdt_lookup_table\pedestal_no_injection\pedestal_meas_allpt_allch.dat");
+pedestal_allch_allpt = table2array(pedestal_allch_allpt);
+muon_data = readtable("fdt_lookup_table\muon_data\self_trigger_1hr_THR_130_pt4_34.txt");
+
+min_DACinj = 0;
+max_DACinj = 64000;
+step_DACinj = 1;
+range = [min_DACinj:step_DACinj:max_DACinj]';
+ch_values = [0:31];
+
+for pt = [0:7]
+    spline_allchs_pt = nan(length(range), 32);
+
+    for ch = [0:31]
+        fdt_data = readtable("fdt_lookup_table\fdt_allpts\fdt_allch_pt" + string(pt) + ".dat");
+        fdt_data_ch = fdt_data(:, ch + 1);
+        fdt_data_ch = table2array(fdt_data_ch);
+        fdt_data_ch = fdt_data_ch - pedestal_allch_allpt(ch+1, pt+1);
+
+        spline_allchs_pt(:, ch + 1) = interp1(dac_values, fdt_data_ch, range, 'spline');
+
+        [val, idx] = unique(spline_allchs_pt(:, ch + 1));
+
+        for i = 1:length(spline_allchs_pt(:, ch + 1))
+            if isempty(find(idx==i))
+               spline_allchs_pt(i, ch + 1) = spline_allchs_pt(i, ch + 1) + step_DACinj/2;
+            end
+        end
+    end
+
+    spline_allchs_pt_table = array2table(spline_allchs_pt);
+    writetable(spline_allchs_pt_table, "fdt_lookup_table\output\lookup_tables_no-ped\lookup_table_no-ped_allch_pt" + string(pt) + ".dat", "Delimiter", "\t");
+end
+
+
+%% Plot FDT with no pedestal
+
+clear; clc;
+
+min_DACinj = 0;
+max_DACinj = 64000;
+step_DACinj = 1;
+range = [min_DACinj:step_DACinj:max_DACinj]';
+ch_values = [0:31];
+
+spline_allchs_pt4 = readtable("fdt_lookup_table\output\lookup_tables_no-ped\lookup_table_no-ped_allch_pt4.dat");
+spline_allchs_pt4 = table2array(spline_allchs_pt4);
+
+f = figure("Visible", "on")
+hold on
+for ch = [0:31]
+    plot(range.*0.841, spline_allchs_pt4(:, ch+1).*0.841);
+end
+hold off
+
+box on
+grid on
+xlabel('\textbf{Incoming energy [MeV]}');
+ylabel('\textbf{Channel Output [ADU]}');
+xlim([0, 53824]);
+ylim([0 1400])
+xticks([0:10000:50000])
+xticklabels([0:10:50])
+yticks([0:200:2000])
+set(gcf, 'Color', 'w');
+title("\textbf{Transfer function with pedestal subtracted}")
+
+ax = gca; 
+fontsize = 12;
+ax.XAxis.FontSize = fontsize; 
+ax.YAxis.FontSize = fontsize;
+ax.Title.FontSize = fontsize + 4;
+f.Position = [0 0 1200 800];
+
+exportgraphics(gcf,"fdt_lookup_table\output\fdt_allch_pt4_no-pedestal.pdf",'ContentType','vector');
+
+
+
+%% Convert muon data (ADU -> keV) [all events, no landau fit] (FDT sottratta del pedestal)
+
+clearvars -except spline_allchs_pt range;
+
+load fdt_lookup_table\range.mat;
+muon_data = readtable("fdt_lookup_table\muon_data\self_trigger_1hr_THR_130_pt4_34.txt");
+spline_allchs_pt = readtable("fdt_lookup_table\output\lookup_tables_no-ped\lookup_table_no-ped_allch_pt4.dat");
+spline_allchs_pt = table2array(spline_allchs_pt);
+
+muon_allch = nan(9528, 32);
+
+for ch = [0:31]
+    muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch);
+    events_kev = interp1(spline_allchs_pt(:, ch + 1), range, muon_data_ch_ADU, 'cubic') * 0.841;
+    muon_allch(:, ch+1) = events_kev;
+end
+
+muon_allch = reshape(muon_allch', [], 1);
+
+f = figure("Visible", "on");
+histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1);
+
+box on
+grid on
+set(gca, 'YScale', 'log')
+xlim([0, 10000])
+ylabel("\textbf{Counts}")
+xlabel("\textbf{Incoming energy [keV]}")
+
+set(gca,'FontSize', 12)
+f.Position = [10 30 1000  650];
+
+exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4_no-ped.pdf",'ContentType','vector');
+
+
+%% Convert muon data (ADU -> keV) [landau fit] (FDT sottratta del pedestal)
+
+clearvars -except spline_allchs_pt range;
+
+load fdt_lookup_table\range.mat;
+muon_data = readtable("fdt_lookup_table\muon_data\self_trigger_1hr_THR_130_pt4_34.txt");
+spline_allchs_pt = readtable("fdt_lookup_table\output\lookup_tables_no-ped\lookup_table_no-ped_allch_pt4.dat");
+spline_allchs_pt = table2array(spline_allchs_pt);
+
+muon_allch = nan(9528, 32);
+
+for ch = [0:31]
+    muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch);
+    events_kev = interp1(spline_allchs_pt(:, ch + 1), range, muon_data_ch_ADU, 'cubic') * 0.841;
+    muon_allch(:, ch+1) = events_kev;
+end
+
+muon_allch = reshape(muon_allch', [], 1);
+
+f = figure("Visible", "on");
+histfitlandau(muon_allch(muon_allch>500), 20, 0, 10000, 1)
+
+box on
+grid on
+xlim([0, 10000])
+ylabel("\textbf{Counts}")
+xlabel("\textbf{Incoming energy [keV]}")
+
+set(gca,'FontSize', 12)
+f.Position = [10 30 1000  650];
+
+exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4_landau_no-ped.pdf",'ContentType','vector');
