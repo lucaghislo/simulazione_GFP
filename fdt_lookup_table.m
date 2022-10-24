@@ -155,8 +155,8 @@ box on
 grid on
 xlabel('\textbf{Incoming energy [MeV]}');
 ylabel('\textbf{Channel Output [ADU]}');
-xlim([0, 53824]);
 ylim([0 1400])
+xlim([0, 53824]);
 xticks([0:10000:50000])
 xticklabels([0:10:50])
 yticks([0:200:1400])
@@ -210,7 +210,7 @@ exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4.
 
 %% Convert muon data (ADU -> keV) [landau fit]
 
-clearvars -except spline_allchs_pt range;
+clear; clc;
 
 load fdt_lookup_table\range.mat;
 muon_data = readtable("fdt_lookup_table\muon_data\self_trigger_1hr_THR_130_pt4_34.txt");
@@ -266,7 +266,7 @@ step_DACinj = 1;
 range = [min_DACinj:step_DACinj:max_DACinj]';
 ch_values = [0:31];
 
-for pt = [0:7]
+for pt = [4]
     spline_allchs_pt = nan(length(range), 32);
 
     for ch = [0:31]
@@ -315,8 +315,8 @@ box on
 grid on
 xlabel('\textbf{Incoming energy [MeV]}');
 ylabel('\textbf{Channel Output [ADU]}');
-xlim([0, 53824]);
 ylim([0 1400])
+xlim([0, 53824]);
 xticks([0:10000:50000])
 xticklabels([0:10:50])
 yticks([0:200:1400])
@@ -374,7 +374,7 @@ exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4_
 
 %% Convert muon data (ADU -> keV) [landau fit] (FDT sottratta del pedestal)
 
-clearvars -except spline_allchs_pt range;
+clear; clc;
 
 load fdt_lookup_table\range.mat;
 muon_data = readtable("fdt_lookup_table\muon_data\self_trigger_1hr_THR_130_pt4_34.txt");
