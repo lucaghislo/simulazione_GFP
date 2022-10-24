@@ -131,6 +131,48 @@ for pt = [0:7]
 end
 
 
+%% Plot FDT with pedestal
+
+clear; clc;
+
+min_DACinj = 0;
+max_DACinj = 64000;
+step_DACinj = 1;
+range = [min_DACinj:step_DACinj:max_DACinj]';
+ch_values = [0:31];
+
+spline_allchs_pt4 = readtable("fdt_lookup_table\output\lookup_tables\lookup_table_allch_pt4.dat");
+spline_allchs_pt4 = table2array(spline_allchs_pt4);
+
+f = figure("Visible", "on")
+hold on
+for ch = [0:31]
+    plot(range.*0.841, spline_allchs_pt4(:, ch+1).*0.841);
+end
+hold off
+
+box on
+grid on
+xlabel('\textbf{Incoming energy [MeV]}');
+ylabel('\textbf{Channel Output [ADU]}');
+xlim([0, 53824]);
+ylim([0 1400])
+xticks([0:10000:50000])
+xticklabels([0:10:50])
+yticks([0:200:1400])
+set(gcf, 'Color', 'w');
+title("\textbf{Transfer function without pedestal subtracted}")
+
+ax = gca; 
+fontsize = 12;
+ax.XAxis.FontSize = fontsize; 
+ax.YAxis.FontSize = fontsize;
+ax.Title.FontSize = fontsize + 4;
+f.Position = [0 0 1200 800];
+
+exportgraphics(gcf,"fdt_lookup_table\output\fdt_allch_pt4.pdf",'ContentType','vector');
+
+
 %% Convert muon data (ADU -> keV) [all events, no landau fit]
 
 clearvars -except spline_allchs_pt range;
@@ -277,7 +319,7 @@ xlim([0, 53824]);
 ylim([0 1400])
 xticks([0:10000:50000])
 xticklabels([0:10:50])
-yticks([0:200:2000])
+yticks([0:200:1400])
 set(gcf, 'Color', 'w');
 title("\textbf{Transfer function with pedestal subtracted}")
 
