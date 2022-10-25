@@ -247,8 +247,8 @@ exportgraphics(gcf,"fdt_lookup_table\output\muon_detection_self_trigger_1hr_pt4_
 %% TEST muonconverter function
 
 clear; clc;
-%fun_out = muonconverter("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", "C:\Users\ghisl\Downloads\output.pdf", 4, 0, 31, true, false, 15, 6000);
-fun_out = muonconverter("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", "C:\Users\ghisl\Downloads\output.pdf", 4, 16, 23);
+%fun_out = muonconverter_v1("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", "C:\Users\ghisl\Downloads\output.pdf", 4, 0, 31, true, false, 15, 6000);
+fun_out = muonconverter_v1("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", "C:\Users\ghisl\Downloads\output.pdf", 4, 16, 23);
 
 
 %% Read fdt for all PTs and interpolate spline
@@ -257,6 +257,8 @@ fun_out = muonconverter("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\in
 clearvars -except max_ch max_tau; clc;
 load fdt_lookup_table\dac_values.mat
 dac_values = dac_values';
+dac_values = array2table(dac_values);
+writetable(dac_values, "fdt_lookup_table\dac_values.dat");
 
 pedestal_allch_allpt = readtable("fdt_lookup_table\pedestal_no_injection\pedestal_meas_allpt_allch.dat");
 pedestal_allch_allpt = table2array(pedestal_allch_allpt);

@@ -1,0 +1,170 @@
+Trying to set the Mode register to 000 with address 0
+    Test OK, written (000) and read (111)
+Trying to set the Mode register to 000 with address 1
+    Test OK, written (000) and read (111)
+Trying to set the Mode register to 000 with address 3
+    Test OK, written (000) and read (111)
+Trying to set the Mode register to 000 with address 4
+    Test OK, written (000) and read (111)
+Trying to set the Mode register to 000 with address 5
+    Test OK, written (000) and read (111)
+Trying to set the Mode register to 010 with Broadcast addressing
+    Test OK, written (010) and read (010)
+Trying to set the Mode register to 101 with address 010
+    Test OK, written (101) and read (101)
+Trying to set the Bias register to 1010 with Broadcast addressing
+    Test OK, written (1010) and read (1010)
+Trying to set the Bias register to 0101 with address 010
+    Test OK, written (0101) and read (0101)
+Trying to set the CSArefs register to 1010 with Broadcast addressing
+    Test OK, written (1010) and read (1010)
+Trying to set the CSArefs register to 0101 with address 010
+    Test OK, written (0101) and read (0101)
+Trying to set the Shaper register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the Shaper register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the Leakage register to 10101010101010101010101010101010 with Broadcast addressing
+    Test OK, written (10101010101010101010101010101010) and read (10101010101010101010101010101010)
+Trying to set the Leakage register to 01010101010101010101010101010101 with address 010
+    Test OK, written (01010101010101010101010101010101) and read (01010101010101010101010101010101)
+Trying to set the Enable register to 10101010101010101010101010101010 with Broadcast addressing
+    Test OK, written (10101010101010101010101010101010) and read (10101010101010101010101010101010)
+Trying to set the Enable register to 01010101010101010101010101010101 with address 010
+    Test OK, written (01010101010101010101010101010101) and read (01010101010101010101010101010101)
+Trying to set the Calibration register to 10101010101010101010101010101010 with Broadcast addressing
+    Test OK, written (10101010101010101010101010101010) and read (10101010101010101010101010101010)
+Trying to set the Calibration register to 01010101010101010101010101010101 with address 010
+    Test OK, written (01010101010101010101010101010101) and read (01010101010101010101010101010101)
+Trying to set the Threshold register to 170 with Broadcast addressing
+    Test OK, written (170) and read (170)
+Trying to set the Threshold register to 85 with address 010
+    Test OK, written (85) and read (85)
+Trying to set the FineTHR[0] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[0] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[1] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[1] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[2] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[2] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[3] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[3] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[4] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[4] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[5] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[5] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[6] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[6] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[7] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[7] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[8] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[8] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[9] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[9] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[10] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[10] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[11] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[11] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[12] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[12] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[13] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[13] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[14] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[14] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[15] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[15] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[16] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[16] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[17] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[17] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[18] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[18] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[19] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[19] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[20] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[20] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[21] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[21] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[22] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[22] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[23] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[23] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[24] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[24] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[25] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[25] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[26] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[26] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[27] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[27] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[28] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[28] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[29] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[29] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[30] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[30] register to 010 with address 010
+    Test OK, written (010) and read (010)
+Trying to set the FineTHR[31] register to 101 with Broadcast addressing
+    Test OK, written (101) and read (101)
+Trying to set the FineTHR[31] register to 010 with address 010
+    Test OK, written (010) and read (010)
