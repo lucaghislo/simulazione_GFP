@@ -6,8 +6,6 @@
 %   data_in_path: muon data file in path (data in ADU)
 %  plot_out_path: plot file out file
 %          pt_in: measurement peaking time
-%       fdt_data: transfer function data acquired at pt
-%  pedestal_data: pedestal data acquired at pt
 %       ch_start: first channel to analyze
 %      ch_finish: last channel to analyze
 %    landau_flag: (true/false) plot with or without landau fit
@@ -66,10 +64,10 @@ function [muon_allch_out] = muonconverter(data_in_path, plot_out_path, pt_in, fd
     end
 
     % Compute fdt data for each channel
+    fdt_allch_tau = nan(length(dac_values), 32);
     data_raw = readtable(fdt_data);
     dac_values = unique(data_raw.DAC);
     dac_values = dac_values(~isnan(dac_values))';
-    fdt_allch_tau = nan(length(dac_values), 32);
 
     ch_count = 1;
     for channel = [ch_start:ch_finish]
@@ -94,22 +92,21 @@ function [muon_allch_out] = muonconverter(data_in_path, plot_out_path, pt_in, fd
     
     pt = pt_in;
     spline_allchs_pt = nan(length(range), 32);
-    ch_count = 0;
+
     for ch = [ch_start:ch_finish]
-        fdt_data_ch = fdt_allch_tau(:, ch_count + 1);
-        fdt_data_ch = fdt_data_ch - pedestal_data_allch(ch_count+1);
+        fdt_data_ch = fdt_data(:, ch + 1);
+        fdt_data_ch = table2array(fdt_data_ch);
+        fdt_data_ch = fdt_data_ch - pedestal_allch_allpt(ch+1, pt+1);
 
-        spline_allchs_pt(:, ch_count + 1) = interp1(dac_values, fdt_data_ch, range, 'spline');
+        spline_allchs_pt(:, ch + 1) = interp1(dac_values, fdt_data_ch, range, 'spline');
 
-        [val, idx] = unique(spline_allchs_pt(:, ch_count + 1));
+        [val, idx] = unique(spline_allchs_pt(:, ch + 1));
 
-        for i = 1:length(spline_allchs_pt(:, ch_count + 1))
+        for i = 1:length(spline_allchs_pt(:, ch + 1))
             if isempty(find(idx==i))
-               spline_allchs_pt(i, ch_count + 1) = spline_allchs_pt(i, ch_count + 1) + step_DACinj/2;
+               spline_allchs_pt(i, ch + 1) = spline_allchs_pt(i, ch + 1) + step_DACinj/2;
             end
         end
-
-        ch_count = ch_count + 1;
     end
 
     %spline_allchs_pt_table = array2table(spline_allchs_pt);
@@ -123,7 +120,7 @@ function [muon_allch_out] = muonconverter(data_in_path, plot_out_path, pt_in, fd
     muon_allch = nan(9528, 32);
     
     for ch = [ch_start:ch_finish]
-        muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch) - pedestal_data_allch(ch+1);
+        muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch) - pedestal_allch_allpt(ch+1, pt+1);
         events_kev = interp1(spline_allchs_pt(:, ch + 1), range, muon_data_ch_ADU, 'cubic') * 0.841;
         muon_allch(:, ch+1) = events_kev;
     end
