@@ -28,7 +28,7 @@
 % muonconverter(data_in_path, plot_out_path, pt_in, ch_start, ch_finish, landau_flag, fig_on, bin_width, max_kev)
 % full custom parameters
 
-function [muon_allch_out] = muonconverter(data_in_path, plot_out_path, pt_in, fdt_data, pedestal_data, ch_start, ch_finish, landau_flag, fig_on, bin_width, max_kev)
+function [muon_allch_out] = muonconverter_v2(data_in_path, plot_out_path, pt_in, fdt_data, pedestal_data, ch_start, ch_finish, landau_flag, fig_on, bin_width, max_kev)
 
 %     if ~exist('ch_start','var') & ~exist('ch_finish','var') & ~exist('landau_flag','var') & ~exist('fig_on','var') & ~exist('bin_width','var') & ~exist('max_kev','var')
 %         ch_start = 0;

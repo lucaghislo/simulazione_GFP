@@ -168,7 +168,7 @@ for row = 0:5
         data_landau = reshape(data_landau', [], 1);
         data_landau = data_landau(~isnan(data_landau));
 
-        if(length(data_landau) > 0)
+        if(~isempty(data_landau))
             [vpp, sig, mv, bound] = histfitlandau(data_landau, 3, 0, 2047, 1);
             landau_fit_infos(module_counter, :) = [row, mod, round(vpp, 2), round(sig, 2), round(mv, 2)];
         else
