@@ -19,40 +19,40 @@
 % muon_allch_out: muon data output after conversion (in keV)
 
 % USAGE EXAMPLES
-% muonconverter(data_in_path, plot_out_path, pt_in)
+% muonconverter(data_in_path, plot_out_path, pt_in, fdt_data, pedestal_data)
 % channels from 0 to 31, no landau fitting, bin width = 20 and X scale maximum value set to 6000
 
-% muonconverter(data_in_path, plot_out_path, pt_in, ch_start, ch_finish)
+% muonconverter(data_in_path, plot_out_path, pt_in, fdt_data, pedestal_data, ch_start, ch_finish)
 % same as above but with custom channel selection
 
-% muonconverter(data_in_path, plot_out_path, pt_in, ch_start, ch_finish, landau_flag, fig_on, bin_width, max_kev)
+% muonconverter(data_in_path, plot_out_path, pt_in, fdt_data, pedestal_data, ch_start, ch_finish, landau_flag, fig_on, bin_width, max_kev)
 % full custom parameters
 
 function [muon_allch_out] = muonconverter_v2(data_in_path, plot_out_path, pt_in, fdt_data, pedestal_data, ch_start, ch_finish, landau_flag, fig_on, bin_width, max_kev)
 
-%     if ~exist('ch_start','var') & ~exist('ch_finish','var') & ~exist('landau_flag','var') & ~exist('fig_on','var') & ~exist('bin_width','var') & ~exist('max_kev','var')
-%         ch_start = 0;
-%         ch_finish = 31;
-%         landau_flag = false;
-%         fig_on = true;
-%         bin_width = 20;
-%         max_kev = 6000;
-%     end
-% 
-%     if ~exist('landau_flag','var') & ~exist('fig_on','var') & ~exist('bin_width','var') & ~exist('max_kev','var')
-%         landau_flag = false;
-%         fig_on = true;
-%         bin_width = 20;
-%         max_kev = 6000;
-%     end
-% 
-%     if ch_start > ch_finish
-%         error("Channel range error! First channel must be greater than last channel.")
-%     end
-%     
-%     if ch_start<0 || ch_finish>31
-%         error("Channel range error! Channels must be between 0 and 31.")
-%     end
+    if ~exist('ch_start','var') & ~exist('ch_finish','var') & ~exist('landau_flag','var') & ~exist('fig_on','var') & ~exist('bin_width','var') & ~exist('max_kev','var')
+        ch_start = 0;
+        ch_finish = 31;
+        landau_flag = false;
+        fig_on = true;
+        bin_width = 20;
+        max_kev = 6000;
+    end
+
+    if ~exist('landau_flag','var') & ~exist('fig_on','var') & ~exist('bin_width','var') & ~exist('max_kev','var')
+        landau_flag = false;
+        fig_on = true;
+        bin_width = 20;
+        max_kev = 6000;
+    end
+
+    if ch_start > ch_finish
+        error("Channel range error! First channel must be greater than last channel.")
+    end
+    
+    if ch_start<0 || ch_finish>31
+        error("Channel range error! Channels must be between 0 and 31.")
+    end
 
     % pedestal da output script Matlab GAPS
     pedestal_raw = readtable(pedestal_data);
