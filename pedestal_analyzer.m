@@ -1,4 +1,4 @@
-%% This script changes all interpreters from tex to latex. 
+%% This script changes all interpreters from tex to latex.
 
 clear; clc;
 
