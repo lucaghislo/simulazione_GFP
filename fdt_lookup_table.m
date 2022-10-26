@@ -252,9 +252,16 @@ clear; clc;
 %fun_out = muonconverter_v1("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", "C:\Users\ghisl\Downloads\output.pdf", 4, 0, 31, true, false, 15, 6000);
 %fun_out = muonconverter_v1("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", "C:\Users\ghisl\Downloads\output.pdf", 4, 16, 23);
 
-% v2
-fun_out = muonconverter_v2("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", "C:\Users\ghisl\Downloads\output.pdf", 4, "C:\Users\ghisl\My Drive\UniBG\CORSI\PhD\GAPS\module_muon_detection\test_results\14092022_2\data\TransferFunction_fast_tau4.dat", "C:\Users\ghisl\My Drive\UniBG\CORSI\PhD\GAPS\module_muon_detection\test_results\14092022_2\data\Pedestals_tau4.dat", 0, 31, true, true, 15, 6000);
+% v2 (WIN)
+%fun_out = muonconverter_v2("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", "C:\Users\ghisl\Downloads\output.pdf", 4, "C:\Users\ghisl\My Drive\UniBG\CORSI\PhD\GAPS\module_muon_detection\test_results\14092022_2\data\TransferFunction_fast_tau4.dat", "C:\Users\ghisl\My Drive\UniBG\CORSI\PhD\GAPS\module_muon_detection\test_results\14092022_2\data\Pedestals_tau4.dat", 0, 31, true, true, 15, 6000);
 %fun_out = muonconverter_v2("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", "C:\Users\ghisl\Downloads\output.pdf", 4, "C:\Users\ghisl\My Drive\UniBG\CORSI\PhD\GAPS\module_muon_detection\test_results\14092022_2\data\TransferFunction_fast_tau4.dat", "C:\Users\ghisl\My Drive\UniBG\CORSI\PhD\GAPS\module_muon_detection\test_results\14092022_2\data\Pedestals_tau4.dat");
+
+% v2 (LINUX)
+fun_out = muonconverter_v2("/home/lucaghislotti/Documents/GitHub/lucaghislo/simulazione_GFP/fdt_lookup_table/muon_data/self_trigger_1hr_THR_130_pt4_34.txt", ...
+    "/home/lucaghislotti/Downloads/output.pdf", 4, ...
+    "/home/lucaghislotti/Documents/GitHub/lucaghislo/simulazione_GFP/sample_data/MODULE_004/-40C/data/TransferFunction_fast_tau4.dat", ...
+    "/home/lucaghislotti/Documents/GitHub/lucaghislo/simulazione_GFP/sample_data/MODULE_004/-40C/data/Pedestals_tau4.dat", ...
+    0, 31, false, true, 15, 6000);
 
 
 %% Read fdt for all PTs and interpolate spline

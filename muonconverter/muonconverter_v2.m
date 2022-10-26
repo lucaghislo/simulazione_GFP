@@ -3,20 +3,20 @@
 % Converts and plots GAPS channel output data from ADU to keV.
 
 % INPUT
-%   data_in_path: muon data file in path (data in ADU)
-%  plot_out_path: plot file out file
-%          pt_in: measurement peaking time
-%       fdt_data: transfer function data acquired at pt
-%  pedestal_data: pedestal data acquired at pt
-%       ch_start: first channel to analyze
-%      ch_finish: last channel to analyze
-%    landau_flag: (true/false) plot with or without landau fit
-%         fig_on: (true/false) show or hide plot figure
-%      bin_width: histogram bin width
-%        max_kev: max value in keV for landau and/or plot  on x
+%    data_in_path: muon data file in path (data in ADU)
+% folder_out_path: folder path of results
+%           pt_in: measurement peaking time
+%       f dt_data: transfer function data acquired at pt
+%   pedestal_data: pedestal data acquired at pt
+%        ch_start: first channel to analyze
+%       ch_finish: last channel to analyze
+%     landau_flag: (true/false) plot with or without landau fit
+%          fig_on: (true/false) show or hide plot figure
+%       bin_width: histogram bin width
+%         max_kev: max value in keV for landau and/or plot  on x
 
 % OUTPUT
-% muon_allch_out: muon data output after conversion (in keV)
+%  muon_allch_out: muon data output after conversion (in keV)
 
 % USAGE EXAMPLES
 % muonconverter(data_in_path, plot_out_path, pt_in, fdt_data, pedestal_data)
@@ -114,7 +114,6 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, plot_out_path, pt_in,
 
     %spline_allchs_pt_table = array2table(spline_allchs_pt);
     %writetable(spline_allchs_pt_table, "fdt_lookup_table\output\lookup_tables_no-ped\lookup_table_no-ped_allch_pt" + string(pt) + ".dat", "Delimiter", "\t");
-
 
     muon_data = readtable(data_in_path);
     %spline_allchs_pt = readtable("lookup_tables_no_pedestal\lookup_table_no-ped_allch_pt" + string(pt) + ".dat");
