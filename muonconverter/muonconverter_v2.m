@@ -27,7 +27,15 @@
 % full custom parameters
 
 function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_in, fdt_data, pedestal_data, ch_start, ch_finish, bin_width, max_kev)
-
+    
+    % This script changes all interpreters from tex to latex. 
+    list_factory = fieldnames(get(groot,'factory'));
+    index_interpreter = find(contains(list_factory,'Interpreter'));
+    for i = 1:length(index_interpreter)
+        default_name = strrep(list_factory{index_interpreter(i)},'factory','default');
+        set(groot, default_name,'latex');
+    end
+    
     % Check for existing parameters (1)
     if ~exist('ch_start','var') & ~exist('ch_finish','var') & ~exist('bin_width','var') & ~exist('max_kev','var')
         ch_start = 0;
@@ -69,7 +77,7 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     data_raw = readtable(fdt_data);
     dac_values = unique(data_raw.DAC); % dac_values ottenuti in base agli step impostati in fase di acqusizione FDT
     dac_values = dac_values(~isnan(dac_values))';
-    fdt_allch_tau = nan(length(dac_values), 32);
+    fdt_data_allch = nan(length(dac_values), 32);
     
     ch_count = 1;
     for channel = [ch_start:ch_finish]
@@ -82,7 +90,7 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
             dac_counter = dac_counter + 1;
         end
     
-        fdt_allch_tau(:, ch_count) = fdt_allenergies;
+        fdt_data_allch(:, ch_count) = fdt_allenergies;
         ch_count = ch_count + 1;
     end
     
@@ -100,7 +108,7 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     % Calcolo spline per definizione lookup table sui canali di interesse
     % per la conversione
     for ch = ch_values
-        fdt_data_ch = fdt_allch_tau(:, ch_count + 1);
+        fdt_data_ch = fdt_data_allch(:, ch_count + 1);
         fdt_data_ch = fdt_data_ch - pedestal_data_allch(ch_count+1);
     
         spline_allchs_pt(:, ch_count + 1) = interp1(dac_values, fdt_data_ch, range, 'spline');
@@ -119,12 +127,14 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     % Elaborazione dati acquisiti su modulo tramite GAPS_DAQ
     muon_data = readtable(data_in_path);
     muon_allch = nan(9528, 32); % change to be dynamic
+    muon_allch_ADU = nan(9528, 32); % change to be dynamic
     ch_count = 0;
     
     for ch = ch_values
         muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch) - pedestal_data_allch(ch_count + 1);
         events_kev = interp1(spline_allchs_pt(:, ch_count + 1), range, muon_data_ch_ADU, 'cubic') * conv_factor;
         muon_allch(:, ch_count + 1) = events_kev;
+        muon_allch_ADU(:, ch_count + 1) = muon_data.Energy_ADC_(muon_data.Channel == ch);
         ch_count = ch_count + 1;
     end
     
@@ -135,19 +145,34 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     if ~exist(folder_out_path, 'dir')
         mkdir(folder_out_path);
     end
+
+    % Istogramma degli eventi in input [ADU]
+    f = figure("Visible", "off");
+    histogram(muon_allch_ADU, "DisplayStyle", "stairs", 'BinWidth', bin_width, 'LineWidth', 1);
+    box on
+    grid on
+    set(gca, 'YScale', 'log')
+    xlim([0, 2047])
+    ylabel("\textbf{Counts}")
+    xlabel("\textbf{Incoming energy [ADU]}")
+    title("\textbf{Incoming energy spectrum before conversion}")
+    set(gca,'FontSize', 12)
+    f.Position = [10 30 1000  650];
+    exportgraphics(gcf,folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_ADU.pdf",'ContentType','vector');
     
     % Istogramma senza interpolazione Landau (con piedistallo, scala logaritmica)
     f = figure("Visible", "off");
-    histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', bin_width, 'LineWidth', 1); % bin_width = 20
+    histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
     set(gca, 'YScale', 'log')
     box on
     grid on
     xlim([0, max_kev])
     ylabel("\textbf{Counts}")
     xlabel("\textbf{Incoming energy [keV]}")
+    title("\textbf{Energy deposition for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}");
     set(gca,'FontSize', 12)
     f.Position = [10 30 1000  650];
-    exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_keV.pdf", 'ContentType', 'vector');
+    exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV.pdf", 'ContentType', 'vector');
     
     % Istogramma con interpolazione Landau (senza piedistallo, scala
     % lineare)
@@ -160,8 +185,72 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     xlim([0, max_kev])
     ylabel("\textbf{Counts}")
     xlabel("\textbf{Incoming energy [keV]}")
+    title("\textbf{Energy deposition for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}");
     set(gca,'FontSize', 12)
     f.Position = [10 30 1000  650];
-    exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_keV_landau.pdf", 'ContentType', 'vector');
+    exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV_landau.pdf", 'ContentType', 'vector');
 
+    % Plot funzione di trasferimento prima della sottrazione del
+    % piedistallo
+    ch_count = 0;
+    f = figure("Visible", "off");
+    hold on
+    for ch = [ch_start:ch_finish]
+        plot(dac_values.*0.841, fdt_data_allch(:, ch_count + 1).*0.841);
+        ch_count = ch_count + 1;
+    end
+    hold off
+    
+    box on
+    grid on
+    xlabel('\textbf{Incoming energy [MeV]}');
+    ylabel('\textbf{Channel Output [ADU]}');
+    ylim([0 1400])
+    xlim([0, 53824]);
+    xticks([0:10000:50000])
+    xticklabels([0:10:50])
+    yticks([0:200:1400])
+    set(gcf, 'Color', 'w');
+    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$} with pedestal subtracted")
+    
+    ax = gca; 
+    fontsize = 12;
+    ax.XAxis.FontSize = fontsize; 
+    ax.YAxis.FontSize = fontsize;
+    ax.Title.FontSize = fontsize + 4;
+    f.Position = [0 0 1200 800];
+    
+    exportgraphics(gcf, folder_out_path + "/transfer_function_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +".pdf",'ContentType','vector');
+
+    % Plot funzione di trasferimento successivamente alla sottrazione del
+    % piedistallo
+    ch_count = 0;
+    f = figure("Visible", "off");
+    hold on
+    for ch = [ch_start:ch_finish]
+        plot(dac_values.*0.841, fdt_data_allch(:, ch_count + 1).*0.841);
+        ch_count = ch_count + 1;
+    end
+    hold off
+    
+    box on
+    grid on
+    xlabel('\textbf{Incoming energy [MeV]}');
+    ylabel('\textbf{Channel Output [ADU]}');
+    ylim([0 1400])
+    xlim([0, 53824]);
+    xticks([0:10000:50000])
+    xticklabels([0:10:50])
+    yticks([0:200:1400])
+    set(gcf, 'Color', 'w');
+    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}")
+    
+    ax = gca; 
+    fontsize = 12;
+    ax.XAxis.FontSize = fontsize; 
+    ax.YAxis.FontSize = fontsize;
+    ax.Title.FontSize = fontsize + 4;
+    f.Position = [0 0 1200 800];
+    
+    exportgraphics(gcf, folder_out_path + "/transfer_function_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_no-pedestal.pdf",'ContentType','vector');
 end
