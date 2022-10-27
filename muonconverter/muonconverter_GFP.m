@@ -74,20 +74,31 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     
     % Elaborazione dati acquisiti su modulo tramite GAPS_DAQ
     % Acquisizione dati raw in ADU da DAQ
-    muon_data = readtable(data_in_path);
+    muon_data = readtable(data_in_path, "TreatAsMissing", "NaN", "ReadVariableNames",false, "TrimNonNumeric",true);
     muon_data = table2array(muon_data);
+    
+    for i = 1:size(muon_data, 1)
+        for j = 1:size(muon_data, 2)
+            if isempty(muon_data{i,j})
+                muon_data{i,j} = nan;
+            end
+        end
+    end
+
+    muon_data = cell2mat(muon_data);
     muon_data = muon_data';
 
     % Variabili in uscita
-    muon_allch = nan(9528, 32); % change to be dynamic
-    muon_allch_ADU = nan(9528, 32); % change to be dynamic
+    muon_allch = nan(9528, (ch_finish - ch_start) + 1); % change to be dynamic
+    muon_allch_ADU = nan(9528, (ch_finish - ch_start) + 1); % change to be dynamic
     ch_count = 0;
     
     % TODO 
     % Acquisire dati modulo per canale anche quando il numero di canali per
     % modulo è inferiore al numero richiesto dal range (max 32)
     for ch = ch_values
-        muon_data_ch_ADU = muon_data(:, ch + 1) - pedestal_data_allch(ch_count + 1);
+        muon_data_single = cell2mat(muon_data(:, ch + 1));
+        muon_data_ch_ADU = muon_data_single - pedestal_data_allch(ch_count + 1);
         events_kev = interp1(spline_allchs_pt(:, ch_count + 1), range, muon_data_ch_ADU, 'cubic') * conv_factor;
         muon_allch(:, ch_count + 1) = events_kev;
         muon_allch_ADU(:, ch_count + 1) = muon_data.Energy_ADC_(muon_data.Channel == ch);
@@ -97,7 +108,7 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     muon_allch = reshape(muon_allch', [], 1);
     muon_allch_out = muon_allch(~isnan(muon_allch));
     
-    % TODO salvataggio di diversi plot nel folder specificato da utente
+    % Salvataggio di diversi plot nel folder specificato da utente
     if ~exist(folder_out_path, 'dir')
         mkdir(folder_out_path);
     end
