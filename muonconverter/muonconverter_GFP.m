@@ -20,6 +20,15 @@
 
 function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_out_path, pt_in, fdt_data, pedestal_data, ch_start, ch_finish, bin_width, max_kev)
     
+    % This script changes all interpreters from tex to latex. 
+    list_factory = fieldnames(get(groot,'factory'));
+    index_interpreter = find(contains(list_factory,'Interpreter'));
+    warning('off','all')
+    for i = 1:length(index_interpreter)
+        default_name = strrep(list_factory{index_interpreter(i)},'factory','default');
+        set(groot, default_name,'latex');
+    end
+    
     % Fattore di conversion DAC_inj_code to keV
     conv_factor = 0.841;
     
@@ -27,7 +36,6 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     pedestal_raw = readtable(pedestal_data);
     pedestal_data_allch = pedestal_raw.Var1;
 
-    
     % Compute fdt data for each channel
     dac_values_raw = readtable(fdt_data + "/Row0Module0Ch0.txt");
     dac_values = unique(dac_values_raw.Cal_V);
@@ -44,6 +52,7 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     
     % Definizione range calcolo spline
     % Spline calcolata solo sui canali richiesti da utente (efficiency...)
+    tic
     min_DACinj = 0; % DAC_inj_code
     max_DACinj = 64000; % DAC_inj_code
     step_DACinj = 1; % DAC_inj_code
@@ -55,11 +64,12 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     
     % Calcolo spline per definizione lookup table sui canali di interesse
     % per la conversione
+    disp("Calcolo spline");
     for ch = ch_values
         fdt_data_ch = fdt_data_allch(:, ch_count + 1);
         fdt_data_ch = fdt_data_ch - pedestal_data_allch(ch_count+1);
-    
         spline_allchs_pt(:, ch_count + 1) = interp1(dac_values, fdt_data_ch, range, 'spline');
+        disp("Canale: " + string(ch));
     
         [val, idx] = unique(spline_allchs_pt(:, ch_count + 1));
     
@@ -71,42 +81,58 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     
         ch_count = ch_count + 1;
     end
+    elapsed = toc;
+    disp("Elapsed time: " + string(elapsed));
     
     % Elaborazione dati acquisiti su modulo tramite GAPS_DAQ
     % Acquisizione dati raw in ADU da DAQ
-    muon_data = readtable(data_in_path, "TreatAsMissing", "NaN", "ReadVariableNames",false, "TrimNonNumeric",true);
-    muon_data = table2array(muon_data);
-    
-    for i = 1:size(muon_data, 1)
-        for j = 1:size(muon_data, 2)
-            if isempty(muon_data{i,j})
-                muon_data{i,j} = nan;
-            end
+    tic
+    muon_allch_ADU = nan(100000, 2);
+    out_row_ch_counter = 1;
+    disp("Acquisizione dati DAQ");
+    for ch_sel = [ch_start:ch_finish]
+        muon_data = readtable(data_in_path + "row" + string(row) + "_mod" + string(module) + "_ch" + string(ch_sel) + "_ADU.dat", "TreatAsMissing", "NaN", "ReadVariableNames",false, "TrimNonNumeric",true);
+        muon_data = table2array(muon_data);
+        muon_data = muon_data.*1000;
+        disp("Canale: " + string(ch_sel) + " with " + string(length(muon_data)) + " events");
+
+        row_counter = out_row_ch_counter;
+        for i = [1:length(muon_data)]
+            muon_allch_ADU(row_counter, 1) = ch_sel;
+            muon_allch_ADU(row_counter, 2) = muon_data(i);
+            row_counter = row_counter + 1;
         end
+
+        out_row_ch_counter = out_row_ch_counter + row_counter;
     end
+    elapsed = toc;
+    disp("Elapsed time: " + string(elapsed));
 
-    muon_data = cell2mat(muon_data);
-    muon_data = muon_data';
-
-    % Variabili in uscita
-    muon_allch = nan(9528, (ch_finish - ch_start) + 1); % change to be dynamic
-    muon_allch_ADU = nan(9528, (ch_finish - ch_start) + 1); % change to be dynamic
-    ch_count = 0;
-    
-    % TODO 
-    % Acquisire dati modulo per canale anche quando il numero di canali per
-    % modulo è inferiore al numero richiesto dal range (max 32)
-    for ch = ch_values
-        muon_data_single = cell2mat(muon_data(:, ch + 1));
-        muon_data_ch_ADU = muon_data_single - pedestal_data_allch(ch_count + 1);
+    % Conversione ADU -> keV tramite interpolazione spline
+    tic
+    muon_allch = muon_allch_ADU;
+    ch_count = 1;
+    out_row_ch_counter = 1;
+    disp("Conversion dati in keV");
+    for ch = [ch_start:ch_finish]
+        muon_data_ch_ADU = muon_allch_ADU(muon_allch_ADU(:, 1) == ch, 2);
         events_kev = interp1(spline_allchs_pt(:, ch_count + 1), range, muon_data_ch_ADU, 'cubic') * conv_factor;
-        muon_allch(:, ch_count + 1) = events_kev;
-        muon_allch_ADU(:, ch_count + 1) = muon_data.Energy_ADC_(muon_data.Channel == ch);
-        ch_count = ch_count + 1;
+        disp("Canale: " + string(ch));
+
+        row_counter = out_row_ch_counter;
+        for i = [1:length(events_kev)]
+            muon_allch(row_counter, 1) = ch_sel;
+            muon_allch(row_counter, 2) = events_kev(i);
+            row_counter = row_counter + 1;
+        end
+
+        out_row_ch_counter = out_row_ch_counter + row_counter;
     end
     
-    muon_allch = reshape(muon_allch', [], 1);
-    muon_allch_out = muon_allch(~isnan(muon_allch));
+    muon_allch = muon_allch(:, 2);
+    muon_allch_ADU = muon_allch_ADU(:, 2);
+    elapsed = toc;
+    disp("Elapsed time: " + string(elapsed));
     
     % Salvataggio di diversi plot nel folder specificato da utente
     if ~exist(folder_out_path, 'dir')

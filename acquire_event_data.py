@@ -20,7 +20,7 @@ for row in range(0, 6):
                 "w+",
             )
 
-            array = np.array(edep_values[:, row, mod, ch])
+            array = np.array(adc_values[:, row, mod, ch])
             count = 0
             list = []
             for e in array:
