@@ -473,7 +473,7 @@ clear; clc;
 % v2 (WIN on all GFP modules)
 GFP_MPVs = nan(36, 1);
 module_counter = 1;
-for row = [0:5]
+for row = [2:5]
     for mod = [0:5]
         [fun_out, landau_MPV] = muonconverter_GFP(row, mod, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\events\ADU\single_channels\", ...
             "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_output\GPF_analysis_row" + string(row) + "_mod" + string(mod), 4, ...

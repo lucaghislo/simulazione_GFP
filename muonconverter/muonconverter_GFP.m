@@ -33,6 +33,8 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
     
     % Fattore di conversion DAC_inj_code to keV
     conv_factor = 0.841;
+    % Range canali di interesse
+    ch_values = [ch_start:ch_finish]; 
     
     % Pedestal da output script Matlab GAPS
     pedestal_raw = readtable(pedestal_data);
@@ -42,14 +44,19 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
     dac_values_raw = readtable(fdt_data + "/Row0Module0Ch0.txt");
     dac_values = unique(dac_values_raw.Cal_V);
     fdt_data_allch = nan(length(dac_values), 32);
-    ch_values = [ch_start:ch_finish]; % Range canali di interesse
     
     % FDT calcolata solo sui canali di interesse
     ch_count = 0;
     for ch = ch_values
-        fdt_data_raw = readtable(fdt_data + "/Row" + string(row) + "Module" + string(module) + "Ch" + string(ch) + ".txt");
-        fdt_data_allch(:, ch_count + 1) = fdt_data_raw.ADC;
-        ch_count = ch_count + 1;
+        filename = fdt_data + "/Row" + string(row) + "Module" + string(module) + "Ch" + string(ch) + ".txt";
+        if isfile(filename)
+            fdt_data_raw = readtable(filename);
+            fdt_data_allch(:, ch_count + 1) = fdt_data_raw.ADC;
+            ch_count = ch_count + 1;
+        else
+            ch_values = ch_values(ch_values~=ch);
+            fdt_data_allch(:, ch_count + 1) = nan;
+        end  
     end
     
     % Definizione range calcolo spline
@@ -94,7 +101,7 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
     muon_allch_ADU = nan(100000, 3);
     out_row_ch_counter = 1;
     disp("Acquisizione dati DAQ");
-    for ch_sel = [ch_start:ch_finish]
+    for ch_sel = ch_values
         muon_data = readtable(data_in_path + "row" + string(row) + "_mod" + string(module) + "_ch" + string(ch_sel) + "_ADU.dat", "TreatAsMissing", "NaN", "ReadVariableNames",false, "TrimNonNumeric",true);
         muon_data = table2array(muon_data);
         disp("Canale: " + string(ch_sel) + " with " + string(length(muon_data)) + " events");
@@ -118,7 +125,7 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
     ch_count = 1;
     out_row_ch_counter = 1;
     disp("Conversione dati in keV");
-    for ch = [ch_start:ch_finish]
+    for ch = ch_values
         muon_data_ch_ADU = muon_allch_ADU(muon_allch_ADU(:, 1) == ch, 2);
         events_kev = interp1(spline_allchs_pt(:, ch_count + 1), range, muon_data_ch_ADU, 'cubic') * conv_factor;
         disp("Canale: " + string(ch));
@@ -193,7 +200,7 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
     ch_count = 0;
     f = figure("Visible", "off");
     hold on
-    for ch = [ch_start:ch_finish]
+    for ch = ch_values
         plot(dac_values.*0.841, fdt_data_allch(:, ch_count + 1).*0.841);
         ch_count = ch_count + 1;
     end
@@ -227,7 +234,7 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
     ch_count = 0;
     f = figure("Visible", "off");
     hold on
-    for ch = [ch_start:ch_finish]
+    for ch = ch_values
         plot(dac_values.*0.841, fdt_data_allch_noped(:, ch_count + 1).*0.841);
         ch_count = ch_count + 1;
     end
