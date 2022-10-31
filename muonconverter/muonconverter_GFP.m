@@ -18,7 +18,7 @@
 % OUTPUT
 %  muon_allch_out: muon data output after conversion (in keV)
 
-function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_out_path, pt_in, fdt_data, pedestal_data, ch_start, ch_finish, bin_width, max_kev)
+function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_path, folder_out_path, pt_in, fdt_data, pedestal_data, ch_start, ch_finish, bin_width, max_kev)
     
     % This script changes all interpreters from tex to latex. 
     list_factory = fieldnames(get(groot,'factory'));
@@ -28,6 +28,8 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
         default_name = strrep(list_factory{index_interpreter(i)},'factory','default');
         set(groot, default_name,'latex');
     end
+
+    disp("MODULE " + string(module) + " ON ROW " +  string(row) + ": CHANNELS " + string(ch_start) + " - " + string(ch_finish));
     
     % Fattore di conversion DAC_inj_code to keV
     conv_factor = 0.841;
@@ -64,10 +66,12 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     
     % Calcolo spline per definizione lookup table sui canali di interesse
     % per la conversione
+    fdt_data_allch_noped = fdt_data_allch;
     disp("Calcolo spline");
     for ch = ch_values
         fdt_data_ch = fdt_data_allch(:, ch_count + 1);
         fdt_data_ch = fdt_data_ch - pedestal_data_allch(ch_count+1);
+        fdt_data_allch_noped(:, ch_count + 1) = fdt_data_ch;
         spline_allchs_pt(:, ch_count + 1) = interp1(dac_values, fdt_data_ch, range, 'spline');
         disp("Canale: " + string(ch));
     
@@ -87,23 +91,23 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     % Elaborazione dati acquisiti su modulo tramite GAPS_DAQ
     % Acquisizione dati raw in ADU da DAQ
     tic
-    muon_allch_ADU = nan(100000, 2);
+    muon_allch_ADU = nan(100000, 3);
     out_row_ch_counter = 1;
     disp("Acquisizione dati DAQ");
     for ch_sel = [ch_start:ch_finish]
         muon_data = readtable(data_in_path + "row" + string(row) + "_mod" + string(module) + "_ch" + string(ch_sel) + "_ADU.dat", "TreatAsMissing", "NaN", "ReadVariableNames",false, "TrimNonNumeric",true);
         muon_data = table2array(muon_data);
-        muon_data = muon_data.*1000;
         disp("Canale: " + string(ch_sel) + " with " + string(length(muon_data)) + " events");
 
         row_counter = out_row_ch_counter;
         for i = [1:length(muon_data)]
             muon_allch_ADU(row_counter, 1) = ch_sel;
-            muon_allch_ADU(row_counter, 2) = muon_data(i);
+            muon_allch_ADU(row_counter, 2) = muon_data(i) - pedestal_data_allch(ch_sel+1);
+            muon_allch_ADU(row_counter, 3) = muon_data(i);
             row_counter = row_counter + 1;
         end
 
-        out_row_ch_counter = out_row_ch_counter + row_counter;
+        out_row_ch_counter = out_row_ch_counter + i;
     end
     elapsed = toc;
     disp("Elapsed time: " + string(elapsed));
@@ -113,7 +117,7 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     muon_allch = muon_allch_ADU;
     ch_count = 1;
     out_row_ch_counter = 1;
-    disp("Conversion dati in keV");
+    disp("Conversione dati in keV");
     for ch = [ch_start:ch_finish]
         muon_data_ch_ADU = muon_allch_ADU(muon_allch_ADU(:, 1) == ch, 2);
         events_kev = interp1(spline_allchs_pt(:, ch_count + 1), range, muon_data_ch_ADU, 'cubic') * conv_factor;
@@ -126,11 +130,12 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
             row_counter = row_counter + 1;
         end
 
-        out_row_ch_counter = out_row_ch_counter + row_counter;
+        out_row_ch_counter = out_row_ch_counter + i;
     end
     
     muon_allch = muon_allch(:, 2);
-    muon_allch_ADU = muon_allch_ADU(:, 2);
+    muon_allch_out = muon_allch;
+    muon_allch_ADU = muon_allch_ADU(:, 3);
     elapsed = toc;
     disp("Elapsed time: " + string(elapsed));
     
@@ -172,7 +177,7 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     f = figure("Visible", "off");
 
     % TODO determinare dinamicamente taglio piedistallo
-    histfitlandau(muon_allch(muon_allch > 200), bin_width, 0, max_kev, 1); % bin_width = 15 ok
+    [vpp, sig, mv, bound] = histfitlandau(muon_allch(muon_allch > 200), bin_width, 0, max_kev, 1); % bin_width = 15 ok
     box on
     grid on
     xlim([0, max_kev])
@@ -204,7 +209,7 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     xticklabels([0:10:50])
     yticks([0:200:1400])
     set(gcf, 'Color', 'w');
-    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$} with pedestal subtracted")
+    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$ with pedestal subtracted}")
     
     ax = gca; 
     fontsize = 12;
@@ -215,13 +220,15 @@ function [muon_allch_out] = muonconverter_GFP(row, module, data_in_path, folder_
     
     exportgraphics(gcf, folder_out_path + "/transfer_function_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +".pdf",'ContentType','vector');
 
+    landau_MPV = vpp;
+
     % Plot funzione di trasferimento successivamente alla sottrazione del
     % piedistallo
     ch_count = 0;
     f = figure("Visible", "off");
     hold on
     for ch = [ch_start:ch_finish]
-        plot(dac_values.*0.841, fdt_data_allch(:, ch_count + 1).*0.841);
+        plot(dac_values.*0.841, fdt_data_allch_noped(:, ch_count + 1).*0.841);
         ch_count = ch_count + 1;
     end
     hold off
