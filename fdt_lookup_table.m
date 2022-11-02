@@ -481,6 +481,8 @@ for row = [0:5]
             "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\pedestal\input\row0_mod0_allch_pedestals.dat", ...
             0, 31, 15, 6000);
         GFP_MPVs(module_counter) = landau_MPV;
+        GFP_MPVs_table = array2table(GFP_MPVs);
+        writetable(GFP_MPVs_table, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_output\GPF_analysis_row" + string(row) + "_mod" + string(mod) + "\landaus_MPVs.dat", 'Delimiter', "\t");
         module_counter = module_counter + 1;
     end
 end

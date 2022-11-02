@@ -182,12 +182,12 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
         dati_EDEP_raw = table2cell(dati_EDEP_raw)';
         dati_EDEP_raw = cat(2, dati_EDEP_raw{:});
         dati_EDEP = str2double(dati_EDEP_raw)';
+        
         hold on
-
         histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
         histogram(dati_EDEP.*1000, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
-
         hold off
+
         set(gca, 'YScale', 'log')
         box on
         grid on
