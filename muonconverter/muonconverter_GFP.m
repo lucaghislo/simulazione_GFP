@@ -210,11 +210,11 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
     grid on
     xlabel('\textbf{Incoming energy [MeV]}');
     ylabel('\textbf{Channel Output [ADU]}');
-    ylim([0 1400])
+    ylim([0 2000])
     xlim([0, 53824]);
     xticks([0:10000:50000])
     xticklabels([0:10:50])
-    yticks([0:200:1400])
+    yticks([0:200:2000])
     set(gcf, 'Color', 'w');
     title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$ with pedestal subtracted}")
     
@@ -244,11 +244,11 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
     grid on
     xlabel('\textbf{Incoming energy [MeV]}');
     ylabel('\textbf{Channel Output [ADU]}');
-    ylim([0 1400])
+    ylim([0 2000])
     xlim([0, 53824]);
     xticks([0:10000:50000])
     xticklabels([0:10:50])
-    yticks([0:200:1400])
+    yticks([0:200:2000])
     set(gcf, 'Color', 'w');
     title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}")
     
