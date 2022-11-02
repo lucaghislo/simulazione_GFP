@@ -196,6 +196,8 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
         xlabel("\textbf{Incoming energy [keV]}")
         title("\textbf{Energy deposition for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}");
         set(gca,'FontSize', 12)
+        legend("Energy deposition Nadir", "Energy deposition Luca", "Location", "best")
+
         f.Position = [10 30 1000  650];
         exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV.pdf", 'ContentType', 'vector');
         disp("SAVED: energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV.pdf")

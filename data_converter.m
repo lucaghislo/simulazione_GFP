@@ -265,8 +265,8 @@ for row = 0:5
         data_landau = data_landau(~isnan(data_landau));
 
         if(length(data_landau) > 0)
-            [vpp, sig, mv, bound] = histfitlandau(data_landau, 0.02, 0, 6, 1000);
-            landau_fit_infos(module_counter, :) = [row, mod, round(vpp*1000, 2), round(sig*1000, 2), round(mv*1000, 2)];
+            [vpp, sig, mv, bound] = histfitlandau(data_landau.*1000, 15, 0, 6000, 1);
+            landau_fit_infos(module_counter, :) = [row, mod, round(vpp, 2), round(sig, 2), round(mv, 2)];
         else
             landau_fit_infos(module_counter, :) = [row, mod, nan, nan, nan];
         end
@@ -275,9 +275,9 @@ for row = 0:5
         
         box on
         grid on
-        xlim([0, 6])
-        xticks([0:0.5:6])
-        xlabel("\textbf{Incoming Energy [MeV]}")
+        xlim([0, 6000])
+        %xticks([0:0.5:6])
+        xlabel("\textbf{Incoming Energy [keV]}")
         ylabel("\textbf{Counts}")
         title("\textbf{Incoming energy spectrum for all channels of module " + string(mod) + " on row " + string(row) + "}")
         
@@ -388,13 +388,13 @@ for row = 0:5
 
             chdata = data([1:end-2], ch+1);
             chdata = cell2mat(chdata);
-            histogram(chdata, "BinWidth", 0.02, "FaceAlpha", 0.5, "DisplayStyle", "bar", 'FaceColor', [colors(ch+1, 1), colors(ch+1, 2), colors(ch+1, 3)])
+            histogram(chdata*1000, "BinWidth", 15, "FaceAlpha", 0.5, "DisplayStyle", "bar", 'FaceColor', [colors(ch+1, 1), colors(ch+1, 2), colors(ch+1, 3)])
 
             box on
             grid on
-            xlim([0, 6])
-            xticks([0:0.5:6])
-            xlabel("\textbf{Incoming Energy [MeV]}")
+            xlim([0, 6000])
+            %xticks([0:0.5:6])
+            xlabel("\textbf{Incoming Energy [keV]}")
             ylabel("\textbf{Counts}")
             title("\textbf{Incoming energy spectrum for channel " + string(ch) + "}")
             
