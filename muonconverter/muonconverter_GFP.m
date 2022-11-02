@@ -44,6 +44,7 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
     dac_values_raw = readtable(fdt_data + "/Row0Module0Ch0.txt");
     dac_values = unique(dac_values_raw.Cal_V);
     fdt_data_allch = nan(length(dac_values), 32);
+    fdt_CAL10_allch = nan(32, 1);
     
     % FDT calcolata solo sui canali di interesse
     ch_count = 0;
@@ -52,6 +53,7 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
         if isfile(filename)
             fdt_data_raw = readtable(filename);
             fdt_data_allch(:, ch_count + 1) = fdt_data_raw.ADC;
+            fdt_CAL10_allch(ch+1, 1) = fdt_data_raw.ADC(fdt_data_raw.Cal_V == 10);
             ch_count = ch_count + 1;
         else
             ch_values = ch_values(ch_values~=ch);
@@ -121,7 +123,7 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
                 end
     
                 out_row_ch_counter = out_row_ch_counter + i;
-            end;
+            end
         end
         elapsed = toc;
         disp("Elapsed time: " + string(elapsed));
@@ -171,10 +173,21 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
         set(gca,'FontSize', 12)
         f.Position = [10 30 1000  650];
         exportgraphics(gcf,folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_ADU.pdf",'ContentType','vector');
-        
+        disp("SAVED: energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_ADU.pdf");
+
         % Istogramma senza interpolazione Landau (con piedistallo, scala logaritmica)
         f = figure("Visible", "off");
         histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
+        dati_EDEP_raw = readtable("C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\events\EDEP\row" + string(row) + "_mod" + string(module) + "_allch_EDEP.dat", "ReadRowNames", false, "ReadVariableNames", false);
+        dati_EDEP_raw = table2cell(dati_EDEP_raw)';
+        dati_EDEP_raw = cat(2, dati_EDEP_raw{:});
+        dati_EDEP = str2double(dati_EDEP_raw)';
+        hold on
+
+        histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
+        histogram(dati_EDEP.*1000, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
+
+        hold off
         set(gca, 'YScale', 'log')
         box on
         grid on
@@ -185,7 +198,8 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
         set(gca,'FontSize', 12)
         f.Position = [10 30 1000  650];
         exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV.pdf", 'ContentType', 'vector');
-        
+        disp("SAVED: energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV.pdf")
+
         % Istogramma con interpolazione Landau (senza piedistallo, scala
         % lineare)
         f = figure("Visible", "off");
@@ -201,7 +215,8 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
         set(gca,'FontSize', 12)
         f.Position = [10 30 1000  650];
         exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV_landau.pdf", 'ContentType', 'vector');
-    
+        disp("SAVED: energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV_landau.pdf")
+
         % Plot funzione di trasferimento prima della sottrazione del
         % piedistallo
         ch_count = 0;
@@ -209,40 +224,6 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
         hold on
         for ch = ch_values
             plot(dac_values.*0.841, fdt_data_allch(:, ch_count + 1).*0.841);
-            ch_count = ch_count + 1;
-        end
-        hold off
-        
-        box on
-        grid on
-        xlabel('\textbf{Incoming energy [MeV]}');
-        ylabel('\textbf{Channel Output [ADU]}');
-        ylim([0 2000])
-        xlim([0, 53824]);
-        xticks([0:10000:50000])
-        xticklabels([0:10:50])
-        yticks([0:200:2000])
-        set(gcf, 'Color', 'w');
-        title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$ with pedestal subtracted}")
-        
-        ax = gca; 
-        fontsize = 12;
-        ax.XAxis.FontSize = fontsize; 
-        ax.YAxis.FontSize = fontsize;
-        ax.Title.FontSize = fontsize + 4;
-        f.Position = [0 0 1200 800];
-        
-        exportgraphics(gcf, folder_out_path + "/transfer_function_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +".pdf",'ContentType','vector');
-    
-        landau_MPV = vpp;
-    
-        % Plot funzione di trasferimento successivamente alla sottrazione del
-        % piedistallo
-        ch_count = 0;
-        f = figure("Visible", "off");
-        hold on
-        for ch = ch_values
-            plot(dac_values.*0.841, fdt_data_allch_noped(:, ch_count + 1).*0.841);
             ch_count = ch_count + 1;
         end
         hold off
@@ -266,7 +247,66 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
         ax.Title.FontSize = fontsize + 4;
         f.Position = [0 0 1200 800];
         
+        exportgraphics(gcf, folder_out_path + "/transfer_function_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +".pdf",'ContentType','vector');
+        disp("SAVED: transfer_function_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +".pdf")
+
+        landau_MPV = vpp;
+    
+        % Plot funzione di trasferimento successivamente alla sottrazione del
+        % piedistallo
+        ch_count = 0;
+        f = figure("Visible", "off");
+        hold on
+        for ch = ch_values
+            plot(dac_values.*0.841, fdt_data_allch_noped(:, ch_count + 1).*0.841);
+            ch_count = ch_count + 1;
+        end
+        hold off
+        
+        box on
+        grid on
+        xlabel('\textbf{Incoming energy [MeV]}');
+        ylabel('\textbf{Channel Output [ADU]}');
+        ylim([0 2000])
+        xlim([0, 53824]);
+        xticks([0:10000:50000])
+        xticklabels([0:10:50])
+        yticks([0:200:2000])
+        set(gcf, 'Color', 'w');
+        title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$ with pedestal subtracted}")
+        
+        ax = gca; 
+        fontsize = 12;
+        ax.XAxis.FontSize = fontsize; 
+        ax.YAxis.FontSize = fontsize;
+        ax.Title.FontSize = fontsize + 4;
+        f.Position = [0 0 1200 800];
+        
         exportgraphics(gcf, folder_out_path + "/transfer_function_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_no-pedestal.pdf",'ContentType','vector');
+        disp("SAVED: transfer_function_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_no-pedestal.pdf")
+
+        % Plot confronto piedistallo misurato iniettando 10 DAC_inj vs
+        % misurato senza iniezione
+        colors = distinguishable_colors(3, 'w');
+        f = figure("Visible", "off");
+        hold on
+        plot([0:31], fdt_CAL10_allch, "LineWidth", 1, "Marker", "o", "Color", [colors(1, 1), colors(1, 2), colors(1, 3)], "MarkerFaceColor", [colors(1, 1), colors(1, 2), colors(1, 3)]);
+        plot([0:31], pedestal_data_allch, "LineWidth", 1, "Marker", "o", "Color", [colors(2, 1), colors(2, 2), colors(2, 3)], "MarkerFaceColor", [colors(2, 1), colors(2, 2), colors(2, 3)]);
+        plot([0:31], abs(fdt_CAL10_allch - pedestal_data_allch), "LineWidth", 1, "LineStyle", "--", "Color", [colors(3, 1), colors(3, 2), colors(3, 3)]);
+        hold off
+
+        box on
+        grid on
+        xlim([0 31]);
+        xlabel("\textbf{Channel}")
+        xlabel("\textbf{Channel}")
+        legend("Pedestal evaluated from FDT @ 10 DAC\_inj\_code", "Pedestal evalueted from ENC", "Pedestal difference", "Location", "best");
+        title("\textbf{Pedestal measured when injecting 10 DAC\_inj\_code vs without injection}")
+
+        set(gca,'FontSize', 12)
+        f.Position = [10 30 1000  650];
+        exportgraphics(gcf,folder_out_path + "/pedestal_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +".pdf",'ContentType','vector');
+        disp("SAVED: pedestal_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +".pdf");
 
     else
         muon_allch_out = nan;
