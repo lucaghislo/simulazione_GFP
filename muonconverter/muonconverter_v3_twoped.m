@@ -114,10 +114,11 @@ function [muon_allch_out] = muonconverter_v3_twoped(data_in_path, folder_out_pat
     
     % Calcolo spline per definizione lookup table sui canali di interesse
     % per la conversione
+    fdt_data_allch_noped = fdt_data_allch;
     for ch = ch_values
         fdt_data_ch = fdt_data_allch(:, ch_count + 1);
         fdt_data_ch = fdt_data_ch - fdt_CAL10_allch(ch+1);
-    
+        fdt_data_allch_noped(:, ch_count + 1) = fdt_data_ch;
         spline_allchs_pt(:, ch_count + 1) = interp1(dac_values, fdt_data_ch, range, 'spline');
     
         [val, idx] = unique(spline_allchs_pt(:, ch_count + 1));
@@ -212,11 +213,11 @@ function [muon_allch_out] = muonconverter_v3_twoped(data_in_path, folder_out_pat
     grid on
     xlabel('\textbf{Incoming energy [MeV]}');
     ylabel('\textbf{Channel Output [ADU]}');
-    ylim([0 1400])
+    ylim([0 2000])
     xlim([0, 53824]);
     xticks([0:10000:50000])
     xticklabels([0:10:50])
-    yticks([0:200:1400])
+    yticks([0:200:2000])
     set(gcf, 'Color', 'w');
     title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$} with pedestal subtracted")
     
@@ -235,7 +236,7 @@ function [muon_allch_out] = muonconverter_v3_twoped(data_in_path, folder_out_pat
     f = figure("Visible", "off");
     hold on
     for ch = [ch_start:ch_finish]
-        plot(dac_values.*0.841, fdt_data_allch(:, ch_count + 1).*0.841);
+        plot(dac_values.*0.841, fdt_data_allch_noped(:, ch + 1).*0.841);
         ch_count = ch_count + 1;
     end
     hold off
@@ -244,11 +245,11 @@ function [muon_allch_out] = muonconverter_v3_twoped(data_in_path, folder_out_pat
     grid on
     xlabel('\textbf{Incoming energy [MeV]}');
     ylabel('\textbf{Channel Output [ADU]}');
-    ylim([0 1400])
+    ylim([0 20000])
     xlim([0, 53824]);
     xticks([0:10000:50000])
     xticklabels([0:10:50])
-    yticks([0:200:1400])
+    yticks([0:200:2000])
     set(gcf, 'Color', 'w');
     title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}")
     
