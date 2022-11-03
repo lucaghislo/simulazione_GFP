@@ -114,10 +114,10 @@ function [muon_allch_out] = muonconverter_v3_twoped(data_in_path, folder_out_pat
     
     % Calcolo spline per definizione lookup table sui canali di interesse
     % per la conversione
-    fdt_data_allch_noped = fdt_data_allch;
+    fdt_data_allch_noped = nan(length(fdt_data_allch), 32);
     for ch = ch_values
         fdt_data_ch = fdt_data_allch(:, ch_count + 1);
-        fdt_data_ch = fdt_data_ch - fdt_CAL10_allch(ch+1);
+        fdt_data_ch = abs(fdt_data_ch - fdt_CAL10_allch(ch+1));
         fdt_data_allch_noped(:, ch_count + 1) = fdt_data_ch;
         spline_allchs_pt(:, ch_count + 1) = interp1(dac_values, fdt_data_ch, range, 'spline');
     
@@ -218,8 +218,8 @@ function [muon_allch_out] = muonconverter_v3_twoped(data_in_path, folder_out_pat
     xticks([0:10000:50000])
     xticklabels([0:10:50])
     yticks([0:200:2000])
+    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}")
     set(gcf, 'Color', 'w');
-    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$} with pedestal subtracted")
     
     ax = gca; 
     fontsize = 12;
@@ -245,13 +245,13 @@ function [muon_allch_out] = muonconverter_v3_twoped(data_in_path, folder_out_pat
     grid on
     xlabel('\textbf{Incoming energy [MeV]}');
     ylabel('\textbf{Channel Output [ADU]}');
-    ylim([0 20000])
+    ylim([0 2000])
     xlim([0, 53824]);
     xticks([0:10000:50000])
     xticklabels([0:10:50])
     yticks([0:200:2000])
     set(gcf, 'Color', 'w');
-    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}")
+    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$ with pedestal subtracted}")
     
     ax = gca; 
     fontsize = 12;
