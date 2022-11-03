@@ -473,7 +473,7 @@ clear; clc;
 % v2 (WIN on all GFP modules)
 GFP_MPVs = nan(36, 1);
 module_counter = 1;
-for row = [0:5]
+for row = [5]
     for mod = [0:5]
         [fun_out, landau_MPV] = muonconverter_GFP(row, mod, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\events\ADU\single_channels\", ...
             "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_output\GPF_analysis_row" + string(row) + "_mod" + string(mod), 4, ...
@@ -486,3 +486,10 @@ for row = [0:5]
         module_counter = module_counter + 1;
     end
 end
+
+% v3 (two pedestals)
+% fun_out = muonconverter_v3_twoped("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", ...
+%     "C:\Users\ghisl\Downloads\output.pdf", 4, ...
+%     "C:\Users\ghisl\My Drive\UniBG\CORSI\PhD\GAPS\module_muon_detection\test_results\14092022_2\data\TransferFunction_fast_tau4.dat", ...
+%     "C:\Users\ghisl\My Drive\UniBG\CORSI\PhD\GAPS\module_muon_detection\test_results\14092022_2\data\Pedestals_tau4.dat", ...
+%     0, 31, 15, 6000);

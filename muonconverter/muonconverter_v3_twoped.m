@@ -84,10 +84,11 @@ function [muon_allch_out] = muonconverter_v3_twoped(data_in_path, folder_out_pat
     for channel = [ch_start:ch_finish]
         fdt_allenergies = nan(length(dac_values), 1);
         dac_counter = 0;
-        fdt_CAL10_allch(channel+1, 1) = data_raw.Value(data_raw.DAC == 0 & data_raw.CH_ == channel);
     
-        if isempty(fdt_CAL10_allch)
-            fdt_CAL10_allch(channel+1, 1) = data_raw.Value(data_raw.DAC == 10 & data_raw.CH_ == channel);
+        if isempty(data_raw.Value(data_raw.DAC == 0))
+            fdt_CAL10_allch(channel+1, 1) = mean(data_raw.Value(data_raw.DAC == 10 & data_raw.CH_ == channel));
+        else
+            fdt_CAL10_allch(channel+1, 1) = mean(data_raw.Value(data_raw.DAC == 0 & data_raw.CH_ == channel));
         end
     
         for dac = dac_values
