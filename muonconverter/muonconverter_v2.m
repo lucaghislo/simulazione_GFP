@@ -78,11 +78,18 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     dac_values = unique(data_raw.DAC); % dac_values ottenuti in base agli step impostati in fase di acqusizione FDT
     dac_values = dac_values(~isnan(dac_values))';
     fdt_data_allch = nan(length(dac_values), 32);
+    fdt_CAL10_allch = nan(32, 1);
     
     ch_count = 1;
     for channel = [ch_start:ch_finish]
         fdt_allenergies = nan(length(dac_values), 1);
         dac_counter = 0;
+    
+        if isempty(data_raw.Value(data_raw.DAC == 0))
+            fdt_CAL10_allch(channel+1, 1) = mean(data_raw.Value(data_raw.DAC == 10 & data_raw.CH_ == channel));
+        else
+            fdt_CAL10_allch(channel+1, 1) = mean(data_raw.Value(data_raw.DAC == 0 & data_raw.CH_ == channel));
+        end
     
         for dac = dac_values
             data_dac_ch = data_raw.Value(data_raw.DAC == dac & data_raw.CH_ == channel);
@@ -107,10 +114,11 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     
     % Calcolo spline per definizione lookup table sui canali di interesse
     % per la conversione
+    fdt_data_allch_noped = nan(length(fdt_data_allch), 32);
     for ch = ch_values
         fdt_data_ch = fdt_data_allch(:, ch_count + 1);
-        fdt_data_ch = fdt_data_ch - pedestal_data_allch(ch_count+1);
-    
+        fdt_data_ch = abs(fdt_data_ch - pedestal_data_allch(ch_count + 1));
+        fdt_data_allch_noped(:, ch_count + 1) = fdt_data_ch;
         spline_allchs_pt(:, ch_count + 1) = interp1(dac_values, fdt_data_ch, range, 'spline');
     
         [val, idx] = unique(spline_allchs_pt(:, ch_count + 1));
@@ -205,13 +213,13 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     grid on
     xlabel('\textbf{Incoming energy [MeV]}');
     ylabel('\textbf{Channel Output [ADU]}');
-    ylim([0 1400])
+    ylim([0 2000])
     xlim([0, 53824]);
     xticks([0:10000:50000])
     xticklabels([0:10:50])
-    yticks([0:200:1400])
+    yticks([0:200:2000])
+    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}")
     set(gcf, 'Color', 'w');
-    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$} with pedestal subtracted")
     
     ax = gca; 
     fontsize = 12;
@@ -228,7 +236,7 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     f = figure("Visible", "off");
     hold on
     for ch = [ch_start:ch_finish]
-        plot(dac_values.*0.841, fdt_data_allch(:, ch_count + 1).*0.841);
+        plot(dac_values.*0.841, fdt_data_allch_noped(:, ch + 1).*0.841);
         ch_count = ch_count + 1;
     end
     hold off
@@ -237,13 +245,13 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     grid on
     xlabel('\textbf{Incoming energy [MeV]}');
     ylabel('\textbf{Channel Output [ADU]}');
-    ylim([0 1400])
+    ylim([0 2000])
     xlim([0, 53824]);
     xticks([0:10000:50000])
     xticklabels([0:10:50])
-    yticks([0:200:1400])
+    yticks([0:200:2000])
     set(gcf, 'Color', 'w');
-    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}")
+    title("\textbf{Transfer function for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$ with pedestal subtracted}")
     
     ax = gca; 
     fontsize = 12;
