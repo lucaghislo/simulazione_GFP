@@ -175,17 +175,17 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
         exportgraphics(gcf,folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_ADU.pdf",'ContentType','vector');
         disp("SAVED: energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_ADU.pdf");
 
-        % Istogramma senza interpolazione Landau (con piedistallo, scala logaritmica)
-        f = figure("Visible", "off");
-        histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
+        % Istogramma senza interpolazione Landau (scala logaritmica)
         dati_EDEP_raw = readtable("C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\events\EDEP\row" + string(row) + "_mod" + string(module) + "_allch_EDEP.dat", "ReadRowNames", false, "ReadVariableNames", false);
         dati_EDEP_raw = table2cell(dati_EDEP_raw)';
-        dati_EDEP_raw = cat(2, dati_EDEP_raw{:});
-        dati_EDEP = str2double(dati_EDEP_raw)';
+        %dati_EDEP_raw = cat(2, dati_EDEP_raw{:});
+        dati_EDEP_raw = horzcat(dati_EDEP_raw{:});
+        dati_EDEP = str2num(dati_EDEP_raw)'; %#ok<ST2NM> 
         
+        f = figure("Visible", "off");
         hold on
-        histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
         histogram(dati_EDEP.*1000, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
+        histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
         hold off
 
         set(gca, 'YScale', 'log')
@@ -286,23 +286,28 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
         
         exportgraphics(gcf, folder_out_path + "/transfer_function_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_no-pedestal.pdf",'ContentType','vector');
         disp("SAVED: transfer_function_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_no-pedestal.pdf")
+        pedestal_diff = abs(fdt_CAL10_allch - pedestal_data_allch);
 
         % Plot confronto piedistallo misurato iniettando 10 DAC_inj vs
         % misurato senza iniezione
         colors = distinguishable_colors(3, 'w');
         f = figure("Visible", "off");
         hold on
-        plot([0:31], fdt_CAL10_allch, "LineWidth", 1, "Marker", "o", "Color", [colors(1, 1), colors(1, 2), colors(1, 3)], "MarkerFaceColor", [colors(1, 1), colors(1, 2), colors(1, 3)]);
-        plot([0:31], pedestal_data_allch, "LineWidth", 1, "Marker", "o", "Color", [colors(2, 1), colors(2, 2), colors(2, 3)], "MarkerFaceColor", [colors(2, 1), colors(2, 2), colors(2, 3)]);
-        plot([0:31], abs(fdt_CAL10_allch - pedestal_data_allch), "LineWidth", 1, "LineStyle", "--", "Color", [colors(3, 1), colors(3, 2), colors(3, 3)]);
+        p1 = plot([0:31], fdt_CAL10_allch, "LineWidth", 1, "Marker", "o", "Color", [colors(1, 1), colors(1, 2), colors(1, 3)], "MarkerFaceColor", [colors(1, 1), colors(1, 2), colors(1, 3)]);
+        p2 = plot([0:31], pedestal_data_allch, "LineWidth", 1, "Marker", "o", "Color", [colors(2, 1), colors(2, 2), colors(2, 3)], "MarkerFaceColor", [colors(2, 1), colors(2, 2), colors(2, 3)]);
+        p3 = plot([0:31], pedestal_diff, "LineWidth", 1, "LineStyle", "--", "Color", [colors(3, 1), colors(3, 2), colors(3, 3)]);
         hold off
 
         box on
         grid on
         xlim([0 31]);
         xlabel("\textbf{Channel}")
-        xlabel("\textbf{Channel}")
-        legend("Pedestal evaluated from FDT @ 10 DAC\_inj\_code", "Pedestal evalueted from ENC", "Pedestal difference", "Location", "best");
+        ylabel("\textbf{[ADU]}")
+        %legend("Pedestal evaluated from FDT @ 10 DAC\_inj\_code", "Pedestal evalueted from ENC", "Pedestal difference", "Location", "best");
+        legend([p1, p2, p3], "Pedestal evaluated from FDT @ 10 DAC\_inj\_code, $\mu = " + string(round(nanmean(fdt_CAL10_allch))) + "$ ADU", ...
+                "Pedestal obtained from ENC, $\mu = " + string(round(nanmean(pedestal_data_allch))) + "$ ADU", ...
+                "Pedestal difference, $\mu = " + string(round(nanmean(pedestal_diff))) + "$ ADU", ...
+                'Location', 'best') %#ok<*NANMEAN> 
         title("\textbf{Pedestal measured when injecting 10 DAC\_inj\_code vs without injection}")
 
         set(gca,'FontSize', 12)
