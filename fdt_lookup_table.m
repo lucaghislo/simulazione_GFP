@@ -483,6 +483,6 @@ for row = [0:5]
         GFP_MPVs(module_counter) = landau_MPV;
         GFP_MPVs_table = array2table(GFP_MPVs);
         writetable(GFP_MPVs_table, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_output\landaus_MPVs.dat", 'Delimiter', "\t");
+        module_counter = module_counter + 1;
     end
-    module_counter = module_counter + 1;
 end
