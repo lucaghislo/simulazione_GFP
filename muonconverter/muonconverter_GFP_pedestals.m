@@ -20,7 +20,7 @@
 %  muon_allch_out_inj: muon data output after conversion (in keV, double pedestal subtraction)
 %          landau_MPV: landau Most Probable Value (MPV)
 
-function [muon_allch_out_ped, muon_allch_out_inj, landau_MPV] = muonconverter_GFP_pedestals(row, module, data_in_path, folder_out_path, pt_in, fdt_data, pedestal_data, ch_start, ch_finish, bin_width, max_kev)
+function [muon_allch_out_ped, muon_allch_out_inj, muon_allch_out_rem, landau_MPV] = muonconverter_GFP_pedestals(row, module, data_in_path, folder_out_path, pt_in, fdt_data, pedestal_data, ch_start, ch_finish, bin_width, max_kev)
     
     % This script changes all interpreters from tex to latex. 
     list_factory = fieldnames(get(groot,'factory'));
@@ -114,6 +114,7 @@ function [muon_allch_out_ped, muon_allch_out_inj, landau_MPV] = muonconverter_GF
         % Acquisizione dati raw in ADU da DAQ
         tic
         muon_allch_ADU = nan(100000, 3);
+        muon_allch_ADU_ped_inj = nan(100000, 3);
         out_row_ch_counter = 1;
         disp("Acquisizione dati DAQ");
         for ch_sel = ch_values
@@ -131,6 +132,11 @@ function [muon_allch_out_ped, muon_allch_out_inj, landau_MPV] = muonconverter_GF
                     muon_allch_ADU(row_counter, 1) = ch_sel;
                     muon_allch_ADU(row_counter, 2) = muon_data(i) - pedestal_data_allch(ch_sel+1);
                     muon_allch_ADU(row_counter, 3) = muon_data(i);
+                    
+                    muon_allch_ADU_ped_inj(row_counter, 1) = ch_sel;
+                    muon_allch_ADU_ped_inj(row_counter, 2) = muon_data(i) - fdt_CAL10_allch(ch_sel+1);
+                    muon_allch_ADU_ped_inj(row_counter, 3) = muon_data(i);
+                    
                     row_counter = row_counter + 1;
                 end
     
@@ -143,13 +149,17 @@ function [muon_allch_out_ped, muon_allch_out_inj, landau_MPV] = muonconverter_GF
         % Conversione ADU -> keV tramite interpolazione spline
         tic
         muon_allch_ped = muon_allch_ADU;
+        muon_allch_inj = muon_allch_ADU;
+        muon_allch_rem = muon_allch_ADU_ped_inj;
         ch_count = 1;
         out_row_ch_counter = 1;
         disp("Conversione dati in keV");
         for ch = ch_values
             muon_data_ch_ADU = muon_allch_ADU(muon_allch_ADU(:, 1) == ch, 2);
+            muon_data_ch_inj = muon_allch_ADU_ped_inj(muon_allch_ADU_ped_inj(:, 1) == ch, 2);
             events_kev_ped = interp1(spline_allchs_pt_ped(:, ch_count + 1), range, muon_data_ch_ADU, 'cubic') * conv_factor;
             events_kev_inj = interp1(spline_allchs_pt_inj(:, ch_count + 1), range, muon_data_ch_ADU, 'cubic') * conv_factor;
+            events_kev_double = interp1(spline_allchs_pt_inj(:, ch_count + 1), range, muon_data_ch_inj, 'cubic') * conv_factor;
             disp("Canale: " + string(ch));
     
             row_counter = out_row_ch_counter;
@@ -165,6 +175,13 @@ function [muon_allch_out_ped, muon_allch_out_inj, landau_MPV] = muonconverter_GF
                 muon_allch_inj(row_counter, 2) = events_kev_inj(i);
                 row_counter = row_counter + 1;
             end
+
+            row_counter = out_row_ch_counter;
+            for i = [1:length(events_kev_double)]
+                muon_allch_rem(row_counter, 1) = ch_sel;
+                muon_allch_rem(row_counter, 2) = events_kev_double(i);
+                row_counter = row_counter + 1;
+            end
     
             out_row_ch_counter = out_row_ch_counter + i;
         end
@@ -174,6 +191,8 @@ function [muon_allch_out_ped, muon_allch_out_inj, landau_MPV] = muonconverter_GF
         muon_allch_ADU = muon_allch_ADU(:, 3);
         muon_allch_inj = muon_allch_inj(:, 2);
         muon_allch_out_inj = muon_allch_inj;
+        muon_allch_rem = muon_allch_rem(:, 2);
+        muon_allch_out_rem = muon_allch_rem;
         elapsed = toc;
         disp("Elapsed time: " + string(elapsed));
         
@@ -209,6 +228,7 @@ function [muon_allch_out_ped, muon_allch_out_inj, landau_MPV] = muonconverter_GF
         histogram(dati_EDEP.*1000, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
         histogram(muon_allch_ped, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
         histogram(muon_allch_inj, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
+        histogram(muon_allch_rem, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
         hold off
 
         set(gca, 'YScale', 'log')
@@ -219,17 +239,31 @@ function [muon_allch_out_ped, muon_allch_out_inj, landau_MPV] = muonconverter_GF
         xlabel("\textbf{Incoming energy [keV]}")
         title("\textbf{Energy deposition for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}");
         set(gca,'FontSize', 12)
-        legend("Energy deposition Nadir", "Energy deposition Luca: pedestal removed", "Energy deposition Luca: pedestal @ 10 DAC\_inj removed", "Location", "best")
+        legend("Energy deposition Nadir", "Energy deposition Luca: pedestal removed", "Energy deposition Luca: pedestal @ 10 DAC\_inj removed (fdt only)", ...
+            "Energy deposition Luca: pedestal @ 10 DAC\_inj removed (fdt and data)", "Location", "northeast")
 
         f.Position = [10 30 1000  650];
         exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV.pdf", 'ContentType', 'vector');
         disp("SAVED: energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV.pdf")
 
         % Istogramma con interpolazione Landau (senza piedistallo, scala
-        % lineare)
-        f = figure("Visible", "off");
-    
-        % TODO determinare dinamicamente taglio piedistallo
+        % lineare su dati in ADU)
+        f = figure("Visible", "off"); % TODO determinare dinamicamente taglio piedistallo
+        [vpp, sig, mv, bound] = histfitlandau_ADU(muon_allch_ADU(muon_allch_ADU > 200), bin_width, 0, 2047, 1); % bin_width = 15 ok
+        box on
+        grid on
+        xlim([0, 2047])
+        ylabel("\textbf{Counts}")
+        xlabel("\textbf{Incoming energy [ADU]}")
+        title("\textbf{Energy deposition for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}");
+        set(gca,'FontSize', 12)
+        f.Position = [10 30 1000  650];
+        exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_ADU_landau.pdf", 'ContentType', 'vector');
+        disp("SAVED: energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_ADU_landau.pdf")
+
+        % Istogramma con interpolazione Landau (senza piedistallo, scala
+        % lineare, fdt e dati rimossi del vero piedistallo)
+        f = figure("Visible", "off"); % TODO determinare dinamicamente taglio piedistallo
         [vpp, sig, mv, bound] = histfitlandau(muon_allch_ped(muon_allch_ped > 200), bin_width, 0, max_kev, 1); % bin_width = 15 ok
         box on
         grid on
@@ -241,6 +275,21 @@ function [muon_allch_out_ped, muon_allch_out_inj, landau_MPV] = muonconverter_GF
         f.Position = [10 30 1000  650];
         exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV_landau.pdf", 'ContentType', 'vector');
         disp("SAVED: energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV_landau.pdf")
+
+        % Istogramma con interpolazione Landau (senza piedistallo, scala
+        % lineare, fdt e dati rimossi del piedistallo da iniezione)
+        f = figure("Visible", "off"); % TODO determinare dinamicamente taglio piedistallo
+        [vpp, sig, mv, bound] = histfitlandau(muon_allch_inj(muon_allch_inj > 200), bin_width, 0, max_kev, 1); % bin_width = 15 ok
+        box on
+        grid on
+        xlim([0, max_kev])
+        ylabel("\textbf{Counts}")
+        xlabel("\textbf{Incoming energy [keV]}")
+        title("\textbf{Energy deposition for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}");
+        set(gca,'FontSize', 12)
+        f.Position = [10 30 1000  650];
+        exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV-inj_landau.pdf", 'ContentType', 'vector');
+        disp("SAVED: energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV-inj_landau.pdf")
 
         % Plot funzione di trasferimento prima della sottrazione del
         % piedistallo
