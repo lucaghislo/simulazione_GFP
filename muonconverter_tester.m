@@ -39,16 +39,34 @@ clear; clc;
 clear; clc;
 GFP_MPVs = nan(36, 1);
 module_counter = 1;
-for row = [5]
-    for mod = [0:5]
+for row = [0]
+    for mod = [0]
         [fun_out, landau_MPV] = muonconverter_GFP(row, mod, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\events\ADU\single_channels\", ...
-            "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_output\GPF_analysis_row" + string(row) + "_mod" + string(mod), 4, ...
+            "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_output_2\GPF_analysis_row" + string(row) + "_mod" + string(mod), 4, ...
             "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\transfer_functions", ...
             "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\pedestal\input\row0_mod0_allch_pedestals.dat", ...
             0, 31, 15, 6000);
         GFP_MPVs(module_counter) = landau_MPV;
         GFP_MPVs_table = array2table(GFP_MPVs);
-        writetable(GFP_MPVs_table, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_output\landaus_MPVs.dat", 'Delimiter', "\t");
+        writetable(GFP_MPVs_table, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_output_2\landaus_MPVs.dat", 'Delimiter', "\t");
+        module_counter = module_counter + 1;
+    end
+end
+
+%% v2 (WIN on all GFP modules with different pedestals)
+clear; clc;
+GFP_MPVs = nan(36, 1);
+module_counter = 1;
+for row = [0]
+    for mod = [0]
+        [fun_out_ped, fun_out_inj, landau_MPV] = muonconverter_GFP_pedestals(row, mod, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\events\ADU\single_channels\", ...
+            "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_output_2\GPF_analysis_row" + string(row) + "_mod" + string(mod), 4, ...
+            "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\transfer_functions", ...
+            "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\pedestal\input\row0_mod0_allch_pedestals.dat", ...
+            0, 31, 15, 6000);
+        GFP_MPVs(module_counter) = landau_MPV;
+        GFP_MPVs_table = array2table(GFP_MPVs);
+        writetable(GFP_MPVs_table, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_output_2\landaus_MPVs.dat", 'Delimiter', "\t");
         module_counter = module_counter + 1;
     end
 end
@@ -62,6 +80,14 @@ fun_out = muonconverter_v2("C:\Users\ghisl\Documents\GitHub\muon_detection_plots
     0, 31, 15, 6000);
 
 %% v3 (two pedestals)
+clear; clc;
+fun_out = muonconverter_v3_twoped("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", ...
+    "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_two_pedestals", 4, ...
+    "C:\Users\ghisl\My Drive\UniBG\CORSI\PhD\GAPS\module_muon_detection\test_results\14092022_2\data\TransferFunction_fast_tau4.dat", ...
+    "C:\Users\ghisl\My Drive\UniBG\CORSI\PhD\GAPS\module_muon_detection\test_results\14092022_2\data\Pedestals_tau4.dat", ...
+    0, 31, 15, 6000);
+
+%% v3 (GFP pedestals)
 clear; clc;
 fun_out = muonconverter_v3_twoped("C:\Users\ghisl\Documents\GitHub\muon_detection_plots\input\muons\31082022\self_trigger_1hr_THR_130_pt4_34.txt", ...
     "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_two_pedestals", 4, ...

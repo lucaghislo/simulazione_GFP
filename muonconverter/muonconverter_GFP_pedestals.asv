@@ -219,7 +219,7 @@ function [muon_allch_out_ped, muon_allch_out_inj, landau_MPV] = muonconverter_GF
         xlabel("\textbf{Incoming energy [keV]}")
         title("\textbf{Energy deposition for channels " + string(ch_start) + " - " + string(ch_finish) + " at \boldmath$\tau_{" + string(pt) + "}$}");
         set(gca,'FontSize', 12)
-        legend("Energy deposition Nadir", "Energy deposition Luca: pedestal removed", "Energy deposition Luca: pedestal @ 10 DAC\_inj removed", "Location", "best")
+        legend("Energy deposition Nadir", "Energy deposition Luca", "Location", "best")
 
         f.Position = [10 30 1000  650];
         exportgraphics(gcf, folder_out_path + "/energy_spectrum_pt" + string(pt) + "_ch" + string(ch_start) + "-" + string(ch_finish) +"_keV.pdf", 'ContentType', 'vector');
