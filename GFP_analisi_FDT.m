@@ -106,8 +106,12 @@ module_count = 0;
 for row = [0:5]
     f = figure("Visible", "off");
     hold on
+    legend_text = strings(6, 1);
     for module = [0:5]
         plot(dac_values.*0.841, fdt_allmodules(:, module_count + 1).*0.841, "LineWidth", 1, 'Color', [colors(module+1, 1), colors(module+1, 2), colors(module+1, 3)]);
+        if ~isnan(fdt_allmodules(:, module_count + 1))
+            legend_text(module + 1) = string(module);
+        end
         module_count = module_count + 1;
     end
     hold off
@@ -122,8 +126,8 @@ for row = [0:5]
     %xticklabels([0:10:50])
     %yticks([0:200:1600])
     set(gcf, 'Color', 'w');
-    title("\textbf{Mean transfer function for modules on row " + string(row) + "}");
-    hleg = legend("0", "1", "2", "3", "4", "5", "Location", "southeast");
+    title("\textbf{Mean transfer function for modules on row " + string(row) + " (up to 2 MeV)}");
+    hleg = legend(legend_text, "Location", "southeast");
     htitle = get(hleg,'Title');
     set(htitle,'String','\textbf{Module on row}')
 
