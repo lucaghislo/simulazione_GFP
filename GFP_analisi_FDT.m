@@ -149,15 +149,10 @@ end
 clearvars -except fdt_allmodules dac_values ch_values conv_factor;
 clc;
 
-colors = distinguishable_colors(6, 'w');
 module_count = 0;
 gain_data = nan(36, 4);
 for row = [0:5]
-    f = figure("Visible", "off");
-    hold on
-    for module = [0:5]
-        plot(dac_values.*0.841, fdt_allmodules(:, module_count + 1).*0.841, "LineWidth", 1, 'Color', [colors(module+1, 1), colors(module+1, 2), colors(module+1, 3)]);
-        
+    for module = [0:5]        
         x = dac_values.*conv_factor;
         y = fdt_allmodules(:, module_count + 1).*0.841;
 
@@ -175,35 +170,115 @@ for row = [0:5]
         mdl_high = fitlm(x_high, y_high);
         disp("High energy gain for module " + string(module_count) + ": y = " + string(c_high(2)) + " + " + string(c_high(1)) + "*x, R = " + string(corrcoef(y_high)));
         
-        gain_data(module_count, 1) = c_low(2);
-        gain_data(module_count, 2) = c_low(1);
+        gain_data(module_count + 1, 1) = c_low(2);
+        gain_data(module_count + 1, 2) = c_low(1);
+        gain_data(module_count + 1, 3) = c_high(2);
+        gain_data(module_count + 1, 4) = c_high(1);
         module_count = module_count + 1;
     end
-    hold off
     
-    box on
-    grid on
-    xlabel('\textbf{Incoming energy [MeV]}');
-    ylabel('\textbf{Channel Output [ADU]}');
-    ylim([0 1600])
-    xlim([0, 53824]);
-    xticks([0:10000:50000])
-    xticklabels([0:10:50])
-    yticks([0:200:1600])
-    set(gcf, 'Color', 'w');
-    title("\textbf{Mean transfer function for modules on row " + string(row) + "}");
-    hleg = legend("0", "1", "2", "3", "4", "5", "Location", "southeast");
-    htitle = get(hleg,'Title');
-    set(htitle,'String','\textbf{Module on row}')
-
-    ax = gca; 
-    fontsize = 12;
-    ax.XAxis.FontSize = fontsize; 
-    ax.YAxis.FontSize = fontsize;
-    ax.Legend.FontSize = fontsize;
-    ax.Title.FontSize = fontsize + 4;
-    f.Position = [0 0 1200 800];
-    
-    %exportgraphics(gcf, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_row_analysis\GFP_FDT_row" + string(row) + ".pdf");
-    %disp("SAVED: GFP_FDT_row" + string(row) + ".pdf")
+    gain_data_table = array2table(gain_data, "VariableNames", ["intercept_low", "gain_low", "intercept_high", "gain_high"]);
+    writetable(gain_data_table, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_row_analysis\gain_analysis\GFP_gain_data.dat", 'Delimiter', "\t");
 end
+
+
+%% Plot low energy intercept
+clearvars -except fdt_allmodules dac_values ch_values conv_factor gain_data;
+clc;
+
+colors = distinguishable_colors(1, 'w');
+f = figure("Visible", "on");
+plot([0:35], gain_data(:, 1), "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(1, 1), colors(1, 2), colors(1, 3)]);
+box on
+grid on
+xlabel('\textbf{Module}');
+ylabel('\textbf{Low energy intercept (pedestal) [ADU]}');
+set(gcf, 'Color', 'w');
+title("\textbf{Low energy intercept (pedestal) with respect to module}");
+
+ax = gca; 
+fontsize = 12;
+ax.XAxis.FontSize = fontsize; 
+ax.YAxis.FontSize = fontsize;
+ax.Title.FontSize = fontsize + 4;
+f.Position = [0 0 1200 800];
+
+exportgraphics(gcf, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_row_analysis\gain_analysis\low_energy_intercept.pdf");
+
+
+%% Plot low energy gain
+clearvars -except fdt_allmodules dac_values ch_values conv_factor gain_data;
+clc;
+
+colors = distinguishable_colors(2, 'w');
+colors = colors(2, :);
+
+f = figure("Visible", "on");
+plot([0:35], gain_data(:, 2), "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(1, 1), colors(1, 2), colors(1, 3)]);
+box on
+grid on
+xlabel('\textbf{Module}');
+ylabel('\textbf{Low energy gain [ADU/keV]}');
+set(gcf, 'Color', 'w');
+title("\textbf{Low energy gain with respect to module}");
+
+ax = gca; 
+fontsize = 12;
+ax.XAxis.FontSize = fontsize; 
+ax.YAxis.FontSize = fontsize;
+ax.Title.FontSize = fontsize + 4;
+f.Position = [0 0 1200 800];
+
+exportgraphics(gcf, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_row_analysis\gain_analysis\low_energy_gain.pdf");
+
+
+%% Plot high energy intercept
+clearvars -except fdt_allmodules dac_values ch_values conv_factor gain_data;
+clc;
+
+colors = distinguishable_colors(3, 'w');
+colors = colors(3, :);
+
+f = figure("Visible", "on");
+plot([0:35], gain_data(:, 3), "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(1, 1), colors(1, 2), colors(1, 3)]);
+box on
+grid on
+xlabel('\textbf{Module}');
+ylabel('\textbf{High energy intercept [ADU]}');
+set(gcf, 'Color', 'w');
+title("\textbf{High energy intercept with respect to module}");
+
+ax = gca; 
+fontsize = 12;
+ax.XAxis.FontSize = fontsize; 
+ax.YAxis.FontSize = fontsize;
+ax.Title.FontSize = fontsize + 4;
+f.Position = [0 0 1200 800];
+
+exportgraphics(gcf, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_row_analysis\gain_analysis\high_energy_intercept.pdf");
+
+
+%% Plot low energy gain
+clearvars -except fdt_allmodules dac_values ch_values conv_factor gain_data;
+clc;
+
+colors = distinguishable_colors(4, 'w');
+colors = colors(4, :);
+
+f = figure("Visible", "on");
+plot([0:35], gain_data(:, 4).*1000, "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(1, 1), colors(1, 2), colors(1, 3)]);
+box on
+grid on
+xlabel('\textbf{Module}');
+ylabel('\textbf{High energy gain [ADU/MeV]}');
+set(gcf, 'Color', 'w');
+title("\textbf{High energy gain with respect to module}");
+
+ax = gca; 
+fontsize = 12;
+ax.XAxis.FontSize = fontsize; 
+ax.YAxis.FontSize = fontsize;
+ax.Title.FontSize = fontsize + 4;
+f.Position = [0 0 1200 800];
+
+exportgraphics(gcf, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_row_analysis\gain_analysis\high_energy_gain.pdf");
