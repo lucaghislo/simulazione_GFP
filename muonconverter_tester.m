@@ -57,7 +57,7 @@ end
 clear; clc;
 GFP_MPVs = nan(36, 2);
 module_counter = 1;
-for row = [0:5]
+for row = [2:5]
     for mod = [0:5]
         [fun_out_ped, fun_out_inj, fun_out_rem, landau_MPV] = muonconverter_GFP_pedestals(row, mod, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\GFP_Data\events\ADU\single_channels\", ...
             "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_output_2\GPF_analysis_row" + string(row) + "_mod" + string(mod), 4, ...

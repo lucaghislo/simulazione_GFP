@@ -423,6 +423,8 @@ function [muon_allch_out_ped, muon_allch_out_inj, muon_allch_out_rem, landau_MPV
 
     else
         muon_allch_out_ped = nan;
+        muon_allch_out_inj = nan;
+        muon_allch_out_rem = nan;
         landau_MPV = nan;
         disp("No FDT found!");
     end
