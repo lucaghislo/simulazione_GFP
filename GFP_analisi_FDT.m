@@ -187,7 +187,7 @@ clearvars -except fdt_allmodules dac_values ch_values conv_factor gain_data;
 clc;
 
 colors = distinguishable_colors(1, 'w');
-f = figure("Visible", "on");
+f = figure("Visible", "off");
 plot([0:35], gain_data(:, 1), "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(1, 1), colors(1, 2), colors(1, 3)]);
 box on
 grid on
@@ -213,7 +213,7 @@ clc;
 colors = distinguishable_colors(2, 'w');
 colors = colors(2, :);
 
-f = figure("Visible", "on");
+f = figure("Visible", "off");
 plot([0:35], gain_data(:, 2), "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(1, 1), colors(1, 2), colors(1, 3)]);
 box on
 grid on
@@ -239,7 +239,7 @@ clc;
 colors = distinguishable_colors(3, 'w');
 colors = colors(3, :);
 
-f = figure("Visible", "on");
+f = figure("Visible", "off");
 plot([0:35], gain_data(:, 3), "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(1, 1), colors(1, 2), colors(1, 3)]);
 box on
 grid on
@@ -265,7 +265,7 @@ clc;
 colors = distinguishable_colors(4, 'w');
 colors = colors(4, :);
 
-f = figure("Visible", "on");
+f = figure("Visible", "off");
 plot([0:35], gain_data(:, 4).*1000, "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], 'MarkerFaceColor', [colors(1, 1), colors(1, 2), colors(1, 3)]);
 box on
 grid on
@@ -289,7 +289,7 @@ clearvars -except fdt_allmodules dac_values ch_values conv_factor gain_data;
 clc;
 
 colors = distinguishable_colors(1, 'w');
-f = figure("Visible", "on");
+f = figure("Visible", "off");
 row_counter = 0;
 for row = [1:6:36]
     plot([0:5], gain_data(row:row+5, 1), "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], ...
@@ -322,7 +322,7 @@ clc;
 colors = distinguishable_colors(2, 'w');
 colors = colors(2, :);
 
-f = figure("Visible", "on");
+f = figure("Visible", "off");
 row_counter = 0;
 for row = [1:6:36]
     plot([0:5], gain_data(row:row+5, 2), "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], ...
@@ -355,7 +355,7 @@ clc;
 
 colors = distinguishable_colors(3, 'w');
 colors = colors(3, :);
-f = figure("Visible", "on");
+f = figure("Visible", "off");
 row_counter = 0;
 for row = [1:6:36]
     plot([0:5], gain_data(row:row+5, 3), "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], ...
@@ -389,7 +389,7 @@ clc;
 colors = distinguishable_colors(4, 'w');
 colors = colors(4, :);
 
-f = figure("Visible", "on");
+f = figure("Visible", "off");
 row_counter = 0;
 for row = [1:6:36]
     plot([0:5], gain_data(row:row+5, 4).*1000, "LineWidth", 1, "Marker", "o", 'Color', [colors(1, 1), colors(1, 2), colors(1, 3)], ...
