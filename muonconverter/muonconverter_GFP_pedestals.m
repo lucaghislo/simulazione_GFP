@@ -47,7 +47,7 @@ function [muon_allch_out_ped, muon_allch_out_inj, muon_allch_out_rem, landau_MPV
     dac_values = unique(dac_values_raw.Cal_V);
     fdt_data_allch = nan(length(dac_values), 32);
     fdt_CAL10_allch = nan(32, 1);
-    
+
     % FDT calcolata solo sui canali di interesse
     ch_count = 0;
     for ch = ch_values
@@ -60,7 +60,7 @@ function [muon_allch_out_ped, muon_allch_out_inj, muon_allch_out_rem, landau_MPV
         else
             ch_values = ch_values(ch_values~=ch);
             fdt_data_allch(:, ch_count + 1) = nan;
-        end  
+        end
     end
 
     if ch_count > 0
