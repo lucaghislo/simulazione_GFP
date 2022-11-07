@@ -55,7 +55,7 @@ end
 
 
 %% FDT data plot
-clearvars -except fdt_allmodules dac_values ch_values;
+clearvars -except fdt_allmodules dac_values ch_values conv_factor;
 clc;
 
 colors = distinguishable_colors(6, 'w');
@@ -102,7 +102,7 @@ end
 
 
 %% FDT data plot (X limit: 2 MeV)
-clearvars -except fdt_allmodules dac_values ch_values;
+clearvars -except fdt_allmodules dac_values ch_values conv_factor;
 clc;
 
 colors = distinguishable_colors(6, 'w');
@@ -146,26 +146,37 @@ end
 
 
 %% FDT gain analysis
-clearvars -except fdt_allmodules dac_values ch_values;
+clearvars -except fdt_allmodules dac_values ch_values conv_factor;
 clc;
 
 colors = distinguishable_colors(6, 'w');
 module_count = 0;
+gain_data = nan(36, 4);
 for row = [0:5]
     f = figure("Visible", "off");
     hold on
     for module = [0:5]
         plot(dac_values.*0.841, fdt_allmodules(:, module_count + 1).*0.841, "LineWidth", 1, 'Color', [colors(module+1, 1), colors(module+1, 2), colors(module+1, 3)]);
         
-        x = dac_values.*0.841;
+        x = dac_values.*conv_factor;
         y = fdt_allmodules(:, module_count + 1).*0.841;
 
         % Low energy gain analysis
-%         x_low = ;
-%         y_low = ;
-%         c_low = polyfit(x, y, 1);
-%         mdl_low = fitlm(x, y)
+        x_low = x(1:11);
+        y_low = y(1:11);
+        c_low = polyfit(x_low, y_low, 1);
+        mdl_low = fitlm(x_low, y_low);
+        disp("Low energy gain for module " + string(module_count) + ": y = " + string(c_low(2)) + " + " + string(c_low(1)) + "*x, R = " + string(corrcoef(y_low)));
         
+        % High energy gain analysis
+        x_high = x(47:end);
+        y_high = y(47:end);
+        c_high = polyfit(x_high, y_high, 1);
+        mdl_high = fitlm(x_high, y_high);
+        disp("High energy gain for module " + string(module_count) + ": y = " + string(c_high(2)) + " + " + string(c_high(1)) + "*x, R = " + string(corrcoef(y_high)));
+        
+        gain_data(module_count, 1) = c_low(2);
+        gain_data(module_count, 2) = c_low(1);
         module_count = module_count + 1;
     end
     hold off
@@ -193,7 +204,6 @@ for row = [0:5]
     ax.Title.FontSize = fontsize + 4;
     f.Position = [0 0 1200 800];
     
-    exportgraphics(gcf, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_row_analysis\GFP_FDT_row" + string(row) + ".pdf");
-    disp("SAVED: GFP_FDT_row" + string(row) + ".pdf")
+    %exportgraphics(gcf, "C:\Users\ghisl\Documents\GitHub\simulazione_GFP\output\GFP_row_analysis\GFP_FDT_row" + string(row) + ".pdf");
+    %disp("SAVED: GFP_FDT_row" + string(row) + ".pdf")
 end
-
