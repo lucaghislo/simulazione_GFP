@@ -100,6 +100,9 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
         fdt_data_allch(:, ch_count) = fdt_allenergies;
         ch_count = ch_count + 1;
     end
+
+    print("Funzione di trasferimento")
+    fdt_data_allch(:, 1)
     
     % Definizione range calcolo spline
     min_DACinj = 0; % ADU_inj_code
@@ -134,8 +137,8 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     
     % Elaborazione dati acquisiti su modulo tramite GAPS_DAQ
     muon_data = readtable(data_in_path);
-    muon_allch = nan(9528, 32); % change to be dynamic
-    muon_allch_ADU = nan(9528, 32); % change to be dynamic
+    muon_allch = nan(10213, 32); % change to be dynamic
+    muon_allch_ADU = nan(10213, 32); % change to be dynamic
     ch_count = 0;
     
     for ch = ch_values
@@ -149,7 +152,7 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     muon_allch = reshape(muon_allch', [], 1);
     muon_allch_out = muon_allch(~isnan(muon_allch));
     
-    % TODO salvataggio di diversi plot nel folder specificato da utente
+    % Salvataggio di diversi plot nel folder specificato da utente
     if ~exist(folder_out_path, 'dir')
         mkdir(folder_out_path);
     end
