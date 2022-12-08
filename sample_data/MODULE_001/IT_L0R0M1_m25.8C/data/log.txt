@@ -1,0 +1,480 @@
+@2022-12-07 16:24:52.199360: Automated Test Run: Running
+@2022-12-07 16:24:52.204394: asic_config: Skipped
+@2022-12-07 16:24:52.204488: pedestal_run: Reset Settings
+@2022-12-07 16:24:57.254081: pedestal_run: Running
+@2022-12-07 16:24:57.254122: pedestal_run: Setting Cal DAC = 0
+@2022-12-07 16:24:57.444377: pedestal_run: shaper_time_constant = 0: Setting Shaper Time Constant
+@2022-12-07 16:24:57.547310: pedestal_run: shaper_time_constant = 0: Emptying Buffer
+@2022-12-07 16:24:57.547366: pedestal_run: shaper_time_constant = 0: Collecting Data
+@2022-12-07 16:24:59.678836: pedestal_run: shaper_time_constant = 0: Writing Data
+@2022-12-07 16:24:59.717840: pedestal_run: shaper_time_constant = 1: Setting Shaper Time Constant
+@2022-12-07 16:24:59.819291: pedestal_run: shaper_time_constant = 1: Emptying Buffer
+@2022-12-07 16:24:59.819339: pedestal_run: shaper_time_constant = 1: Collecting Data
+@2022-12-07 16:25:01.908760: pedestal_run: shaper_time_constant = 1: Writing Data
+@2022-12-07 16:25:01.948938: pedestal_run: shaper_time_constant = 2: Setting Shaper Time Constant
+@2022-12-07 16:25:02.050230: pedestal_run: shaper_time_constant = 2: Emptying Buffer
+@2022-12-07 16:25:02.050278: pedestal_run: shaper_time_constant = 2: Collecting Data
+@2022-12-07 16:25:04.141526: pedestal_run: shaper_time_constant = 2: Writing Data
+@2022-12-07 16:25:04.181004: pedestal_run: shaper_time_constant = 3: Setting Shaper Time Constant
+@2022-12-07 16:25:04.285399: pedestal_run: shaper_time_constant = 3: Emptying Buffer
+@2022-12-07 16:25:04.285469: pedestal_run: shaper_time_constant = 3: Collecting Data
+@2022-12-07 16:25:06.379447: pedestal_run: shaper_time_constant = 3: Writing Data
+@2022-12-07 16:25:06.421309: pedestal_run: shaper_time_constant = 4: Setting Shaper Time Constant
+@2022-12-07 16:25:06.526998: pedestal_run: shaper_time_constant = 4: Emptying Buffer
+@2022-12-07 16:25:06.632780: pedestal_run: shaper_time_constant = 4: Collecting Data
+@2022-12-07 16:25:08.719071: pedestal_run: shaper_time_constant = 4: Writing Data
+@2022-12-07 16:25:08.764227: pedestal_run: shaper_time_constant = 5: Setting Shaper Time Constant
+@2022-12-07 16:25:08.870787: pedestal_run: shaper_time_constant = 5: Emptying Buffer
+@2022-12-07 16:25:08.870850: pedestal_run: shaper_time_constant = 5: Collecting Data
+@2022-12-07 16:25:10.961656: pedestal_run: shaper_time_constant = 5: Writing Data
+@2022-12-07 16:25:11.003972: pedestal_run: shaper_time_constant = 6: Setting Shaper Time Constant
+@2022-12-07 16:25:11.109272: pedestal_run: shaper_time_constant = 6: Emptying Buffer
+@2022-12-07 16:25:11.109308: pedestal_run: shaper_time_constant = 6: Collecting Data
+@2022-12-07 16:25:13.203536: pedestal_run: shaper_time_constant = 6: Writing Data
+@2022-12-07 16:25:13.241109: pedestal_run: shaper_time_constant = 7: Setting Shaper Time Constant
+@2022-12-07 16:25:13.343419: pedestal_run: shaper_time_constant = 7: Emptying Buffer
+@2022-12-07 16:25:13.448460: pedestal_run: shaper_time_constant = 7: Collecting Data
+@2022-12-07 16:25:15.531785: pedestal_run: shaper_time_constant = 7: Writing Data
+@2022-12-07 16:25:15.570426: pedestal_run: Complete
+@2022-12-07 16:25:15.570464: waveform_scan: Reset Settings
+@2022-12-07 16:25:20.598314: waveform_scan: Running
+@2022-12-07 16:25:20.786560: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 50: Setting Sample Hold Delay
+@2022-12-07 16:25:20.990361: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 50: Emptying Buffer
+@2022-12-07 16:25:21.092937: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 50: Collecting Data
+@2022-12-07 16:25:21.676001: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 50: Writing Data
+@2022-12-07 16:25:21.693263: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 51: Setting Sample Hold Delay
+@2022-12-07 16:25:21.799759: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 51: Emptying Buffer
+@2022-12-07 16:25:21.799845: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 51: Collecting Data
+@2022-12-07 16:25:22.016484: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 51: Writing Data
+@2022-12-07 16:25:22.028364: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 52: Setting Sample Hold Delay
+@2022-12-07 16:25:22.135051: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 52: Emptying Buffer
+@2022-12-07 16:25:22.237239: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 52: Collecting Data
+@2022-12-07 16:25:22.445709: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 52: Writing Data
+@2022-12-07 16:25:22.458869: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 53: Setting Sample Hold Delay
+@2022-12-07 16:25:22.568098: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 53: Emptying Buffer
+@2022-12-07 16:25:22.568161: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 53: Collecting Data
+@2022-12-07 16:25:22.780739: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 53: Writing Data
+@2022-12-07 16:25:22.792382: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 54: Setting Sample Hold Delay
+@2022-12-07 16:25:22.896372: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 54: Emptying Buffer
+@2022-12-07 16:25:22.896430: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 54: Collecting Data
+@2022-12-07 16:25:23.105505: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 54: Writing Data
+@2022-12-07 16:25:23.119379: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 55: Setting Sample Hold Delay
+@2022-12-07 16:25:23.225732: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 55: Emptying Buffer
+@2022-12-07 16:25:23.225809: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 55: Collecting Data
+@2022-12-07 16:25:23.442470: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 55: Writing Data
+@2022-12-07 16:25:23.449453: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 56: Setting Sample Hold Delay
+@2022-12-07 16:25:23.558891: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 56: Emptying Buffer
+@2022-12-07 16:25:23.558967: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 56: Collecting Data
+@2022-12-07 16:25:23.766557: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 56: Writing Data
+@2022-12-07 16:25:23.780019: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 57: Setting Sample Hold Delay
+@2022-12-07 16:25:23.885548: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 57: Emptying Buffer
+@2022-12-07 16:25:23.885626: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 57: Collecting Data
+@2022-12-07 16:25:24.090465: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 57: Writing Data
+@2022-12-07 16:25:24.103027: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 58: Setting Sample Hold Delay
+@2022-12-07 16:25:24.205530: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 58: Emptying Buffer
+@2022-12-07 16:25:24.205630: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 58: Collecting Data
+@2022-12-07 16:25:24.418969: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 58: Writing Data
+@2022-12-07 16:25:24.430200: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 59: Setting Sample Hold Delay
+@2022-12-07 16:25:24.538942: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 59: Emptying Buffer
+@2022-12-07 16:25:24.539027: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 59: Collecting Data
+@2022-12-07 16:25:24.747065: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 59: Writing Data
+@2022-12-07 16:25:24.760137: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 60: Setting Sample Hold Delay
+@2022-12-07 16:25:24.865066: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 60: Emptying Buffer
+@2022-12-07 16:25:24.865127: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 60: Collecting Data
+@2022-12-07 16:25:25.175016: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 60: Writing Data
+@2022-12-07 16:25:25.186051: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 61: Setting Sample Hold Delay
+@2022-12-07 16:25:25.295090: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 61: Emptying Buffer
+@2022-12-07 16:25:25.396888: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 61: Collecting Data
+@2022-12-07 16:25:25.607054: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 61: Writing Data
+@2022-12-07 16:25:25.619330: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 62: Setting Sample Hold Delay
+@2022-12-07 16:25:25.725513: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 62: Emptying Buffer
+@2022-12-07 16:25:25.725579: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 62: Collecting Data
+@2022-12-07 16:25:25.939052: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 62: Writing Data
+@2022-12-07 16:25:25.949687: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 63: Setting Sample Hold Delay
+@2022-12-07 16:25:26.058221: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 63: Emptying Buffer
+@2022-12-07 16:25:26.058269: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 63: Collecting Data
+@2022-12-07 16:25:26.274011: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 63: Writing Data
+@2022-12-07 16:25:26.284283: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 64: Setting Sample Hold Delay
+@2022-12-07 16:25:26.497005: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 64: Emptying Buffer
+@2022-12-07 16:25:26.601241: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 64: Collecting Data
+@2022-12-07 16:25:26.809131: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 64: Writing Data
+@2022-12-07 16:25:26.824263: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 65: Setting Sample Hold Delay
+@2022-12-07 16:25:26.925923: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 65: Emptying Buffer
+@2022-12-07 16:25:26.926023: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 65: Collecting Data
+@2022-12-07 16:25:27.142775: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 65: Writing Data
+@2022-12-07 16:25:27.155476: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 66: Setting Sample Hold Delay
+@2022-12-07 16:25:27.262200: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 66: Emptying Buffer
+@2022-12-07 16:25:27.262252: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 66: Collecting Data
+@2022-12-07 16:25:27.468332: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 66: Writing Data
+@2022-12-07 16:25:27.480614: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 67: Setting Sample Hold Delay
+@2022-12-07 16:25:27.684701: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 67: Emptying Buffer
+@2022-12-07 16:25:27.684753: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 67: Collecting Data
+@2022-12-07 16:25:27.994557: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 67: Writing Data
+@2022-12-07 16:25:28.007038: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 68: Setting Sample Hold Delay
+@2022-12-07 16:25:28.110843: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 68: Emptying Buffer
+@2022-12-07 16:25:28.215711: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 68: Collecting Data
+@2022-12-07 16:25:28.426002: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 68: Writing Data
+@2022-12-07 16:25:28.440758: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 69: Setting Sample Hold Delay
+@2022-12-07 16:25:28.545795: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 69: Emptying Buffer
+@2022-12-07 16:25:28.545883: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 69: Collecting Data
+@2022-12-07 16:25:28.761136: waveform_scan: ch_mask = 0xffffffff, shaper_time_constant = 5, delay = 69: Writing Data
+@2022-12-07 16:25:28.771548: waveform_scan: Sample-Hold Delays (20ns steps): [ 0  0  0  0  0 58  0  0]
+@2022-12-07 16:25:28.771584: waveform_scan: Complete
+@2022-12-07 16:25:28.771614: transfer_function: Reset Settings
+@2022-12-07 16:25:33.795646: transfer_function: Running
+@2022-12-07 16:25:33.924007: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 10: Setting Cal DAC
+@2022-12-07 16:25:34.030812: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 10: Emptying Buffer
+@2022-12-07 16:25:34.030857: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 10: Collecting Data
+@2022-12-07 16:25:34.242648: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 10: Writing Data
+@2022-12-07 16:25:34.249417: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 20: Setting Cal DAC
+@2022-12-07 16:25:34.351760: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 20: Emptying Buffer
+@2022-12-07 16:25:34.756226: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 20: Collecting Data
+@2022-12-07 16:25:34.862135: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 20: Writing Data
+@2022-12-07 16:25:34.872227: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 30: Setting Cal DAC
+@2022-12-07 16:25:34.977169: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 30: Emptying Buffer
+@2022-12-07 16:25:34.977219: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 30: Collecting Data
+@2022-12-07 16:25:35.182892: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 30: Writing Data
+@2022-12-07 16:25:35.195515: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 40: Setting Cal DAC
+@2022-12-07 16:25:35.302289: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 40: Emptying Buffer
+@2022-12-07 16:25:35.302346: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 40: Collecting Data
+@2022-12-07 16:25:35.509264: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 40: Writing Data
+@2022-12-07 16:25:35.516273: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 50: Setting Cal DAC
+@2022-12-07 16:25:35.622573: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 50: Emptying Buffer
+@2022-12-07 16:25:35.622649: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 50: Collecting Data
+@2022-12-07 16:25:35.829756: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 50: Writing Data
+@2022-12-07 16:25:35.836406: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 60: Setting Cal DAC
+@2022-12-07 16:25:35.942813: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 60: Emptying Buffer
+@2022-12-07 16:25:35.942899: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 60: Collecting Data
+@2022-12-07 16:25:36.152030: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 60: Writing Data
+@2022-12-07 16:25:36.158404: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 70: Setting Cal DAC
+@2022-12-07 16:25:36.261603: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 70: Emptying Buffer
+@2022-12-07 16:25:36.261681: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 70: Collecting Data
+@2022-12-07 16:25:36.470879: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 70: Writing Data
+@2022-12-07 16:25:36.478582: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 80: Setting Cal DAC
+@2022-12-07 16:25:36.582424: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 80: Emptying Buffer
+@2022-12-07 16:25:36.582481: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 80: Collecting Data
+@2022-12-07 16:25:36.895171: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 80: Writing Data
+@2022-12-07 16:25:36.903892: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 90: Setting Cal DAC
+@2022-12-07 16:25:37.144146: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 90: Emptying Buffer
+@2022-12-07 16:25:37.144182: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 90: Collecting Data
+@2022-12-07 16:25:37.354801: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 90: Writing Data
+@2022-12-07 16:25:37.362149: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 100: Setting Cal DAC
+@2022-12-07 16:25:37.568295: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 100: Emptying Buffer
+@2022-12-07 16:25:37.673313: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 100: Collecting Data
+@2022-12-07 16:25:37.882724: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 0, DAC = 100: Writing Data
+@2022-12-07 16:25:37.890702: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 200: Setting Cal DAC
+@2022-12-07 16:25:37.993246: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 200: Emptying Buffer
+@2022-12-07 16:25:37.993291: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 200: Collecting Data
+@2022-12-07 16:25:38.202323: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 200: Writing Data
+@2022-12-07 16:25:38.212427: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 300: Setting Cal DAC
+@2022-12-07 16:25:38.322986: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 300: Emptying Buffer
+@2022-12-07 16:25:38.323082: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 300: Collecting Data
+@2022-12-07 16:25:38.534416: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 300: Writing Data
+@2022-12-07 16:25:38.542535: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 400: Setting Cal DAC
+@2022-12-07 16:25:38.745539: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 400: Emptying Buffer
+@2022-12-07 16:25:38.852641: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 400: Collecting Data
+@2022-12-07 16:25:39.061752: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 400: Writing Data
+@2022-12-07 16:25:39.069327: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 500: Setting Cal DAC
+@2022-12-07 16:25:39.171465: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 500: Emptying Buffer
+@2022-12-07 16:25:39.171513: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 500: Collecting Data
+@2022-12-07 16:25:39.380906: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 500: Writing Data
+@2022-12-07 16:25:39.390112: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 600: Setting Cal DAC
+@2022-12-07 16:25:39.497857: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 600: Emptying Buffer
+@2022-12-07 16:25:39.497897: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 600: Collecting Data
+@2022-12-07 16:25:39.705175: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 600: Writing Data
+@2022-12-07 16:25:39.718511: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 700: Setting Cal DAC
+@2022-12-07 16:25:39.820525: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 700: Emptying Buffer
+@2022-12-07 16:25:39.820591: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 700: Collecting Data
+@2022-12-07 16:25:40.029942: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 700: Writing Data
+@2022-12-07 16:25:40.037270: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 800: Setting Cal DAC
+@2022-12-07 16:25:40.142935: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 800: Emptying Buffer
+@2022-12-07 16:25:40.143025: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 800: Collecting Data
+@2022-12-07 16:25:40.359621: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 800: Writing Data
+@2022-12-07 16:25:40.369928: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 900: Setting Cal DAC
+@2022-12-07 16:25:40.476063: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 900: Emptying Buffer
+@2022-12-07 16:25:40.476113: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 900: Collecting Data
+@2022-12-07 16:25:40.684953: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 900: Writing Data
+@2022-12-07 16:25:40.693096: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 1000: Setting Cal DAC
+@2022-12-07 16:25:40.796988: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 1000: Emptying Buffer
+@2022-12-07 16:25:40.797021: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 1000: Collecting Data
+@2022-12-07 16:25:41.006461: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 1, DAC = 1000: Writing Data
+@2022-12-07 16:25:41.015810: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1200: Setting Cal DAC
+@2022-12-07 16:25:41.123593: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1200: Emptying Buffer
+@2022-12-07 16:25:41.123700: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1200: Collecting Data
+@2022-12-07 16:25:41.338574: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1200: Writing Data
+@2022-12-07 16:25:41.347355: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1400: Setting Cal DAC
+@2022-12-07 16:25:41.454133: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1400: Emptying Buffer
+@2022-12-07 16:25:41.454184: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1400: Collecting Data
+@2022-12-07 16:25:41.665347: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1400: Writing Data
+@2022-12-07 16:25:41.673295: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1600: Setting Cal DAC
+@2022-12-07 16:25:41.777123: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1600: Emptying Buffer
+@2022-12-07 16:25:41.777171: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1600: Collecting Data
+@2022-12-07 16:25:41.989121: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1600: Writing Data
+@2022-12-07 16:25:41.997440: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1800: Setting Cal DAC
+@2022-12-07 16:25:42.102365: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1800: Emptying Buffer
+@2022-12-07 16:25:42.102424: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1800: Collecting Data
+@2022-12-07 16:25:42.317839: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 1800: Writing Data
+@2022-12-07 16:25:42.326798: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 2000: Setting Cal DAC
+@2022-12-07 16:25:42.433212: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 2000: Emptying Buffer
+@2022-12-07 16:25:42.433251: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 2000: Collecting Data
+@2022-12-07 16:25:42.643035: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 2, DAC = 2000: Writing Data
+@2022-12-07 16:25:42.653286: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 4000: Setting Cal DAC
+@2022-12-07 16:25:42.762524: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 4000: Emptying Buffer
+@2022-12-07 16:25:42.762586: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 4000: Collecting Data
+@2022-12-07 16:25:42.967554: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 4000: Writing Data
+@2022-12-07 16:25:42.977259: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 6000: Setting Cal DAC
+@2022-12-07 16:25:43.094301: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 6000: Emptying Buffer
+@2022-12-07 16:25:43.094383: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 6000: Collecting Data
+@2022-12-07 16:25:43.316352: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 6000: Writing Data
+@2022-12-07 16:25:43.334407: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 8000: Setting Cal DAC
+@2022-12-07 16:25:43.436061: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 8000: Emptying Buffer
+@2022-12-07 16:25:43.542954: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 8000: Collecting Data
+@2022-12-07 16:25:43.769883: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 8000: Writing Data
+@2022-12-07 16:25:43.784667: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 10000: Setting Cal DAC
+@2022-12-07 16:25:43.888128: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 10000: Emptying Buffer
+@2022-12-07 16:25:43.990229: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 10000: Collecting Data
+@2022-12-07 16:25:44.203200: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 10000: Writing Data
+@2022-12-07 16:25:44.212870: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 12000: Setting Cal DAC
+@2022-12-07 16:25:44.320215: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 12000: Emptying Buffer
+@2022-12-07 16:25:44.320263: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 12000: Collecting Data
+@2022-12-07 16:25:44.527160: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 12000: Writing Data
+@2022-12-07 16:25:44.536400: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 14000: Setting Cal DAC
+@2022-12-07 16:25:44.640182: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 14000: Emptying Buffer
+@2022-12-07 16:25:44.640323: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 14000: Collecting Data
+@2022-12-07 16:25:44.850004: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 14000: Writing Data
+@2022-12-07 16:25:44.862245: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 16000: Setting Cal DAC
+@2022-12-07 16:25:45.074129: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 16000: Emptying Buffer
+@2022-12-07 16:25:45.074165: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 16000: Collecting Data
+@2022-12-07 16:25:45.283175: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 16000: Writing Data
+@2022-12-07 16:25:45.293260: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 18000: Setting Cal DAC
+@2022-12-07 16:25:45.394837: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 18000: Emptying Buffer
+@2022-12-07 16:25:45.499297: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 18000: Collecting Data
+@2022-12-07 16:25:45.705386: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 18000: Writing Data
+@2022-12-07 16:25:45.715004: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 20000: Setting Cal DAC
+@2022-12-07 16:25:45.818378: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 20000: Emptying Buffer
+@2022-12-07 16:25:45.818425: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 20000: Collecting Data
+@2022-12-07 16:25:46.025600: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 20000: Writing Data
+@2022-12-07 16:25:46.043349: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 22000: Setting Cal DAC
+@2022-12-07 16:25:46.147847: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 22000: Emptying Buffer
+@2022-12-07 16:25:46.255319: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 22000: Collecting Data
+@2022-12-07 16:25:46.465930: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 22000: Writing Data
+@2022-12-07 16:25:46.483506: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 24000: Setting Cal DAC
+@2022-12-07 16:25:46.588290: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 24000: Emptying Buffer
+@2022-12-07 16:25:46.699617: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 24000: Collecting Data
+@2022-12-07 16:25:46.924408: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 24000: Writing Data
+@2022-12-07 16:25:46.934952: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 26000: Setting Cal DAC
+@2022-12-07 16:25:47.042781: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 26000: Emptying Buffer
+@2022-12-07 16:25:47.042831: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 26000: Collecting Data
+@2022-12-07 16:25:47.256662: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 26000: Writing Data
+@2022-12-07 16:25:47.266649: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 28000: Setting Cal DAC
+@2022-12-07 16:25:47.374634: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 28000: Emptying Buffer
+@2022-12-07 16:25:47.478419: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 28000: Collecting Data
+@2022-12-07 16:25:47.693202: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 28000: Writing Data
+@2022-12-07 16:25:47.699527: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 30000: Setting Cal DAC
+@2022-12-07 16:25:47.802374: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 30000: Emptying Buffer
+@2022-12-07 16:25:47.802424: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 30000: Collecting Data
+@2022-12-07 16:25:48.010121: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 30000: Writing Data
+@2022-12-07 16:25:48.018641: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 32000: Setting Cal DAC
+@2022-12-07 16:25:48.123478: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 32000: Emptying Buffer
+@2022-12-07 16:25:48.123617: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 32000: Collecting Data
+@2022-12-07 16:25:48.435759: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 32000: Writing Data
+@2022-12-07 16:25:48.448651: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 34000: Setting Cal DAC
+@2022-12-07 16:25:48.553144: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 34000: Emptying Buffer
+@2022-12-07 16:25:48.657011: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 34000: Collecting Data
+@2022-12-07 16:25:48.865315: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 34000: Writing Data
+@2022-12-07 16:25:48.876293: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 36000: Setting Cal DAC
+@2022-12-07 16:25:48.982144: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 36000: Emptying Buffer
+@2022-12-07 16:25:48.982183: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 36000: Collecting Data
+@2022-12-07 16:25:49.192250: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 36000: Writing Data
+@2022-12-07 16:25:49.199249: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 38000: Setting Cal DAC
+@2022-12-07 16:25:49.302185: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 38000: Emptying Buffer
+@2022-12-07 16:25:49.302321: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 38000: Collecting Data
+@2022-12-07 16:25:49.518442: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 38000: Writing Data
+@2022-12-07 16:25:49.526103: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 40000: Setting Cal DAC
+@2022-12-07 16:25:49.634536: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 40000: Emptying Buffer
+@2022-12-07 16:25:49.634580: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 40000: Collecting Data
+@2022-12-07 16:25:49.844905: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 40000: Writing Data
+@2022-12-07 16:25:49.852457: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 42000: Setting Cal DAC
+@2022-12-07 16:25:49.953892: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 42000: Emptying Buffer
+@2022-12-07 16:25:49.954002: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 42000: Collecting Data
+@2022-12-07 16:25:50.162769: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 42000: Writing Data
+@2022-12-07 16:25:50.171167: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 44000: Setting Cal DAC
+@2022-12-07 16:25:50.273397: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 44000: Emptying Buffer
+@2022-12-07 16:25:50.273445: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 44000: Collecting Data
+@2022-12-07 16:25:50.483024: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 44000: Writing Data
+@2022-12-07 16:25:50.494231: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 46000: Setting Cal DAC
+@2022-12-07 16:25:50.600909: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 46000: Emptying Buffer
+@2022-12-07 16:25:50.601000: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 46000: Collecting Data
+@2022-12-07 16:25:50.814631: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 46000: Writing Data
+@2022-12-07 16:25:50.822442: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 48000: Setting Cal DAC
+@2022-12-07 16:25:51.028694: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 48000: Emptying Buffer
+@2022-12-07 16:25:51.131683: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 48000: Collecting Data
+@2022-12-07 16:25:51.343010: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 48000: Writing Data
+@2022-12-07 16:25:51.356687: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 50000: Setting Cal DAC
+@2022-12-07 16:25:51.462513: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 50000: Emptying Buffer
+@2022-12-07 16:25:51.462570: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 50000: Collecting Data
+@2022-12-07 16:25:51.673786: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 50000: Writing Data
+@2022-12-07 16:25:51.683189: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 52000: Setting Cal DAC
+@2022-12-07 16:25:51.786864: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 52000: Emptying Buffer
+@2022-12-07 16:25:51.786950: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 52000: Collecting Data
+@2022-12-07 16:25:51.994554: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 52000: Writing Data
+@2022-12-07 16:25:52.004998: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 54000: Setting Cal DAC
+@2022-12-07 16:25:52.111215: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 54000: Emptying Buffer
+@2022-12-07 16:25:52.216613: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 54000: Collecting Data
+@2022-12-07 16:25:52.427303: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 54000: Writing Data
+@2022-12-07 16:25:52.435861: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 56000: Setting Cal DAC
+@2022-12-07 16:25:52.537460: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 56000: Emptying Buffer
+@2022-12-07 16:25:52.537536: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 56000: Collecting Data
+@2022-12-07 16:25:52.749061: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 56000: Writing Data
+@2022-12-07 16:25:52.768874: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 58000: Setting Cal DAC
+@2022-12-07 16:25:52.878501: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 58000: Emptying Buffer
+@2022-12-07 16:25:52.878549: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 58000: Collecting Data
+@2022-12-07 16:25:53.085436: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 58000: Writing Data
+@2022-12-07 16:25:53.095953: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 60000: Setting Cal DAC
+@2022-12-07 16:25:53.199037: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 60000: Emptying Buffer
+@2022-12-07 16:25:53.199214: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 60000: Collecting Data
+@2022-12-07 16:25:53.412488: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 60000: Writing Data
+@2022-12-07 16:25:53.426536: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 62000: Setting Cal DAC
+@2022-12-07 16:25:53.631552: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 62000: Emptying Buffer
+@2022-12-07 16:25:53.736635: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 62000: Collecting Data
+@2022-12-07 16:25:53.947351: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 62000: Writing Data
+@2022-12-07 16:25:53.970625: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 64000: Setting Cal DAC
+@2022-12-07 16:25:54.072817: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 64000: Emptying Buffer
+@2022-12-07 16:25:54.072873: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 64000: Collecting Data
+@2022-12-07 16:25:54.283422: transfer_function: ch_mask = 0xffffffff, shaper_time_constant = 5, Range = 3, DAC = 64000: Writing Data
+@2022-12-07 16:25:54.291212: transfer_function: Complete
+@2022-12-07 16:25:54.291455: threshold_scan: Skipped
+@2022-12-07 16:25:54.291581: self_trigger: Reset Settings
+@2022-12-07 16:25:59.316788: self_trigger: Running
+@2022-12-07 16:25:59.697236: self_trigger: ch = 0: Setting OP Mode = 2
+@2022-12-07 16:25:59.815236: self_trigger: ch = 0: Emptying Buffer
+@2022-12-07 16:25:59.917599: self_trigger: ch = 0: Collecting Data
+@2022-12-07 16:26:00.505878: self_trigger: ch = 0: Writing Data
+@2022-12-07 16:26:00.835738: self_trigger: ch = 1: Setting OP Mode = 2
+@2022-12-07 16:26:01.159388: self_trigger: ch = 1: Emptying Buffer
+@2022-12-07 16:26:01.273962: self_trigger: ch = 1: Collecting Data
+@2022-12-07 16:26:01.480881: self_trigger: ch = 1: Writing Data
+@2022-12-07 16:26:01.817139: self_trigger: ch = 2: Setting OP Mode = 2
+@2022-12-07 16:26:01.929495: self_trigger: ch = 2: Emptying Buffer
+@2022-12-07 16:26:02.036108: self_trigger: ch = 2: Collecting Data
+@2022-12-07 16:26:02.274176: self_trigger: ch = 2: Writing Data
+@2022-12-07 16:26:02.716776: self_trigger: ch = 3: Setting OP Mode = 2
+@2022-12-07 16:26:02.836245: self_trigger: ch = 3: Emptying Buffer
+@2022-12-07 16:26:02.940001: self_trigger: ch = 3: Collecting Data
+@2022-12-07 16:26:03.159556: self_trigger: ch = 3: Writing Data
+@2022-12-07 16:26:03.396332: self_trigger: ch = 4: Setting OP Mode = 2
+@2022-12-07 16:26:03.732643: self_trigger: ch = 4: Emptying Buffer
+@2022-12-07 16:26:03.834837: self_trigger: ch = 4: Collecting Data
+@2022-12-07 16:26:04.155981: self_trigger: ch = 4: Writing Data
+@2022-12-07 16:26:04.496248: self_trigger: ch = 5: Setting OP Mode = 2
+@2022-12-07 16:26:04.597550: self_trigger: ch = 5: Emptying Buffer
+@2022-12-07 16:26:04.700407: self_trigger: ch = 5: Collecting Data
+@2022-12-07 16:26:04.807029: self_trigger: ch = 5: Writing Data
+@2022-12-07 16:26:05.036560: self_trigger: ch = 6: Setting OP Mode = 2
+@2022-12-07 16:26:05.157044: self_trigger: ch = 6: Emptying Buffer
+@2022-12-07 16:26:05.277229: self_trigger: ch = 6: Collecting Data
+@2022-12-07 16:26:05.497173: self_trigger: ch = 6: Writing Data
+@2022-12-07 16:26:05.837789: self_trigger: ch = 7: Setting OP Mode = 2
+@2022-12-07 16:26:05.958153: self_trigger: ch = 7: Emptying Buffer
+@2022-12-07 16:26:06.077256: self_trigger: ch = 7: Collecting Data
+@2022-12-07 16:26:06.295517: self_trigger: ch = 7: Writing Data
+@2022-12-07 16:26:06.535721: self_trigger: ch = 8: Setting OP Mode = 2
+@2022-12-07 16:26:06.752419: self_trigger: ch = 8: Emptying Buffer
+@2022-12-07 16:26:06.854510: self_trigger: ch = 8: Collecting Data
+@2022-12-07 16:26:07.175509: self_trigger: ch = 8: Writing Data
+@2022-12-07 16:26:07.416275: self_trigger: ch = 9: Setting OP Mode = 2
+@2022-12-07 16:26:07.626117: self_trigger: ch = 9: Emptying Buffer
+@2022-12-07 16:26:07.735670: self_trigger: ch = 9: Collecting Data
+@2022-12-07 16:26:08.051285: self_trigger: ch = 9: Writing Data
+@2022-12-07 16:26:08.277768: self_trigger: ch = 10: Setting OP Mode = 2
+@2022-12-07 16:26:08.382194: self_trigger: ch = 10: Emptying Buffer
+@2022-12-07 16:26:08.485627: self_trigger: ch = 10: Collecting Data
+@2022-12-07 16:26:08.697488: self_trigger: ch = 10: Writing Data
+@2022-12-07 16:26:09.038066: self_trigger: ch = 11: Setting OP Mode = 2
+@2022-12-07 16:26:09.158032: self_trigger: ch = 11: Emptying Buffer
+@2022-12-07 16:26:09.260539: self_trigger: ch = 11: Collecting Data
+@2022-12-07 16:26:09.477847: self_trigger: ch = 11: Writing Data
+@2022-12-07 16:26:09.698828: self_trigger: ch = 12: Setting OP Mode = 2
+@2022-12-07 16:26:09.806563: self_trigger: ch = 12: Emptying Buffer
+@2022-12-07 16:26:09.917179: self_trigger: ch = 12: Collecting Data
+@2022-12-07 16:26:10.152038: self_trigger: ch = 12: Writing Data
+@2022-12-07 16:26:10.595496: self_trigger: ch = 13: Setting OP Mode = 2
+@2022-12-07 16:26:10.715431: self_trigger: ch = 13: Emptying Buffer
+@2022-12-07 16:26:10.816575: self_trigger: ch = 13: Collecting Data
+@2022-12-07 16:26:11.137932: self_trigger: ch = 13: Writing Data
+@2022-12-07 16:26:11.475609: self_trigger: ch = 14: Setting OP Mode = 2
+@2022-12-07 16:26:11.692896: self_trigger: ch = 14: Emptying Buffer
+@2022-12-07 16:26:11.794542: self_trigger: ch = 14: Collecting Data
+@2022-12-07 16:26:12.002773: self_trigger: ch = 14: Writing Data
+@2022-12-07 16:26:12.335528: self_trigger: ch = 15: Setting OP Mode = 2
+@2022-12-07 16:26:12.437757: self_trigger: ch = 15: Emptying Buffer
+@2022-12-07 16:26:12.556828: self_trigger: ch = 15: Collecting Data
+@2022-12-07 16:26:12.875267: self_trigger: ch = 15: Writing Data
+@2022-12-07 16:26:13.307246: self_trigger: ch = 16: Setting OP Mode = 2
+@2022-12-07 16:26:13.415445: self_trigger: ch = 16: Emptying Buffer
+@2022-12-07 16:26:13.523266: self_trigger: ch = 16: Collecting Data
+@2022-12-07 16:26:13.734785: self_trigger: ch = 16: Writing Data
+@2022-12-07 16:26:14.075756: self_trigger: ch = 17: Setting OP Mode = 2
+@2022-12-07 16:26:14.295413: self_trigger: ch = 17: Emptying Buffer
+@2022-12-07 16:26:14.407356: self_trigger: ch = 17: Collecting Data
+@2022-12-07 16:26:14.617480: self_trigger: ch = 17: Writing Data
+@2022-12-07 16:26:15.156791: self_trigger: ch = 18: Setting OP Mode = 2
+@2022-12-07 16:26:15.266911: self_trigger: ch = 18: Emptying Buffer
+@2022-12-07 16:26:15.375415: self_trigger: ch = 18: Collecting Data
+@2022-12-07 16:26:15.595063: self_trigger: ch = 18: Writing Data
+@2022-12-07 16:26:16.037641: self_trigger: ch = 19: Setting OP Mode = 2
+@2022-12-07 16:26:16.156828: self_trigger: ch = 19: Emptying Buffer
+@2022-12-07 16:26:16.274078: self_trigger: ch = 19: Collecting Data
+@2022-12-07 16:26:16.496694: self_trigger: ch = 19: Writing Data
+@2022-12-07 16:26:16.938205: self_trigger: ch = 20: Setting OP Mode = 2
+@2022-12-07 16:26:17.054463: self_trigger: ch = 20: Emptying Buffer
+@2022-12-07 16:26:17.054505: self_trigger: ch = 20: Collecting Data
+@2022-12-07 16:26:17.375490: self_trigger: ch = 20: Writing Data
+@2022-12-07 16:26:18.117551: self_trigger: ch = 21: Setting OP Mode = 2
+@2022-12-07 16:26:18.333414: self_trigger: ch = 21: Emptying Buffer
+@2022-12-07 16:26:18.435752: self_trigger: ch = 21: Collecting Data
+@2022-12-07 16:26:18.759628: self_trigger: ch = 21: Writing Data
+@2022-12-07 16:26:18.977369: self_trigger: ch = 22: Setting OP Mode = 2
+@2022-12-07 16:26:19.093999: self_trigger: ch = 22: Emptying Buffer
+@2022-12-07 16:26:19.196539: self_trigger: ch = 22: Collecting Data
+@2022-12-07 16:26:19.414887: self_trigger: ch = 22: Writing Data
+@2022-12-07 16:26:19.838844: self_trigger: ch = 23: Setting OP Mode = 2
+@2022-12-07 16:26:19.957510: self_trigger: ch = 23: Emptying Buffer
+@2022-12-07 16:26:20.070207: self_trigger: ch = 23: Collecting Data
+@2022-12-07 16:26:20.277927: self_trigger: ch = 23: Writing Data
+@2022-12-07 16:26:20.717606: self_trigger: ch = 24: Setting OP Mode = 2
+@2022-12-07 16:26:20.825821: self_trigger: ch = 24: Emptying Buffer
+@2022-12-07 16:26:20.934887: self_trigger: ch = 24: Collecting Data
+@2022-12-07 16:26:21.144817: self_trigger: ch = 24: Writing Data
+@2022-12-07 16:26:21.359016: self_trigger: ch = 25: Setting OP Mode = 2
+@2022-12-07 16:26:21.476062: self_trigger: ch = 25: Emptying Buffer
+@2022-12-07 16:26:21.591985: self_trigger: ch = 25: Collecting Data
+@2022-12-07 16:26:21.813894: self_trigger: ch = 25: Writing Data
+@2022-12-07 16:26:22.357637: self_trigger: ch = 26: Setting OP Mode = 2
+@2022-12-07 16:26:22.475232: self_trigger: ch = 26: Emptying Buffer
+@2022-12-07 16:26:22.577317: self_trigger: ch = 26: Collecting Data
+@2022-12-07 16:26:22.796765: self_trigger: ch = 26: Writing Data
+@2022-12-07 16:26:23.135693: self_trigger: ch = 27: Setting OP Mode = 2
+@2022-12-07 16:26:23.355736: self_trigger: ch = 27: Emptying Buffer
+@2022-12-07 16:26:23.355785: self_trigger: ch = 27: Collecting Data
+@2022-12-07 16:26:23.678062: self_trigger: ch = 27: Writing Data
+@2022-12-07 16:26:24.016062: self_trigger: ch = 28: Setting OP Mode = 2
+@2022-12-07 16:26:24.119713: self_trigger: ch = 28: Emptying Buffer
+@2022-12-07 16:26:24.232142: self_trigger: ch = 28: Collecting Data
+@2022-12-07 16:26:24.334940: self_trigger: ch = 28: Writing Data
+@2022-12-07 16:26:24.675519: self_trigger: ch = 29: Setting OP Mode = 2
+@2022-12-07 16:26:24.880560: self_trigger: ch = 29: Emptying Buffer
+@2022-12-07 16:26:24.880641: self_trigger: ch = 29: Collecting Data
+@2022-12-07 16:26:25.095576: self_trigger: ch = 29: Writing Data
+@2022-12-07 16:26:25.416639: self_trigger: ch = 30: Setting OP Mode = 2
+@2022-12-07 16:26:25.627942: self_trigger: ch = 30: Emptying Buffer
+@2022-12-07 16:26:25.735534: self_trigger: ch = 30: Collecting Data
+@2022-12-07 16:26:26.055033: self_trigger: ch = 30: Writing Data
+@2022-12-07 16:26:26.395531: self_trigger: ch = 31: Setting OP Mode = 2
+@2022-12-07 16:26:26.498228: self_trigger: ch = 31: Emptying Buffer
+@2022-12-07 16:26:26.616576: self_trigger: ch = 31: Collecting Data
+@2022-12-07 16:26:26.834729: self_trigger: ch = 31: Writing Data
+@2022-12-07 16:26:26.835291: self_trigger: Complete
+@2022-12-07 16:26:26.835316: hk_test: Skipped
+@2022-12-07 16:26:26.835327: hk_test: Reset Settings
+@2022-12-07 16:26:31.865596: Automated Test Run: Completed
