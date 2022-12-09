@@ -166,7 +166,7 @@ function [muon_allch_out, landau_MPV] = muonconverter_GFP(row, module, data_in_p
         box on
         grid on
         set(gca, 'YScale', 'log')
-        xlim([0, 2047])
+        xlim([0, 2047])\
         ylabel("\textbf{Counts}")
         xlabel("\textbf{Incoming energy [ADU]}")
         title("\textbf{Incoming energy spectrum before conversion}")
