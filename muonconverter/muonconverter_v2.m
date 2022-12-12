@@ -101,7 +101,7 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
         ch_count = ch_count + 1;
     end
 
-    print("Funzione di trasferimento")
+    disp("Funzione di trasferimento")
     fdt_data_allch(:, 1)
     
     % Definizione range calcolo spline
