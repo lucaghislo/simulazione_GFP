@@ -136,39 +136,37 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     end
     
     % Elaborazione dati acquisiti su modulo tramite GAPS_DAQ [standard DAQ format]
-    muon_data = readtable(data_in_path);
-    muon_allch = nan(32305, 32); % change to be dynamic % 10213
-    muon_allch_ADU = nan(32305, 32); % change to be dynamic % 10213
-    ch_count = 0;
-    
-    for ch = ch_values
-        muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch) - pedestal_data_allch(ch_count + 1);
-        events_kev = interp1(spline_allchs_pt(:, ch_count + 1), range, muon_data_ch_ADU, 'cubic') * conv_factor;
-        muon_allch(:, ch_count + 1) = events_kev;
-        muon_allch_ADU(:, ch_count + 1) = muon_data.Energy_ADC_(muon_data.Channel == ch);
-        ch_count = ch_count + 1;
-    end
-    
-    muon_allch = reshape(muon_allch', [], 1);
-    muon_allch_out = muon_allch(~isnan(muon_allch));
-
-    % Acquisizione dati single channel after CMN removal
-%     muon_allch = nan(29760, 32); % change to be dynamic
-%     muon_allch_ADU = nan(29760, 32); % change to be dynamic
+%     muon_data = readtable(data_in_path);
+%     muon_allch = nan(10213, 32); % change to be dynamic
+%     muon_allch_ADU = nan(10213, 32); % change to be dynamic
 %     ch_count = 0;
-% 
+%     
 %     for ch = ch_values
-%         muon_data_ch_ADU = readtable(data_in_path + "\ch" + string(ch) + ".csv");
-%         muon_data_ch_ADU = table2array(muon_data_ch_ADU + );
-%         disp(data_in_path + "\ch" + string(ch) + ".csv");
-%         events_kev = interp1(spline_allchs_pt(:, ch_count + 1), range, muon_data_ch_ADU + pedestal_data_allch(ch + 1), 'cubic') * conv_factor;
+%         muon_data_ch_ADU = muon_data.Energy_ADC_(muon_data.Channel == ch) - pedestal_data_allch(ch_count + 1);
+%         events_kev = interp1(spline_allchs_pt(:, ch_count + 1), range, muon_data_ch_ADU, 'cubic') * conv_factor;
 %         muon_allch(:, ch_count + 1) = events_kev;
-%         muon_allch_ADU(:, ch_count + 1) = muon_data_ch_ADU;
+%         muon_allch_ADU(:, ch_count + 1) = muon_data.Energy_ADC_(muon_data.Channel == ch);
 %         ch_count = ch_count + 1;
 %     end
-% 
+%     
 %     muon_allch = reshape(muon_allch', [], 1);
 %     muon_allch_out = muon_allch(~isnan(muon_allch));
+
+    % Acquisizione dati single channel after CMN removal
+    muon_allch = nan(29760, 32); % change to be dynamic
+    muon_allch_ADU = nan(29760, 32); % change to be dynamic
+    ch_count = 0;
+
+    for ch = ch_values
+        muon_data_ch_ADU = readtable(data_in_path + "\ch" + string(ch)+".csv");
+        events_kev = interp1(spline_allchs_pt(:, ch_count + 1), range, muon_data_ch_ADU, 'cubic') * conv_factor;
+        muon_allch(:, ch_count + 1) = events_kev;
+        muon_allch_ADU(:, ch_count + 1) = muon_data_ch_ADU;
+        ch_count = ch_count + 1;
+    end
+
+    muon_allch = reshape(muon_allch', [], 1);
+    muon_allch_out = muon_allch(~isnan(muon_allch));
     
     % Salvataggio di diversi plot nel folder specificato da utente
     if ~exist(folder_out_path, 'dir')
@@ -177,11 +175,11 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
 
     % Istogramma degli eventi in input [ADU]
     f = figure("Visible", "off");
-    histogram(muon_allch_ADU - pedestal_data_allch(0 + 1), "DisplayStyle", "stairs", 'BinWidth', bin_width, 'LineWidth', 1);
+    histogram(muon_allch_ADU, "DisplayStyle", "stairs", 'BinWidth', bin_width, 'LineWidth', 1);
     box on
     grid on
     set(gca, 'YScale', 'log')
-    xlim([0, 200])
+    xlim([0, 2047])
     ylabel("\textbf{Counts}")
     xlabel("\textbf{Incoming energy [ADU]}")
     title("\textbf{Incoming energy spectrum before conversion}")
@@ -191,7 +189,7 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     
     % Istogramma senza interpolazione Landau (con piedistallo, scala logaritmica)
     f = figure("Visible", "off");
-    histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 1, 'LineWidth', 1); % bin_width = 20
+    histogram(muon_allch, "DisplayStyle", "stairs", 'BinWidth', 20, 'LineWidth', 1); % bin_width = 20
     set(gca, 'YScale', 'log')
     box on
     grid on
@@ -208,7 +206,7 @@ function [muon_allch_out] = muonconverter_v2(data_in_path, folder_out_path, pt_i
     f = figure("Visible", "off");
 
     % TODO determinare dinamicamente taglio piedistallo
-    histfitlandau(muon_allch, bin_width, 0, max_kev, 1); % bin_width = 15 ok
+    histfitlandau(muon_allch(muon_allch > 200), bin_width, 0, max_kev, 1); % bin_width = 15 ok
     box on
     grid on
     xlim([0, max_kev])
